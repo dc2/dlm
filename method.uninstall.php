@@ -1,53 +1,29 @@
 <?php
-	#-------------------------------------------------------------------------
-	# Module: Skeleton - a pedantic "starting point" module
-	# Version: 1.3, SjG
-	# Method: Uninstall
-	#-------------------------------------------------------------------------
-	# CMS - CMS Made Simple is (c) 2005 by Ted Kulp (wishy@cmsmadesimple.org)
-	# This project's homepage is: http://www.cmsmadesimple.org
-	# The module's homepage is: http://dev.cmsmadesimple.org/projects/skeleton/
-	#
-	#-------------------------------------------------------------------------
-	
-	/**
-	 * For separated methods, you'll always want to start with the following
-	 * line which check to make sure that method was called from the module
-	 * API, and that everything's safe to continue:
-	 */ 
 	if (!isset($gCms)) exit;
 	
 	/**
 	 * Recursively delete a directory
 	 *
 	 * @param string $dir Directory name
-	 * @param boolean $deleteRootToo Delete specified top-level directory as well
+	 * @param boolean $deleteRoot Delete specified top-level directory as well
 	 */
-	function unlinkRecursive($dir, $deleteRootToo)
+	function unlinkRecursive($dir, $deleteRoot)
 	{
-		if(!$dh = @opendir($dir))
-		{
-			return;
-		}
-		while (false !== ($obj = readdir($dh)))
-		{
-			if($obj == '.' || $obj == '..')
-			{
+		if(!$dh = @opendir($dir)){return;}
+		
+		while (false !== ($obj = readdir($dh))){
+			if($obj == '.' || $obj == '..') {
 				continue;
 			}
 
-			if (!@unlink($dir . '/' . $obj))
-			{
+			if (!@unlink($dir . '/' . $obj)) {
 				unlinkRecursive($dir.'/'.$obj, true);
 			}
 		}
 
 		closedir($dh);
 	   
-		if ($deleteRootToo)
-		{
-			@rmdir($dir);
-		}
+		if ($deleteRoot){@rmdir($dir);}
 	   
 		return;
 	} 

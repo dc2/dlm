@@ -115,7 +115,7 @@
 					if(trim($mirror_name) != '') {
 						if(ValidateURL($mirror_url)) {
 							if($mirror_id == 'false') {
-								$query 	= 'INSERT INTO '.cms_db_prefix().'module_dlm_mirrors (dl_parent_id, position, name, location, downloads) VALUES (?, ?, ?, 0)';
+								$query 	= 'INSERT INTO '.cms_db_prefix().'module_dlm_mirrors (dl_parent_id, position, name, location, downloads) VALUES (?, ?, ?, ?, 0)';
 								$this->db->Execute($query, array($item_id, ++$i, $mirror_name, $mirror_url)); 
 							} elseif(substr($mirror_id, 0, 6) == 'delete') {
 								$query 	= 'DELETE FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_mirror_id = ?';

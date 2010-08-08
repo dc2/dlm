@@ -1,4 +1,6 @@
 <?php
+	if (!isset($gCms)) exit;
+	
 	function FormatFilesize($size, $praefix = true, $short = true){
 		if($praefix === true) {
 			if($short === true) {

@@ -1,4 +1,6 @@
 <?php
+	if (!isset($gCms)) exit;
+	
 	/*
 	function tree_as_array($dbtree) {
 		$menu = array();

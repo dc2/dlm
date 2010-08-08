@@ -14,7 +14,7 @@
 				
 				$info = FileInfo('$$'.$location);
 				$identifier	= $info['identifier'];
-				filename	= $info['filename'];
+				$filename	= $info['filename'];
 				$fileext	= $info['fileext'];
 				
 				$obfuscate		= (int) $this->GetPreference('obfuscate', 1);
@@ -40,15 +40,18 @@
 				if($allowed === true || (is_array($allowed) && in_array($referer, $allowed))) {
 					switch($obfuscate) {
 						case 0: default:
+							$dsturl = $config['root_url'] . '/downloads/' . $location;
 							
+							DownloadCounter(&$this, $item_id);
+							header('Location: '.$dsturl);exit;
 						break;
 						case 1:
 							$tmpdir = cms_join_path('tmp', 'downloads');
 							
-							$srcfile = cms_join_path('downloads', substr($download['location'], 2));
+							$srcfile = cms_join_path('downloads', $location);
 							$tmpfile = cms_join_path($tmpdir, $identifier, $filename.$fileext);
 							
-							$desturl = $config['root_url'] . '/tmp/downloads/' . $identifier . '/' . $filename.$fileext;
+							$dsturl = $config['root_url'] . '/tmp/downloads/' . $identifier . '/' . $filename.$fileext;
 							
 							if(!file_exists($tmpfile)) {
 								ScanTempDownloads();
@@ -58,7 +61,7 @@
 									@chmod($tmpfile, 0777);
 									
 									DownloadCounter(&$this, $item_id);
-									header("Location: ".$desturl);exit;
+									header('Location: '.$dsturl);exit;
 								} else {
 									die($this->Lang('error'));
 								}
@@ -67,22 +70,36 @@
 								ScanTempDownloads();
 								
 								DownloadCounter(&$this, $item_id);
-								header("Location: ".$desturl);exit;
+								header('Location: '.$dsturl);exit;
 							}
+						break;
+						case 2:
+							DownloadCounter(&$this, $item_id);
+							
+							$srcfile = cms_join_path('downloads', $location);
+							header('Content-Description: File Transfer');
+							header('Content-Type: application/octet-stream');
+							header('Content-Disposition: attachment; filename='.$filename.$fileext);
+							header('Content-Transfer-Encoding: binary');
+							header('Expires: 0');
+							header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+							header('Pragma: public');
+							header('Content-Length: ' . filesize($srcfile));
+							readfile_chunked($srcfile);exit;
 						break;
 					}
 				} else {
-					header("HTTP/1.0 403 Forbidden");
+					header('HTTP/1.0 403 Forbidden');
 					echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>'.$this->Lang('downloads').'</title></head><body><div>'.$this->Lang('error_forbidden').'</div></body></html>';exit;
 				}		
 			} else {
 				DownloadCounter(&$this, $item_id);
 				
-				$desturl = $download['location'];
-				header("Location: ".$desturl);exit;
+				$dsturl = $download['location'];
+				header('Location: '.$dsturl);exit;
 			}
 		} else {
-			header("HTTP/1.0 404 Not Found");
+			header('HTTP/1.0 404 Not Found');
 			echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>'.$this->Lang('downloads').'</title></head><body><div>'.$this->Lang('error_notfound').'</div></body></html>';exit;
 		}
 	} elseif (substr($params['dlmode'], 0, 1) == 'm') {	
@@ -91,8 +108,7 @@
 		
 		DownloadCounter(&$this, $params['item'], $mirror_id);
 		
-		$desturl = $mirror['location'];
-		
-		header("Location: ".$desturl);exit;
+		$dsturl = $mirror['location'];
+		header('Location: '.$dsturl);exit;
 	}	
 ?>

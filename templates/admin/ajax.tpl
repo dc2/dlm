@@ -9,7 +9,7 @@
 <!--	
 	
 	function validateForm($form) {
-		var $inputs = $form.find('input:text').not('[type=hidden]');
+		var $inputs = $form.find('input:text').not('input:hidden');
 		var error = false;
 		
 		$inputs.removeClass('error');
@@ -50,7 +50,7 @@
 		
 		if(error != false) {
 			jQuery('#mirrors').show(effects>0?500:0);
-			window.scrollTo(0, $form.find('input.error').offset().top - 30);
+			window.scrollTo(0, $form.find('input.error').not('input:hidden').offset().top - 30);
 		}
 		
 		return !error;
