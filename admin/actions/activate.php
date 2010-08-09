@@ -9,7 +9,7 @@
 	
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 	
-	$dbitem = $this->GetItem($item_id);
+	$dbitem = $this->tree->GetItem($item_id);
 	
 	if(isset($dbitem)) {
 		$active = abs($dbitem['active'] - 1);

@@ -11,17 +11,16 @@ function printr($var, $dump = false) {
 }
 */
 
-#error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 class DlM extends CMSModule
 {	
 	var $db;
 	var $tree;
 	var $theme;
-	var $config;
 	
 	public $errors = array();
-	var $silent = false;
+	#var $silent = false;
 	
 	var $table = 'module_dlm_items';
 	var $prefix = 'dl';
@@ -32,15 +31,13 @@ class DlM extends CMSModule
 	function DlM() {		
 		// init module and call parent constructor
 		parent::CMSModule();
-				
-		// init dbtree - class
-		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dbtree.class.php'));	
-		$this->db =& $this->GetDb();
-		$this->tree = new dbtree(cms_db_prefix().$this->table, $this->prefix, $this->db);
 		
-		require_once(cms_join_path(dirname(__FILE__), 'functions', 'misc.functions.php'));
-		require_once(cms_join_path(dirname(__FILE__), 'functions', 'tree.functions.php'));
-		require_once(cms_join_path(dirname(__FILE__), 'functions', 'download.functions.php'));
+		// init dbtree - class
+		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));	
+		$this->db =& $this->GetDb();
+		$this->tree = new dltree(&$this, cms_db_prefix().$this->table, $this->prefix, &$this->db);
+		
+		require_once(cms_join_path(dirname(__FILE__), 'misc.functions.php'));
 	}
 	
 	function GetName() {		
@@ -212,6 +209,8 @@ class DlM extends CMSModule
 	}
 	
 	function DisplayErrors($mode = false) {
+		$result = '';
+		
 		if($mode === false) {
 			if(count($this->errors) > 0)
 				$result = $this->ShowErrors($this->errors);
@@ -231,50 +230,15 @@ class DlM extends CMSModule
 		$this->whitelist = trim(($this->whitelist !== false) ? $this->whitelist : $this->GetPreference('whitelist', false));
 	}
 	
-	function GetItemsDB($node, $fields = '*', $ignore = false, $condition = '') {
-		$this->tree->Branch($node, $fields, $condition);
-		
-		if($ignore !== false && (is_numeric($ignore) || is_array($ignore))) {
-			$rows = array();
-			while ($item = $this->tree->NextRow()) {
-				$itemid = (int)$item[$this->prefix.'_id'];
-			
-				if(isset($item['parent']) && $item['parent'] != '-1') {
-					$parent = (int)$item['parent'];
-					
-					if(!is_array($ignore)) {
-						if($itemid !== $ignore && $parent !== $ignore) {
-							$rows[$itemid] = $item;
-						}
-					} else {
-						$left = (int)$item[$this->prefix.'_left'];
-						$right = (int)$item[$this->prefix.'_right'];
-						
-						$ignoreid = (int)$ignore['id'];
-						
-						if($itemid !== $ignoreid && $parent !== $ignoreid && !($left > (int)$ignore[0] && $right < (int)$ignore[1])) {
-							$rows[$itemid] = $item;
-						}
-					}
-				}				
-				
-			}
-		} else {
-			$rows = $this->tree->res->GetAssoc();
-		}
-		
-		return $rows;
-	}
-	
 	function GetTreeAdmin($node, $id, $indent = 0, &$dbtree = NULL, $return = false) {
-		#RebuildTree(&$this, 0, 1, true);
+		#$this->tree->RebuildTree(, 0, 1, true);
 		$items = array();
 		$oldlevel = 0;
 		$skipuntil = false;
 		
 		$returnid = NULL;
 		
-		$dbtree = $dbtree === NULL ? $this->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'expand', 'active', 'parent', 'type', 'name')) : $dbtree;
+		$dbtree = $dbtree === NULL ? $this->tree->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'expand', 'active', 'parent', 'type', 'name')) : $dbtree;
 		
 		$count = count($dbtree);
 		
@@ -362,7 +326,7 @@ class DlM extends CMSModule
 		$items = array();
 		$skipuntil = false;
 		
-		$dbtree = $dbtree === NULL ? $this->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'active', 'name', 'type', 'downloads')) : $dbtree;
+		$dbtree = $dbtree === NULL ? $this->tree->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'active', 'name', 'type', 'downloads')) : $dbtree;
 		$count = count($dbtree);	
 		
 		if($count > 1) {
@@ -414,9 +378,9 @@ class DlM extends CMSModule
 		$nodeinfo = $this->tree->GetNodeInfo($ignore);
 		if($ignore !== false) {
 			$nodeinfo = $this->tree->GetNodeInfo($ignore);
-			$dbtree = $this->GetItemsDB($node, $fields, array_merge(array('id' => $ignore), $nodeinfo), $condition);
+			$dbtree = $this->tree->GetItemsDB($node, $fields, array_merge(array('id' => $ignore), $nodeinfo), $condition);
 		} else {
-			$dbtree = $this->GetItemsDB($node, $fields, false, $condition);
+			$dbtree = $this->tree->GetItemsDB($node, $fields, false, $condition);
 		}
 				
 		$output = array();
@@ -479,45 +443,32 @@ class DlM extends CMSModule
 		return array($path, ' - '.$title);
 	}
 	
-	function GetParentID($node) {
-		$info = $this->tree->GetParentInfo((int) $node);
-		return $info['dl_id'];
-	}
-	
-	function GetItem($item_id, $fields = '*') {
-		$items = $this->GetItemsDB((int)$item_id, $fields, false, array('and' => array('dl_id = '.(int)$item_id)));
-		return reset($items);
-	}	
-	
 	function GetDownload($item_id) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_downloads WHERE dl_parent_id = ?';
-		$result = $this->db->Execute($query, array((int) $item_id));
+		$result = $this->db->Execute($query, array((int)$item_id));
 		
-		if($result->NumRows() > 0) {
+		if($result->NumRows() > 0)
 			return $result->FetchRow();
-		} else 
+		else 
 			return false;
 	}
 	
-	function GetChildren($node) {
-		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_items WHERE parent = ? ORDER BY dl_left ASC';
-		$result = $this->db->Execute($query, array($node));
+	/* Download-Counter (Frontend) */
+	function DownloadCounter($item_id, $mirror_id = false) {
+		$query = 'UPDATE '.cms_db_prefix().'module_dlm_downloads SET downloads = downloads + 1 WHERE dl_parent_id = ?';
+		$result = $this->db->Execute($query, array((int) $item_id));
 		
-		while($row = $result->FetchRow()) {
-			$rows[] = $row;	
+		if($mirror_id !== false) {
+			$query = 'UPDATE '.cms_db_prefix().'module_dlm_mirrors SET downloads = downloads + 1 WHERE dl_mirror_id = ?';
+			$result = $this->db->Execute($query, array((int) $mirror_id));
 		}
-		
-		return $rows;
-	}
-		
-	function GetChildrenCount($node) {
-		$info = $this->tree->GetNodeInfo($node);
-		return ($info[1] - $info[0] - 1) / 2;
 	}
 
 	function GetMirror($item_id) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_mirror_id = ?';
-		if($result = $this->db->Execute($query, array($item_id)))
+		$result = $this->db->Execute($query, array((int)$item_id));
+		
+		if($result->NumRows() > 0)
 			return $result->FetchRow();
 		else
 			return false;			

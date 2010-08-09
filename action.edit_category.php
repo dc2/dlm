@@ -22,7 +22,7 @@
 		$this->Redirect($id, 'defaultadmin', $returnid);
 	}	
 	
-	$dbtree  = $this->GetItemsDB($item_id);
+	$dbtree  = $this->tree->GetItemsDB($item_id);
 	$dbitem =& reset($dbtree);
 	
 	

@@ -17,7 +17,7 @@
 				foreach($items as $key => $value) {
 					$this->Audit($key, $dbitem['name'], 'DlM: ' . 'Item (batch) deleted');
 					$this->SendEvent('ItemDeleted', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));	
-					if(!DeleteBranch(&$this, $key))
+					if(!$this->tree->DeleteBranch($key))
 						$error = true;
 				}
 				
@@ -36,7 +36,7 @@
 					$this->SendEvent('ItemActivated', array('dl_item' => array('id' => $key)));
 					
 					$in .= (int) $key. ',';	
-					$dbtree = $this->GetItemsDB((int)$key, array('dl_id', 'dl_left', 'dl_right'));
+					$dbtree = $this->tree->GetItemsDB((int)$key, array('dl_id', 'dl_left', 'dl_right'));
 					
 					foreach($dbtree as $dbitem) {
 						$or .= ' OR (dl_left > '.$dbitem['dl_left'].' AND dl_right < '.$dbitem['dl_right'].') ';

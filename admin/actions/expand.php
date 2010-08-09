@@ -8,7 +8,7 @@
 	
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 	
-	$dbitem = $this->GetItem($item_id);
+	$dbitem = $this->tree->GetItem($item_id);
 	$children = ($dbitem['dl_right'] - $dbitem['dl_left'] - 1) / 2;
 	
 	if($children > 0) {

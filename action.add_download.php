@@ -72,14 +72,14 @@
 			
 		if ($item_name !== false && strlen(trim($item_name)) > 0) {
 			if($item_location !== false && count($this->errors) == 0) {
-				$node = InsertNode(&$this, $item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 1));
+				$node = $this->tree->InsertNode($item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 1));
 				if($node !== false) {
 					$query = 'INSERT INTO '.cms_db_prefix().'module_dlm_downloads (dl_parent_id, location, size, downloads, created_date, modified_date) '."VALUES (?, ?, ?, 0, NOW(), NOW())";
 					$result = $this->db->Execute($query, array($node, $item_location, $item_filesize)); 
 					
 					$this->Audit($node, $item_name, 'DlM: Download added');
 					$this->SendEvent('DownloadAdded', array('dl_item' => array('id' => $node, 'name' => $item_name)));
-					UpdateDownloadCount(&$this, $node);
+					$this->tree->UpdateDownloadCount($node);
 					
 					if(isset($params['mirror_names']) && is_array($params['mirror_names'])) {
 						$newmirrors = array_combine($params['mirror_names'], $params['mirror_urls']);

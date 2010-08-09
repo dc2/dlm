@@ -14,10 +14,10 @@
 	
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 	
-	$dbitem = $this->GetItem($item_id);
+	$dbitem = $this->tree->GetItem($item_id);
 	
 	if(isset($dbitem)) {		
-		if(DeleteBranch(&$this, $item_id)) {
+		if($this->tree->DeleteBranch($item_id)) {
 			$tab_message = 'item_deleted';
 			$this->Audit($item_id, $dbitem['name'], 'DlM: ' . ($dbitem['type'] == 0 ? 'Category' : 'Download').' deleted');
 		} else {

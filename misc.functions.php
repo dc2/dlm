@@ -1,6 +1,85 @@
 <?php
-	if (!isset($gCms)) exit;
+	// functions for file download handling //
+	function ScanTempDownloads($maxage = 43200 /* = 12h */, $currentdir = false, $level = 0) {
+		$tmpdir = cms_join_path(dirname(__FILE__), '..', 'tmp', 'downloads');
+		$currentdir = ($currentdir === false) ? $tmpdir : $currentdir;
+		$delete = array();
+		
+		$dir = opendir($currentdir);
+		while (false !== ($filename = readdir($dir))) {
+			if($filename != '..' && $filename != '.') {
+				$file = cms_join_path($currentdir, $filename);
+				
+				if(is_dir($file)) {
+					++$level;
+					ScanTempDownloads($maxage, $file, $level);
+				} else {
+					if(time() - filemtime($file) > $maxage) {
+						unlink($file);
+						if($level > 0) {
+							$dirname = substr($file, 0, strrpos($file, DIRECTORY_SEPARATOR));
+							$delete[] = $dirname;
+						}
+					}
+				}	
+			}
+		}
+		
+		closedir($dir);
+		foreach($delete as $dir) {rmdir($dir);}
+	}
 	
+	function readfile_chunked($filename,$retbytes=true) {
+		$chunksize = 1*(1024*1024); // how many bytes per chunk
+		$buffer = '';
+		$cnt =0;
+		$handle = fopen($filename, 'rb');
+		if ($handle === false) {
+			return false;
+		}
+		while (!feof($handle)) {
+			$buffer = fread($handle, $chunksize);
+			echo $buffer;
+			ob_flush();flush();
+			if ($retbytes) {
+				$cnt += strlen($buffer);
+			}
+		}
+			$status = fclose($handle);
+		if ($retbytes && $status) {
+			return $cnt; // return num. bytes delivered like readfile() does.
+		}
+		return $status;
+	
+	} 
+	
+	// validations functions //
+	function ValidateURL($url) {
+		$pattern = "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i";
+		if (preg_match($pattern, $url))
+			return true;
+		else
+			return false;	
+	}
+		
+	function ValidateExtension(&$dlm, $location) {
+		$fileext = substr(strrchr($location, '.'), 1);
+		
+		$dlm->LoadBwList();
+		$blacklist = $dlm->blacklist;
+		$whitelist = $dlm->whitelist;
+		
+		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
+		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
+					
+		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// misc //
 	function FormatFilesize($size, $praefix = true, $short = true){
 		if($praefix === true) {
 			if($short === true) {
@@ -50,14 +129,6 @@
 		return $info;
 	}
 	
-	function ValidateURL($url) {
-		$pattern = "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i";
-		if (preg_match($pattern, $url))
-			return true;
-		else
-			return false;	
-	}
-	
 	function DisplayImage($imageName, $alt='', $title='', $valign = 'middle', $class='', $style='') {
 		global $gCms;
 		$config =& $gCms->config;	
@@ -72,24 +143,6 @@
 		$returnid = false;
 		$url = 'dlm/'.$item.(($returnid !== false) ? '/'.$returnid : '').(($junk !== false) ? '/'.munge_string_to_url($junk) : '');
 		return $url;
-	}
-	
-		
-	function ValidateExtension(&$dlm, $location) {
-		$fileext = substr(strrchr($location, '.'), 1);
-		
-		$dlm->LoadBwList();
-		$blacklist = $dlm->blacklist;
-		$whitelist = $dlm->whitelist;
-		
-		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
-		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
-					
-		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	function GetAdminStyle() {

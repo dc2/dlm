@@ -1,9 +1,9 @@
 {capture assign="ajax_head"}
 {literal}
-<script src="../modules/DlM/libs/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script src="../modules/DlM/libs/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
-<script src="../modules/DlM/libs/jquery.form.min.js" type="text/javascript"></script>
-<script src="../modules/DlM/libs/shortcut.min.js" type="text/javascript"></script>
+<script src="../modules/DlM/libs/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="../modules/DlM/libs/js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+<script src="../modules/DlM/libs/js/jquery.form.min.js" type="text/javascript"></script>
+<script src="../modules/DlM/libs/js/shortcut.min.js" type="text/javascript"></script>
 
 <script type="text/javascript"> 
 <!--	

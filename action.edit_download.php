@@ -22,7 +22,7 @@
 		$this->Redirect($id, 'defaultadmin', $returnid);
 	}
 	
-	$dbitem = $this->GetItem($item_id);
+	$dbitem = $this->tree->GetItem($item_id);
 	
 	if(isset($params['ajax']) && $params['ajax'] === "true") {
 		ob_start();

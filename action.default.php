@@ -5,7 +5,7 @@
 	$root_info = ($root !== false) ? array_merge($this->tree->GetNodeInfo($root), array($root)) : false;
 
 	$item_id = isset($params['item']) ? (int) $params['item'] : $root;
-	$dbitem = ($item_id !== false) ? $this->GetItem($item_id) : false;
+	$dbitem = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
 	
 	if(!isset($params['showpath']) || $params['showpath'] === true) {
 		$this->smarty->assign('path_text', $this->Lang('path_text'));

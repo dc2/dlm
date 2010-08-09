@@ -21,7 +21,7 @@
 	
 	if (isset($params['submit'])) {
 		if ($item_name != "") {	
-			$node = InsertNode(&$this, $item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 0));
+			$node = $this->tree->InsertNode($item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 0));
 			if($node !== false) {
 				$this->Audit($node, $item_name, 'DlM: Category added');
 				$this->SendEvent('CategoryAdded', array('dl_item' => array('id' => $node, 'name' => $item_name)));

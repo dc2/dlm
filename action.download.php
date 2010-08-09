@@ -4,7 +4,7 @@
 
 	if($params['dlmode'] == 'd' || !isset($params['dlmode'])) {
 		$item_id = isset($params['item']) ? (int) $params['item'] : false;
-		$dbitem = ($item_id !== false) ? $this->GetItem($item_id) : false;
+		$dbitem = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
 	
 		if($dbitem !== false && $dbitem['type'] == 1 && $dbitem['active'] == 1) {
 			$download = $this->GetDownload($item_id);
@@ -42,7 +42,7 @@
 						case 0: default:
 							$dsturl = $config['root_url'] . '/downloads/' . $location;
 							
-							DownloadCounter(&$this, $item_id);
+							$this->DownloadCounter($item_id);
 							header('Location: '.$dsturl);exit;
 						break;
 						case 1:
@@ -60,7 +60,7 @@
 								if (copy($srcfile, $tmpfile)) {
 									@chmod($tmpfile, 0777);
 									
-									DownloadCounter(&$this, $item_id);
+									$this->DownloadCounter($item_id);
 									header('Location: '.$dsturl);exit;
 								} else {
 									die($this->Lang('error'));
@@ -69,12 +69,12 @@
 								touch($tmpfile);
 								ScanTempDownloads();
 								
-								DownloadCounter(&$this, $item_id);
+								$this->DownloadCounter($item_id);
 								header('Location: '.$dsturl);exit;
 							}
 						break;
 						case 2:
-							DownloadCounter(&$this, $item_id);
+							$this->DownloadCounter($item_id);
 							
 							$srcfile = cms_join_path('downloads', $location);
 							header('Content-Description: File Transfer');
@@ -93,7 +93,7 @@
 					echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>'.$this->Lang('downloads').'</title></head><body><div>'.$this->Lang('error_forbidden').'</div></body></html>';exit;
 				}		
 			} else {
-				DownloadCounter(&$this, $item_id);
+				$this->DownloadCounter($item_id);
 				
 				$dsturl = $download['location'];
 				header('Location: '.$dsturl);exit;
@@ -106,7 +106,7 @@
 		$mirror_id = (int) substr($params['dlmode'], 1);
 		$mirror = $this->GetMirror($mirror_id);
 		
-		DownloadCounter(&$this, $params['item'], $mirror_id);
+		$this->DownloadCounter($params['item'], $mirror_id);
 		
 		$dsturl = $mirror['location'];
 		header('Location: '.$dsturl);exit;

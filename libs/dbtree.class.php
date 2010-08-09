@@ -122,19 +122,19 @@ class dbtree {
     * @param object $db
     * @return object
     */
-		function dbtree($table, $prefix, &$db) {
-			$this->db = &$db;
-			
-			$this->table = $table;
-			$this->table_id = $prefix . '_id';
-			$this->table_left = $prefix . '_left';
-			$this->table_right = $prefix . '_right';
-			$this->table_level = $prefix . '_level';
-			unset($prefix, $table);
-			
-			//define('DB_CACHE', true);
-			define('DB_CACHE', false);
-		}
+	function dbtree($table, $prefix, &$db) {
+		$this->db = &$db;
+		
+		$this->table = $table;
+		$this->table_id = $prefix . '_id';
+		$this->table_left = $prefix . '_left';
+		$this->table_right = $prefix . '_right';
+		$this->table_level = $prefix . '_level';
+		unset($prefix, $table);
+		
+		//define('DB_CACHE', true);
+		define('DB_CACHE', false);
+	}
 
     /**
     * Sets initial parameters of a tree and creates root of tree
