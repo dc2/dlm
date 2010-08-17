@@ -16,7 +16,7 @@
 	$this->smarty->assign('itemcount', count($items));
 	
 	$this->smarty->assign('th_name', $this->Lang('th_name'));
-	$this->smarty->assign('th_template', $this->Lang('template'));
+	#$this->smarty->assign('th_template', $this->Lang('template'));
 	$this->smarty->assign('th_type', $this->Lang('th_type'));
 	$this->smarty->assign('th_id', $this->Lang('th_id'));
 	$this->smarty->assign('th_active', $this->Lang('th_active'));
@@ -37,8 +37,8 @@
 	$this->smarty->assign('deactivate', $this->Lang('deactivate'));
 	$this->smarty->assign('suborder', $this->Lang('suborder'));
 	
-	$this->smarty->assign('expandall', $this->CreateLinkOwn($id, 'expandall', $returnid, $this->theme->DisplayImage('icons/system/expandall.gif', $this->Lang('expandall'),'','','systemicon').$this->Lang('expandall'), array(), '', false, false, ''));
-	$this->smarty->assign('contractall', $this->CreateLinkOwn($id, 'contractall', $returnid, $this->theme->DisplayImage('icons/system/contractall.gif', $this->Lang('contractall'),'','','systemicon').$this->Lang('contractall'), array(), '', false, false, ''));
+	$this->smarty->assign('expandall', $this->CreateHandlerLink($id, 'expandall', $returnid, $this->theme->DisplayImage('icons/system/expandall.gif', $this->Lang('expandall'),'','','systemicon').$this->Lang('expandall'), array(), '', false, false, ''));
+	$this->smarty->assign('contractall', $this->CreateHandlerLink($id, 'contractall', $returnid, $this->theme->DisplayImage('icons/system/contractall.gif', $this->Lang('contractall'),'','','systemicon').$this->Lang('contractall'), array(), '', false, false, ''));
 
 	$this->smarty->assign('add_category', $this->CreateLink($id, 'add_category', $returnid, $this->theme->DisplayImage('icons/system/newobject.gif', $this->Lang('add_category'),'','','systemicon').$this->Lang('add_category'), array(), '', false, false, ''));
 	$this->smarty->assign('add_download', $this->CreateLink($id, 'add_download', $returnid, $this->theme->DisplayImage('icons/system/newobject.gif', $this->Lang('add_download'),'','','systemicon').$this->Lang('add_download'), array(), '', false, false, ''));

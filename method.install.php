@@ -6,7 +6,7 @@
 	$tmp_path = cms_join_path(dirname(__FILE__), '..', '..', 'tmp', 'downloads', '');
 	clearstatcache();
 	 
-	if(((is_dir($dl_path) && is_writable($dl_path) or chmod($dl_path, 0777)) || (!is_dir($dl_path) && mkdir($dl_path))) && ((is_dir($tmp_dir) && is_writable($tmp_dir) or chmod($tmp_dir, 0777)) || (!is_dir($tmp_path) && mkdir($tmp_path)))) { 
+	if(((is_dir($dl_path) && (is_writable($dl_path) || chmod($dl_path, 0777))) || (!is_dir($dl_path) && mkdir($dl_path))) && ((is_dir($tmp_dir) && (is_writable($tmp_dir) || chmod($tmp_dir, 0777))) || (!is_dir($tmp_path) && mkdir($tmp_path)))) { 
 	//if(false === true) {
 		$db =& $gCms->GetDb();
 		
@@ -37,8 +37,8 @@
 		// Init the tree-strcuture and create root-node
 		$this->tree->Clear(array('name' => 'root', 'parent' => -1));
 		
-		$this->CreatePermission('Manage Downloads', 'Manage Downloads');
-		$this->CreatePermission('Set DlM Prefs', 'Set Download Manager Preferences');
+		$this->CreatePermission('Use DlM', 'Use DownloadManager (DlM)');
+		$this->CreatePermission('Set DlM Prefs', 'Set Download Manager Preferences and edit Templates');
 		
 		$this->CreateEvent('DownloadAdded');
 		$this->CreateEvent('DownloadEdited');

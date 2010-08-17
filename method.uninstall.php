@@ -53,7 +53,7 @@
 	@unlinkRecursive(cms_join_path(dirname(__FILE__), '..', '..', 'tmp', 'downloads', ''), true);
 	
 	// remove the permissions
-	$this->RemovePermission('Manage Downloads');
+	$this->RemovePermission('Use DlM');
 	$this->RemovePermission('Set DlM Prefs');
 	
 	$this->RemoveEvent('DownloadAdded');

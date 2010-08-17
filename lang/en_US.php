@@ -1,6 +1,6 @@
 <?php
 	// -- Un- Installation / Upgrade -- //
-	$lang['postinstall']		= 'DlM installed. Make sure /downloads/ and /tmp/downloads/ are writeable.';
+	$lang['postinstall']		= 'DlM installed. Make sure /downloads/ and /tmp/downloads/ are writeable and the permissions "Use DlM" and "Set DlM Prefs" are set correctly.';
 	$lang['installerror']		= 'An error occurred during the installation of DlM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable.';
 	$lang['postuninstall']		= 'DlM - Download Manager uninstalled.';
 	$lang['really_uninstall']	= 'Do you really want to remove DlM?';
@@ -20,8 +20,7 @@
 	$lang['misc']		= 'Miscellaneous';
 	$lang['submit']		= 'Submit'; 
 	$lang['cancel']		= 'Cancel'; 
-	$lang['savetemp']	= 'Apply'; 
-	
+	$lang['savetemp']	= 'Apply';
 	
 	$lang['no_default'] = 'None / No Default';
 	
@@ -94,12 +93,12 @@
 	// - General tab - //
 	$lang['no_children'] = 'No children.';
 	
-	$lang['th_name'] = 'Name';
-	$lang['th_type'] = 'Type';
-	$lang['th_id'] 	= 'ID';
-	$lang['th_active'] = 'Active';
-	$lang['th_reorder'] = 'Order';
-	$lang['th_actions'] = 'Actions';
+	$lang['th_name']	= 'Name';
+	$lang['th_type']	= 'Type';
+	$lang['th_id'] 		= 'ID';
+	$lang['th_active']	= 'Active';
+	$lang['th_reorder']	= 'Order';
+	$lang['th_actions']	= 'Actions';
 	
 	// - Preferences tab - //
 	$lang['blacklist_desc'] = '<strong>Blacklist</strong> (forbidden file extensions)';
@@ -108,14 +107,18 @@
 	$lang['extensions']	= 'File extensions';
 	$lang['extensions_desc'] = 'File extensions - separated whith semicolon <b>;</b> and <b>without</b> leading dot (e.g. <tt>jpg;png;gif;zip</tt>)';
 	
-	$lang['returnid_desc'] = '<strong>returnid</strong> (ID of the page, DlM should be displayed in (only for use with Pretty-URLs - overwrites all other content on the page))';
-	$lang['obfuscate_desc'] = '<strong>Obfuscation</strong> (how should the source file in /downloads/ be obfuscated to prevent hotlinking?)';
-	$lang['obfuscate_list'] = 'No obfuscation;temporary copy;Output via PHP';
-	$lang['referer_desc'] = '<strong>Referer-Filtering</strong> (Which referers should be allowed?)';
-	$lang['referer_list'] = 'no filtering;allow only this domain;userdefined';
+	$lang['returnid_desc']	= '<strong>returnid</strong> (ID of the page, DlM should be displayed in (only for use with Pretty-URLs - overwrites all other content on the page))';
+	$lang['obfuscate_desc']	= '<strong>Obfuscation</strong> (how should the source file in /downloads/ be obfuscated to prevent hotlinking?)';
+	$lang['obfuscate_list']	= 'No obfuscation;temporary copy;Output via PHP';
+	$lang['referer_desc']	= '<strong>Referer-Filtering</strong> (Which referers should be allowed?)';
+	$lang['referer_list']	= 'no filtering;allow only this domain;userdefined';
 	$lang['allowed_referer'] = '<strong>Allowed Referer</strong> (separated by semicolon <b>;</b> e.g. <span style="color: #666">example.com;somedomain.com</span> - this only takes effect if "userdefined" ist chosen as referer-filtering)';
 	$lang['js_effects_text'] = '<strong>JavaScript Effects</strong> (<b style="color: #ff0000">Attention:</b> When <em>All</em> is selected there could be performance issues on high item-count.)';
 	$lang['js_effetcs_list'] = 'None;Simple;All';
+	
+	// - Templates tab - //
+	$lang['edit_template']	= 'Edit template';
+	$lang['delete_template']= 'Delete template';
 	
 	//$lang['welcome_text'] = '<p>Übersicht über ihre Kategorien:</p>';
 	

@@ -22,8 +22,8 @@
 		$this->Redirect($id, 'defaultadmin', $returnid);
 	}	
 	
-	$dbtree  = $this->tree->GetItemsDB($item_id);
-	$dbitem =& reset($dbtree);
+	$dbtree = $this->tree->GetItemsDB($item_id);
+	$dbitem = reset($dbtree);
 	
 	
 	if(isset($params['ajax']) && $params['ajax'] === "true") {
@@ -123,7 +123,7 @@
 				
 				$this->smarty->assign('node_children', $this->Lang('node_children'));
 				$this->smarty->assign('th_name', $this->Lang('th_name'));
-				$this->smarty->assign('th_template', $this->Lang('template'));
+				#$this->smarty->assign('th_template', $this->Lang('template'));
 				$this->smarty->assign('th_type', $this->Lang('th_type'));
 				$this->smarty->assign('th_id', $this->Lang('th_id'));
 				$this->smarty->assign('th_active', $this->Lang('th_active'));

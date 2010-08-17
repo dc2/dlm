@@ -1,6 +1,6 @@
 <?php
 	// -- Un- Installation / Upgrade -- //
-	$lang['postinstall']		= 'DlM erfolgreich installiert. Stellen Sie sicher, dass /downloads/ und /tmp/downloads/ beschreibbar sind.';
+	$lang['postinstall']		= 'DlM erfolgreich installiert. Stellen Sie sicher, dass /downloads/ und /tmp/downloads/ beschreibbar sind und die Berechtigungen "Use DlM" und "Set DlM Prefs" richtig gesetzt sind.';
 	$lang['installerror']		= 'Während der Installation von DlM sind Fehler aufgetreten, möglicherweise konnten die Verzeichnisse /downloads/ und /tmp/downloads/ nicht erstellt werden. Stellen Sie sicher, dass sie vorhanden und beschreibbar sind.';
 	$lang['postuninstall']		= 'DlM - Download Manager erfolgreich deinstalliert.';
 	$lang['really_uninstall']	= 'Wollen Sie das DlM Modul wirklich deinstallieren?';
@@ -18,9 +18,9 @@
 	$lang['accessdenied'] = 'Zugang verwehrt, bitte überprüfen Sie Ihre Berechtigungen.';
 	$lang['error']		= 'Fehler!';
 	$lang['misc']		= 'Sonstiges';
-	$lang['submit']		= 'Absenden'; 
-	$lang['cancel']		= 'Abbrechen'; 
-	$lang['savetemp']	= 'Zwischenspeichern'; 
+	$lang['submit']		= 'Absenden';
+	$lang['cancel']		= 'Abbrechen';
+	$lang['savetemp']	= 'Zwischenspeichern';
 	
 	$lang['no_default'] = 'Keine / Ohne Vorgabe';
 	
@@ -114,6 +114,10 @@
 	$lang['allowed_referer'] = '<strong>Erlaubte Referer</strong> (getrennt durch Semikolon <b>;</b> z.B. <span style="color: #666">example.com;somedomain.com</span> - diese Einstellung zeigt nur Wirkung, falls als Referer-Filterung "benutzerdefiniert" gewählt ist)';
 	$lang['js_effects_text'] = '<strong>JavaScript Effekte</strong> (<b style="color: #ff0000">Achtung:</b> Bei der Einstellung <em>Alle</em> kann es bei vielen Einträgen zu Performance-Problemen kommen)';
 	$lang['js_effetcs_list'] = 'Keine;Einfach;Alle';
+	
+	// - Templates tab - //
+	$lang['edit_template']	= 'Template bearbeiten';
+	$lang['delete_template']= 'Template löschen';
 	
 	// add / edit / delete items //
 	$lang['name'] 		= 'Name';
@@ -209,6 +213,5 @@
 	<h3>Wie wird dieses Modul eingesetzt?</h3>DlM lässt sich per <pre style="display: inline">{cms_module module="DlM" <em>parameter</em>}</pre> einbinden. <strong>Wichtig:</strong> Bei der Nutzung von Pretty-URLs wird der sonstige Content auf der Seite überschrieben.
 	<h3 style="color: #ff0000">Wichtig</h3>
 	<p><tt>/downloads/</tt> und <tt>/tmp/downloads/</tt> müssen existieren und beschreibbar sein (am besten chmod 0777) - ansonsten wird DlM nicht richtig funktionieren.</p>
-	
 	';
 ?>

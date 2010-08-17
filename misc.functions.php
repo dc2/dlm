@@ -74,9 +74,7 @@
 					
 		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
 			return true;
-		} else {
-			return false;
-		}
+		} else return false;
 	}
 	
 	// misc //

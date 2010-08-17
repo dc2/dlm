@@ -39,7 +39,7 @@ class dltree extends dbtree {
 				
 			}
 		} else {
-			$rows = $this->res->GetAssoc();
+			$rows = $this->res->GetArray();
 		}
 		
 		return $rows;
@@ -51,6 +51,7 @@ class dltree extends dbtree {
 		return reset($items);
 	}
 	
+	// tree functions //
 	/*
 	function tree_as_array($dbtree) {
 		$menu = array();
@@ -69,9 +70,7 @@ class dltree extends dbtree {
 	}	
 	*/
 	
-	
-	// tree fucntions
-	function RebuildTree($node = 0, $left = 1, $first = false) {  	
+	/*function RebuildTree($node = 0, $left = 1, $first = false) {  	
 		$right	= $left + 1; 
 		
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_items WHERE parent = ? ORDER BY dl_left';
@@ -88,7 +87,8 @@ class dltree extends dbtree {
 			$this->RecalcDownloadsAll(array($node), array(array($left, $right))); 
 		
 		return $right + 1;  
-	}
+	}*/
+	
 	
 	function RecalcDownloadsAll($nodes, $info = NULL) {		
 		$count = count($nodes); 	
@@ -109,8 +109,7 @@ class dltree extends dbtree {
 	
 	/* Update download-count of specific node */
 	function RecalcDownloadsNode($node, $info = NULL) {
-		if($info === NULL) 
-			$info = $this->GetNodeInfo($node);
+		if($info === NULL) $info = $this->GetNodeInfo($node);
 
 		$this->db->SetFetchMode(ADODB_FETCH_NUM);
 		$query = 'SELECT COUNT(*) FROM '.cms_db_prefix().'module_dlm_items WHERE dl_left > ? AND dl_right < ? AND type = 1';
@@ -125,7 +124,6 @@ class dltree extends dbtree {
 	/* Increment / Decrement download-count on all parent nodes */
 	function UpdateDownloadCount($node, $mode = "+") {
 		$info = $this->GetNodeInfo($node);
-		
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET downloads = downloads '.$mode.' 1 WHERE dl_left < ? AND dl_right > ?';
 		
 		return $this->db->Execute($query, array($info[0], $info[1]));
@@ -154,8 +152,7 @@ class dltree extends dbtree {
 			}
 			
 			return true;
-		} else
-			return false;		
+		} else return false;		
 	}
 	
 	function DeleteDownloads($node) {		
@@ -183,9 +180,7 @@ class dltree extends dbtree {
 			$this->db->Execute($query, array());
 			
 			return true;
-		} else {
-			return false;
-		}		
+		} else return false;
 	}
 	
 	function DeleteBranch($node) {

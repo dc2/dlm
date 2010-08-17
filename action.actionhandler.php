@@ -6,7 +6,7 @@
 		@ob_end_clean();@ob_end_clean();ob_start();
 	}
 	
-	switch($params['haction']) {
+	switch($params['_action']) {
 		case 'activate': 
 			include('admin/actions/activate.php');
 		break;
@@ -34,6 +34,14 @@
 		
 		case 'delete':
 			include('admin/actions/delete.php');
+		break;
+		
+		case 'delete_template':
+			include('admin/actions/delete_template.php');
+		break;
+		
+		default:
+			$this->Redirect($id, 'defaultadmin');
 		break;
 	}
 ?>

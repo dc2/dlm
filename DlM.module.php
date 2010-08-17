@@ -1,17 +1,6 @@
 <?php
 
-/*
-function printr($var, $dump = false) {
-	echo "<pre>";
-	if($dump === false)
-		print_r($var);
-	else
-		var_dump($var);	
-	echo "</pre>";
-}
-*/
-
-error_reporting(E_ALL);
+#error_reporting(E_ALL|E_STRICT);
 
 class DlM extends CMSModule
 {	
@@ -20,7 +9,6 @@ class DlM extends CMSModule
 	var $theme;
 	
 	public $errors = array();
-	#var $silent = false;
 	
 	var $table = 'module_dlm_items';
 	var $prefix = 'dl';
@@ -28,16 +16,15 @@ class DlM extends CMSModule
 	var $blacklist = false;
 	var $whitelist = false;
 	
-	function DlM() {		
-		// init module and call parent constructor
+	function DlM() {
 		parent::CMSModule();
 		
-		// init dbtree - class
-		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));	
 		$this->db =& $this->GetDb();
-		$this->tree = new dltree(&$this, cms_db_prefix().$this->table, $this->prefix, &$this->db);
-		
+
 		require_once(cms_join_path(dirname(__FILE__), 'misc.functions.php'));
+		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));	
+		
+		$this->tree = new dltree(&$this, cms_db_prefix().$this->table, $this->prefix, &$this->db);	
 	}
 	
 	function GetName() {		
@@ -49,7 +36,7 @@ class DlM extends CMSModule
 	}
 
 	function GetVersion() {
-		return '0.6.1';
+		return '0.7';
 	}
 
 	function GetHelp() {
@@ -89,7 +76,7 @@ class DlM extends CMSModule
 	}
 
 	function VisibleToAdminUser() {
-		return $this->CheckPermission('Manage Downloads');
+		return $this->CheckPermission('Use DlM');
 	}
 
 	function GetDependencies() {
@@ -129,8 +116,7 @@ class DlM extends CMSModule
 		
 		$this->CreateParameter('showdesc', true, $this->Lang('help-showdesc'));
 		$this->SetParameterType('showdesc', CLEAN_NONE);
-		
-		//$this->SetParameterType('id', CLEAN_STRING);
+
 		$this->SetParameterType('junk', CLEAN_STRING);
 	}
 
@@ -154,6 +140,36 @@ class DlM extends CMSModule
 
 	function UninstallPreMessage() {
 		return $this->Lang('really_uninstall');
+	}
+	
+	/* overloaded functions */
+	function ListTemplates($id = false, $returnid = false, $return = false) {	
+		$tpls = array();
+		
+		$query = 'SELECT template_name AS name from '.cms_db_prefix().'module_templates WHERE module_name = ? ORDER BY template_name ASC';
+		$result = $this->db->Execute($query, array('DlM'));
+		
+		while ($tpl = $result->FetchRow()) {
+			$name = $this->CreateLink($id, 'edit_template', $returnid, $tpl['name'], array('tpl_name'=>$tpl['name'], 'return' => $return));
+			$edit = $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
+			$delete = $this->CreateHandlerLink($id, 'delete_template', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
+			
+			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name);
+		}
+	
+		return $tpls;
+	}
+	
+	function CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {		
+		$text = '<select class="cms_dropdown" id="' . $id . $name . '" name="' . $id . $name . '"'. ($addtext != '' ? ' ' . $addtext : '') . '>';
+				
+		if (is_array($items) && count($items) > 0) {
+			foreach ($items as $key => $value) {
+				$text .= '<option value="' . $key . '"' . ($selected == $key ? ' ' . 'selected="selected"' : '') . '>' . $value . '</option>';
+			}
+		}
+
+		return $text . '</select>' . "\n";
 	}
 	
 	/* Methods for search-support */
@@ -190,20 +206,8 @@ class DlM extends CMSModule
 		}
 	}
 	
-	function CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {		
-		$text = '<select class="cms_dropdown" id="' . $id . $name . '" name="' . $id . $name . '"'. ($addtext != '' ? ' ' . $addtext : '') . '>';
-				
-		if (is_array($items) && count($items) > 0) {
-			foreach ($items as $key => $value) {
-				$text .= '<option value="' . $key . '"' . ($selected == $key ? ' ' . 'selected="selected"' : '') . '>' . $value . '</option>';
-			}
-		}
-
-		return $text . '</select>' . "\n";
-	}
-	
-	function CreateLinkOwn($id, $action, $returnid='', $contents='', $params=array(), $warn_message='', $onlyhref=false, $inline=false, $addttext='', $targetcontentonly=false, $prettyurl='') {
-		$params['haction'] = $action;
+	function CreateHandlerLink($id, $action, $returnid='', $contents='', $params=array(), $warn_message='', $onlyhref=false, $inline=false, $addttext='', $targetcontentonly=false, $prettyurl='') {
+		$params['_action'] = $action;
 		$action = 'actionhandler';
 		return parent::CreateLink($id, $action, $returnid, $contents, $params, $warn_message, $onlyhref, $inline, $addttext, $targetcontentonly, $prettyurl);
 	}
@@ -243,14 +247,13 @@ class DlM extends CMSModule
 		$count = count($dbtree);
 		
 		if($count > 1) {
-			$root =& reset($dbtree);
+			$root = reset($dbtree);
 			$last_right = $root['dl_right'];
 			$parent_right = $last_right;
 			
 			$root_level = $root['dl_level'];
 			
-			while ($row =& next($dbtree)) {
-				$row['dl_id'] = key($dbtree);
+			while ($row = next($dbtree)) {
 				if($row['dl_id'] != $node){
 					if($skipuntil === false || $row['dl_left'] > $skipuntil) {
 						$skipuntil = ($row['expand'] == 0) ? $row['dl_right'] : false;
@@ -277,11 +280,11 @@ class DlM extends CMSModule
 								
 						$expand = ($row['expand'] == 0) ? 'expand' : 'contract';
 						
-						$onerow->expandlink = ($children > 0) ? $this->CreateLinkOwn($id, 'expand', $returnid, $this->theme->DisplayImage("icons/system/".$expand.".gif", lang($expand),'','','systemicon'), array('item_id' => $key, 'indent' => $indent, 'return' => $return, 'expand' => (($expand == 'expand') ? '1' : '0')), '', false, false, 'class="expand"') : false;
-						$onerow->activatelink = $this->CreateLinkOwn($id, 'activate', $returnid, ($row['active'] == 1) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('deactivate'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('activate'),'','','systemicon'), array('item_id'=>$key, 'return' => $return), '', false, false, 'class="activate"');
+						$onerow->expandlink = ($children > 0) ? $this->CreateHandlerLink($id, 'expand', $returnid, $this->theme->DisplayImage("icons/system/".$expand.".gif", lang($expand),'','','systemicon'), array('item_id' => $key, 'indent' => $indent, 'return' => $return, 'expand' => (($expand == 'expand') ? '1' : '0')), '', false, false, 'class="expand"') : false;
+						$onerow->activatelink = $this->CreateHandlerLink($id, 'activate', $returnid, ($row['active'] == 1) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('deactivate'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('activate'),'','','systemicon'), array('item_id'=>$key, 'return' => $return), '', false, false, 'class="activate"');
 
 						$onerow->editlink = $this->CreateLink($id, 'edit_'.$typetext, $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_'.$typetext),'','','systemicon'), array('item_id'=>$key, 'return' => $return));
-						$onerow->deletelink = $this->CreateLinkOwn($id, 'delete', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_item'),'','','systemicon'), array('item_id' => $key, 'return' => $return), ''/*$this->Lang('areyousure_item')*/, false, false, 'class="delete"');
+						$onerow->deletelink = $this->CreateHandlerLink($id, 'delete', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_item'),'','','systemicon'), array('item_id' => $key, 'return' => $return), ''/*$this->Lang('areyousure_item')*/, false, false, 'class="delete"');
 
 						if ($oldlevel < $level) {
 							$parent_right = $last_right;
@@ -295,18 +298,18 @@ class DlM extends CMSModule
 								
 						$itemcount = count($items);
 						
-						$nextlevel =& next($dbtree);
+						$nextlevel = next($dbtree);
 						$nextlevel = $nextlevel['dl_level'];
 						prev($dbtree);
 						
 						if ($itemcount < $count-2 && ($nextlevel === $level || ($nextlevel >= $level && ($row['dl_right'] < $parent_right-1)))) {
-							$onerow->downlink = $this->CreateLinkOwn($id, 'move', $returnid, $this->theme->DisplayImage('icons/system/arrow-d.gif', lang('down'),'','','systemicon'), array('item_id' => $key, 'direction'=>'down', 'return' => $return), '', false, false, 'class="movelink" rel="down"');
+							$onerow->downlink = $this->CreateHandlerLink($id, 'move', $returnid, $this->theme->DisplayImage('icons/system/arrow-d.gif', lang('down'),'','','systemicon'), array('item_id' => $key, 'direction'=>'down', 'return' => $return), '', false, false, 'class="movelink" rel="down"');
 						} else {
 							$onerow->downlink = '';
 						}
 						
 						if($itemcount > 0 && ($oldlevel === $level || $oldlevel > $level)) {
-							$onerow->uplink = $this->CreateLinkOwn($id, 'move', $returnid, $this->theme->DisplayImage('icons/system/arrow-u.gif', lang('up'),'','','systemicon'), array('item_id' => $key, 'direction'=>'up', 'return' => $return), '', false, false, 'class="movelink"'.($onerow->downlink == '' ? ' style="margin-left: 20px"' : '').' rel="up"');
+							$onerow->uplink = $this->CreateHandlerLink($id, 'move', $returnid, $this->theme->DisplayImage('icons/system/arrow-u.gif', lang('up'),'','','systemicon'), array('item_id' => $key, 'direction'=>'up', 'return' => $return), '', false, false, 'class="movelink"'.($onerow->downlink == '' ? ' style="margin-left: 20px"' : '').' rel="up"');
 						} else {
 							$onerow->uplink = '';
 						}
@@ -330,18 +333,18 @@ class DlM extends CMSModule
 		$count = count($dbtree);	
 		
 		if($count > 1) {
-			$root =& reset($dbtree);
+			$root = reset($dbtree);
 			$root_level = $root['dl_level'];
 			
 			while ($row = next($dbtree)) {		
-				if(key($dbtree) != $node) { 				
+				if($row['dl_id'] != $node) { 				
 					if($skipuntil === false || $row['dl_left'] > $skipuntil) {		
 						$skipuntil = ($row['active'] == 0 || ($row['type'] == 0 && $row['downloads'] == 0)) ? $row['dl_right'] : false;
 						
 						if(($row['type'] == 1 && $row['dl_level'] == $root_level + 1) || ($row['type'] == 0 && $row['downloads'] > 0) && $skipuntil === false) {
 							$onerow = new stdClass();
 							
-							$key 	= key($dbtree);
+							$key 	= $row['dl_id'];
 							$name 	= $row['name'];
 							$level 	= $row['dl_level'];
 							$type 	= $row['type'];
@@ -367,9 +370,7 @@ class DlM extends CMSModule
 				}
 			}
 			return $items;
-		} else {
-			return false;
-		}		
+		} else return false;	
 	}
 	
 	function GetTreeInput($node, $ignore = false) {	
@@ -404,9 +405,9 @@ class DlM extends CMSModule
 		$title	= '';
 		$root = (int)$root_info[3];
 		
-		$firstrow =& $this->tree->NextRow();
+		$firstrow = $this->tree->NextRow();
 		if($firstrow !== false) {
-				while ($row =& $this->tree->NextRow()) {
+				while ($row = $this->tree->NextRow()) {
 				$key = (int)$row['dl_id'];
 				
 				if($key != 0) {
@@ -480,21 +481,19 @@ class DlM extends CMSModule
 		
 		if($result->NumRows() > 0) {
 			if($admin === true) {
-				while($row = $result->FetchRow()) {			
+				/*while($row = $result->FetchRow()) {			
 					#$row['editlink']	= $this->CreateLink($id, 'edit_mirror', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_mirror'),'','','systemicon'), array('item_id'=>$row['ID'], "return" => "edit_download,".$node));
-					#$row['deletelink']	= $this->CreateLinkOwn($id, 'delete_mirror', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_mirror'),'','','systemicon'), array('item_id' => $row['ID'], "return" => "edit_download,".$node), $this->Lang('areyousure_mirror'));
+					#$row['deletelink']	= $this->CreateHandlerLink($id, 'delete_mirror', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_mirror'),'','','systemicon'), array('item_id' => $row['ID'], "return" => "edit_download,".$node), $this->Lang('areyousure_mirror'));
 					$rows[] = $row;
-				}
+				}*/
+				$rows = $result->GetArray();
 			} else {
 				while($row = $result->FetchRow()) {	
 					$row['traffic'] = FormatFilesize((int)$size * (int)$row['downloads']);
 					$rows[$row['ID']] = $row;
 				}
-				//return $result->GetAssoc();	
 			}	
-		} else {
-			return false;
-		}	
+		} else return false;
 		
 		return $rows;
 	}

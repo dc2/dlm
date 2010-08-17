@@ -111,7 +111,7 @@
 			
 			if(isset($params['mirror_names']) && is_array($params['mirror_names'])) {
 				$i = 0;
-				while($mirror_name =& current($params['mirror_names']) && $mirror_url =& current($params['mirror_urls']) && $mirror_id =& current($params['mirror_ids'])) {					
+				while($mirror_name = current($params['mirror_names']) && $mirror_url = current($params['mirror_urls']) && $mirror_id = current($params['mirror_ids'])) {					
 					if(trim($mirror_name) != '') {
 						if(ValidateURL($mirror_url)) {
 							if($mirror_id == 'false') {

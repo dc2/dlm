@@ -13,15 +13,7 @@
 			var rootlevel = {$rootlevel} + 1;
 			var unselectChildren = -1;
 			
-			{literal}
-			/*
-			function clog() {
-				try {
-					console.log(arguments);
-				} catch(e) {}
-			}
-			*/
-			
+			{literal}			
 			function setupEvents($context) {
 				jQuery('a.expand', $context).unbind().click(ExpandItem);
 				jQuery('a.delete', $context).unbind().click(DeleteItem);
@@ -71,16 +63,16 @@
 				return $siblings.filter('.level'+level);
 			}*/
 			
+			/*
 			function getRealSiblings($row, filter, level) {				
 				var level = (typeof level != 'undefined') ? level : parseInt($row.attr('class').match(levelRegExp)[1]);
 				var $siblings = $row.nextUntil('tr.level'+(level-1)).filter('tr.level'+level).add($row.prevUntil('tr.level'+(level-1)).filter('tr.level'+level));
 				
 				if(typeof filter != 'undefined') {
 					return $siblings.filter(filter);
-				} else {
-					return $siblings;
-				}
+				} else return $siblings;
 			}
+			*/
 			
 			function RecolourRows(index) {
 				jQuery('#itemlist tr').removeClass('row1').addClass('row2').filter(':even').addClass('row1').removeClass('row2');
