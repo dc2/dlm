@@ -112,7 +112,7 @@
 			//$this->smarty->assign('view', $this->CreateLink('m03794', 'default', 247, $this->theme->DisplayImage('icons/system/view.gif', $this->Lang('view'),'','','systemicon'), array('item' => $item_id), '', false, true, '', false));
 
 			// now retrieve the tree of children
-			$items = $this->GetTreeAdmin($item_id, $id, $dbitem['dl_level'], $dbtree, "edit_category,$item_id");
+			$items = $this->GetTreeAdmin($item_id, $id, $dbitem['dl_level'], &$dbtree, "edit_category,$item_id");
 
 			$this->smarty->assign('rootlevel', $dbitem['dl_level']);
 
