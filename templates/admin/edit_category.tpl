@@ -1,5 +1,5 @@
 {$ajax_head}
-{$formstart}
+{$startform}
 <div id="dlmpage" style="margin-left:2%">
 {$hidden}
 	{if isset($headline)}
@@ -43,4 +43,4 @@
 	</div>
 	<div id="writeroot"></div>
 </div>	
-{$formend}
+{$endform}

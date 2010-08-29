@@ -1,10 +1,9 @@
-{$startform}
 <table class="pagetable" style="max-width: 800px; margin: 10px 20px 10px 15px">
 	<thead>
 		<tr>
 			<th>{$th_templates}</th>
 			<th style="width:10px">{$th_actions}</th>
-		</tr>	
+		</tr>
 	</thead>
 	<tbody>
 	{foreach from=$templates item=tpl}
@@ -13,6 +12,3 @@
 	{/foreach}
 	</tbody>
 </table>
-
-{*{$tplsubmit}*}
-{$endform}

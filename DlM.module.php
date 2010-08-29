@@ -497,5 +497,15 @@ class DlM extends CMSModule
 
 		return $rows;
 	}
+
+	/*function GetTemplate($tpl_name) {
+		$query = 'SELECT * FROM '.cms_db_prefix().'module_templates WHERE t = ?';
+		$result = $this->db->Execute($query, array((int)$item_id));
+
+		if($result->NumRows() > 0)
+			return $result->FetchRow();
+		else
+			return false;
+	}*/
 }
 ?>

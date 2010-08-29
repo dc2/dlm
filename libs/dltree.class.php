@@ -45,7 +45,6 @@ class dltree extends dbtree {
 		return $rows;
 	}
 
-
 	function GetItem($item_id, $fields = '*') {
 		$items = $this->GetItemsDB((int)$item_id, $fields, false, array('and' => array('dl_id = '.(int)$item_id)));
 		return reset($items);
@@ -89,7 +88,6 @@ class dltree extends dbtree {
 		return $right + 1;
 	}*/
 
-
 	function RecalcDownloadsAll($nodes, $info = NULL) {
 		$count = count($nodes);
 		for($i = 0; $i < $count; ++$i) {
@@ -128,7 +126,6 @@ class dltree extends dbtree {
 
 		return $this->db->Execute($query, array($info[0], $info[1]));
 	}
-
 
 	function InsertNode($node, $data, $condition = '') {
 		$data = array_merge(array('parent' => $node), $data);

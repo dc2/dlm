@@ -235,8 +235,8 @@
 		$this->smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel')));
 		$this->smarty->assign('temp', $this->CreateInputSubmit($id, 'temp', $this->Lang('savetemp')));
 
-		$this->smarty->assign('formstart', $this->CreateFormStart($id, 'edit_download', $returnid, 'post', 'multipart/form-data'));
-		$this->smarty->assign('formend', $this->CreateFormEnd());
+		$this->smarty->assign('startform', $this->CreateFormStart($id, 'edit_download', $returnid, 'post', 'multipart/form-data'));
+		$this->smarty->assign('endform', $this->CreateFormEnd());
 
 		$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'item_id', $item_id) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
 

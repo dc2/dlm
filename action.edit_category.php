@@ -26,9 +26,7 @@
 	$dbitem = reset($dbtree);
 
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		ob_start();
-	}
+	if(isset($params['ajax']) && $params['ajax'] === "true") {ob_start();}
 
 	if($dbitem != false) {
 		if($dbitem['type'] == 0) {
@@ -150,8 +148,8 @@
 
 			$this->smarty->assign('toggle', $this->Lang('toggle'));
 
-			$this->smarty->assign('formstart', $this->CreateFormStart($id, 'edit_category', $returnid));
-			$this->smarty->assign('formend', $this->CreateFormEnd());
+			$this->smarty->assign('startform', $this->CreateFormStart($id, 'edit_category', $returnid));
+			$this->smarty->assign('endform', $this->CreateFormEnd());
 
 			$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'item_id', $item_id) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
 
