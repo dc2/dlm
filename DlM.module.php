@@ -2,6 +2,8 @@
 
 #error_reporting(E_ALL|E_STRICT);
 
+define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
+
 class DlM extends CMSModule
 {
 	var $db;
@@ -102,6 +104,9 @@ class DlM extends CMSModule
 		$this->CreateParameter('item', 0, $this->Lang('help-item'));
 		$this->SetParameterType('item', CLEAN_INT);
 
+		$this->CreateParameter('tpl', 0, $this->Lang('tpl-item'));
+		$this->SetParameterType('tpl', CLEAN_STRING);
+
 		$this->CreateParameter('root', 0, $this->Lang('help-root'));
 		$this->SetParameterType('root', CLEAN_INT);
 
@@ -120,12 +125,12 @@ class DlM extends CMSModule
 		$this->SetParameterType('junk', CLEAN_STRING);
 	}
 
-	function GetEventDescription( $eventname )
+	function GetEventDescription($eventname)
 	{
 		return $this->lang('evd-' . $eventname);
 	}
 
-	function GetEventHelp( $eventname )
+	function GetEventHelp($eventname)
 	{
 		return $this->lang('evd-' . $eventname);
 	}
@@ -152,12 +157,23 @@ class DlM extends CMSModule
 		while ($tpl = $result->FetchRow()) {
 			$name = $this->CreateLink($id, 'edit_template', $returnid, $tpl['name'], array('tpl_name'=>$tpl['name'], 'return' => $return));
 			$edit = $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
-			$delete = $this->CreateHandlerLink($id, 'delete_template', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
+			$delete = $this->CreateHandlerLink($id, 'delete_template', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return),'', false,false, 'class="deletetpl"');
 
 			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name);
 		}
 
 		return $tpls;
+	}
+
+	function LoadTemplate($tpl, $separator = TPL_SEPARATOR){
+		$content = false;
+
+		if(strrpos($tpl, '.tpl') === 0 || $content = trim($this->GetTemplate($tpl)) == '') {
+			$file = $content !== false ? 'default.tpl' : $tpl;
+			$content = file_get_contents(cms_join_path(dirname(__FILE__), 'templates', $file));
+		}
+
+		return SplitTemplate($content, $separator);
 	}
 
 	function CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {

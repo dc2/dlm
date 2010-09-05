@@ -5,7 +5,8 @@
 	$this->smarty->assign('th_actions', $this->Lang('th_actions'));
 	$this->smarty->assign('th_templates', lang('templates'));
 
-	#$this->SetTemplate('test2', 'blubb');
+	$this->smarty->assign('areyousure_tpl', $this->Lang('areyousure_tpl'));
+
 	$this->smarty->assign('templates', $this->ListTemplates($id, $returnid));
 
 	echo $this->DisplayErrors();

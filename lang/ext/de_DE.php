@@ -43,6 +43,7 @@
 	$lang['error_delete']			= 'Beim Löschen der Datei ist ein Fehler aufgetreten. (Fehlercode 14)';
 	$lang['error_noname']			= 'Es wurde kein Name angegeben (Fehlercode 15)';
 	$lang['error_dbinsert']			= 'Beim Eintragen in die Datenbank ist ein Fehler aufgetreten. (Fehlercode 16)';
+	$lang['error_dublicatename']	= 'Dieser Name ist bereits vergeben, bitte wählen Sie einen anderen Namen aus. (Errorcode 17)';
 
 	$lang['error_notfound']			= 'Die angegebene Datei wurde nicht gefunden. (Fehlercode 404)';
 	$lang['error_forbidden']		= 'Ihr Browser hat einen unzulässiger Referer übertragen.<br />Direktlinks sind nicht gestattet. (Fehlercode 403)';
@@ -77,9 +78,10 @@
 	$lang['suborder']	= 'Unterordnen';
 
 	$lang['areyousure']	= 'Sind Sie sich sicher?';
-	$lang['areyousure_item'] = "Sind Sie sich sicher, dass Sie diesen Eintrag löschen wollen? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
-	$lang['areyousure_items'] = "Sind Sie sich sicher, dass Sie diese %num Einträge löschen wollen? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
-	$lang['areyousure_mirror']	= 'Wollen Sie diesen Mirror wirklich löschen?';
+	$lang['areyousure_item'] = "Sind Sie sich sicher, dass Sie diesen Eintrag löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
+	$lang['areyousure_items'] = "Sind Sie sich sicher, dass Sie diese %num Einträge löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
+	$lang['areyousure_mirror']	= 'Möchten Sie diesen Mirror wirklich löschen?';
+	$lang['areyousure_tpl']	= 'Möchten Sie dieses Template wirklich löschen?';
 
 	$lang['template']	= 'Template';
 
@@ -119,6 +121,9 @@
 	// - Templates tab - //
 	$lang['edit_template']	= 'Template bearbeiten';
 	$lang['delete_template']= 'Template löschen';
+	$lang['template_updated']= 'Template gespeichert.';
+	$lang['detail_tpl'] = 'Download-Details';
+	$lang['overview_tpl']= 'Downloads-Übersicht';
 
 	// add / edit / delete items //
 	$lang['name'] 		= 'Name';

@@ -17,17 +17,31 @@
 	if(isset($params['ajax']) && $params['ajax'] === "true") {ob_start();}
 
 	$tpl_name = urldecode($params['tpl_name']);
+	$old_name = $params['oldname'];
 
 	// update / save edit
-	if (isset($params['submit']) || isset($params['temp'])) {
-		$tpl_content = $params['tpl_content'];
+	if ((isset($params['submit']) || isset($params['temp'])) && trim($tpl_name) != '') {
+		$tpl_overview = $params['tpl_overview'];
+		$tpl_detail = $params['tpl_detail'];
+		$tpl_content = $tpl_overview . TPL_SEPARATOR . $tpl_detail;
 
-		$this->SetTemplate($tpl_name, $tpl_content);
-		#CMSModule::SetTemplate()
-		#$this->Audit($item_id, $item_name, 'DlM: Template edited');
-		#$this->SendEvent('TemplateEdited', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));
+		if($tpl_name != $old_name) {
+			$query = 'SELECT COUNT(template_name) AS cnt FROM '.cms_db_prefix().'module_templates WHERE module_name = ? AND MD5(template_name) = ?';
+			$result = $this->db->Execute($query, array('DlM', md5($tpl_name)));
+			$row = $result->FetchRow();
 
-		if(isset($params['submit'])) {
+			if($row['cnt'] == 0) {
+				$query = 'UPDATE '.cms_db_prefix().'module_templates SET template_name = ?, content = ? WHERE module_name = ? AND MD5(template_name) = ?';
+				$this->db->Execute($query, array($tpl_name, $tpl_content, 'DlM', md5($old_name)));
+			} else {
+				$this->errors[] = $this->Lang('error_dublicatename');
+				$tpl_name = $old_name;
+			}
+		} else {
+			$this->SetTemplate($tpl_name, $tpl_content);
+		}
+
+		if(isset($params['submit']) && count($this->errors) == 0 ) {
 			if($return === false) {
 				$params = array('tab_message' => 'template_updated', 'active_tab' => 'templates');
 				$this->Redirect($id, 'defaultadmin', '', $params);
@@ -49,9 +63,11 @@
 			}
 			exit;
 		}
+	} else {
+		$tpl_content  = SplitTemplate($this->GetTemplate($tpl_name));
+		$tpl_overview = $tpl_content[0];
+		$tpl_detail   = $tpl_content[1];
 	}
-
-	$tpl_content = $this->GetTemplate($tpl_name);
 
 	$this->smarty->assign('startform', $this->CreateFormStart($id, 'edit_template', $returnid, 'post', '', false, '', array('active_tab' => 'templates')));
 	$this->smarty->assign('endform', $this->CreateFormEnd());
@@ -60,8 +76,11 @@
 	$this->smarty->assign('name_text', $this->Lang('name'));
 	$this->smarty->assign('name_value', html_entity_decode($tpl_name, ENT_QUOTES, 'UTF-8'));
 
-	$this->smarty->assign('content_text', $this->Lang('content'));
-	$this->smarty->assign('content_value', htmlspecialchars($tpl_content));
+	$this->smarty->assign('overview_text', $this->Lang('overview_tpl'));
+	$this->smarty->assign('overview_value', htmlspecialchars($tpl_overview));
+
+	$this->smarty->assign('detail_text', $this->Lang('detail_tpl'));
+	$this->smarty->assign('detail_value', htmlspecialchars($tpl_detail));
 
 	$this->smarty->assign('headline', $this->Lang('edit_template'));
 
@@ -76,5 +95,4 @@
 	echo $this->ProcessTemplate('admin/common.js.tpl');
 	echo $this->ProcessTemplate('admin/ajax.tpl');
 	echo $this->ProcessTemplate('admin/edit_template.tpl');
-
 ?>

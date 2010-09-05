@@ -43,6 +43,7 @@
 	$lang['error_delete']			= 'An error occured while deleting the file. (Errorcode 14)';
 	$lang['error_noname']			= 'You didn\'t specify a name. (Errorcode 15)';
 	$lang['error_dbinsert']			= 'An error occured while writing to the database. (Errorcode 16)';
+	$lang['error_dublicatename']	= 'This name already exists, please select another name. (Errorcode 17)';
 
 	$lang['error_notfound']			= 'The file you specified yould not be found. (Errorcode 404)';
 	$lang['error_forbidden']		= 'Your Browser submitted and illegal referer.<br />Hotlinking is not allowed. (Errorcode 403)';
@@ -80,6 +81,7 @@
 	$lang['areyousure_item'] = 'Are you sure to delete this node? All children will be deleted, too!';
 	$lang['areyousure_items'] = 'Are you sure to delete this %num nodes? All children will be deleted, too!';
 	$lang['areyousure_mirror']	= 'Are you sure to delete this mirror?';
+	$lang['areyousure_tpl']	= 'Are you sure to delete this template?';
 
 	$lang['template']	= 'Template';
 
@@ -120,6 +122,9 @@
 	// - Templates tab - //
 	$lang['edit_template']	= 'Edit template';
 	$lang['delete_template']= 'Delete template';
+	$lang['template_updated']= 'Template saved.';
+	$lang['detail_tpl'] = 'Download Details';
+	$lang['overview_tpl']= 'Downloads Overview';
 
 	//$lang['welcome_text'] = '<p>Übersicht über ihre Kategorien:</p>';
 

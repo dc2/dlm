@@ -1,3 +1,28 @@
+<script type="text/javascript">
+<!--{literal}
+	jQuery(function() {
+		jQuery('a.deletetpl').unbind().click(DeleteTemplate);
+	});
+
+	function DeleteTemplate($dlink) {
+		$dlink = jQuery($dlink.currentTarget);
+		var href = $dlink.attr('href') + '&m1_ajax=true&suppressoutput=true';
+
+		if(confirm('{/literal}{$areyousure_tpl}{literal}') == true) {
+			jQuery.ajax({
+				url: href,
+				success: function(response) {
+					var $el = $dlink.parent().parent();
+					$el.fadeOut((effects > 1) ? 500 : 0);
+				}
+			});
+		}
+
+		return false;
+	}
+{/literal}-->
+</script>
+
 <table class="pagetable" style="max-width: 800px; margin: 10px 20px 10px 15px">
 	<thead>
 		<tr>
