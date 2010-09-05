@@ -9,6 +9,8 @@
 
 	$this->smarty->assign('templates', $this->ListTemplates($id, $returnid));
 
+	$this->smarty->assign('add_template', $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/newobject.gif', $this->Lang('add_template'),'','','systemicon').$this->Lang('add_template')));
+
 	echo $this->DisplayErrors();
 	echo $this->ProcessTemplate('admin/templates.tpl');
 ?>

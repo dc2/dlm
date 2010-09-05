@@ -119,6 +119,7 @@
 	$lang['js_effetcs_list'] = 'Keine;Einfach;Alle';
 
 	// - Templates tab - //
+	$lang['add_template']	= 'Template hinzufügen';
 	$lang['edit_template']	= 'Template bearbeiten';
 	$lang['delete_template']= 'Template löschen';
 	$lang['template_updated']= 'Template gespeichert.';

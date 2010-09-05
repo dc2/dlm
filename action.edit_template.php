@@ -25,7 +25,7 @@
 		$tpl_detail = $params['tpl_detail'];
 		$tpl_content = $tpl_overview . TPL_SEPARATOR . $tpl_detail;
 
-		if($tpl_name != $old_name) {
+		if($tpl_name != $old_name && $oldname != '') {
 			$query = 'SELECT COUNT(template_name) AS cnt FROM '.cms_db_prefix().'module_templates WHERE module_name = ? AND MD5(template_name) = ?';
 			$result = $this->db->Execute($query, array('DlM', md5($tpl_name)));
 			$row = $result->FetchRow();

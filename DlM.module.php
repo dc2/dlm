@@ -162,6 +162,8 @@ class DlM extends CMSModule
 			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name);
 		}
 
+		#todo: add templates from /templates to the list with import-option
+
 		return $tpls;
 	}
 
