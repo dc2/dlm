@@ -1,7 +1,7 @@
 <?php
 	if (!isset($gCms)) exit;
 
-	$template = $this->LoadTemplate($params['template']);
+	$template = $this->LoadTemplate($params['tpl']);
 
 	$root = isset($params['root']) ? (int) $params['root'] : 0;
 	$root_info = ($root !== false) ? array_merge($this->tree->GetNodeInfo($root), array($root)) : false;
