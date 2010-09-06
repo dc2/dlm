@@ -3,6 +3,7 @@
 #error_reporting(E_ALL|E_STRICT);
 
 define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
+#define(STD_TPL_SEPARATOR, 'stdtpl~;');
 
 class DlM extends CMSModule
 {
@@ -104,8 +105,8 @@ class DlM extends CMSModule
 		$this->CreateParameter('item', 0, $this->Lang('help-item'));
 		$this->SetParameterType('item', CLEAN_INT);
 
-		$this->CreateParameter('tpl', 0, $this->Lang('tpl-item'));
-		$this->SetParameterType('tpl', CLEAN_STRING);
+		$this->CreateParameter('template', 'default.tpl', $this->Lang('help-template'));
+		$this->SetParameterType('template', CLEAN_STRING);
 
 		$this->CreateParameter('root', 0, $this->Lang('help-root'));
 		$this->SetParameterType('root', CLEAN_INT);
@@ -147,9 +148,10 @@ class DlM extends CMSModule
 		return $this->Lang('really_uninstall');
 	}
 
-	/* overloaded functions */
+	# overloaded
 	function ListTemplates($id = false, $returnid = false, $return = false) {
 		$tpls = array();
+		$default_tpl = $this->GetDefaultTemplate();
 
 		$query = 'SELECT template_name AS name from '.cms_db_prefix().'module_templates WHERE module_name = ? ORDER BY template_name ASC';
 		$result = $this->db->Execute($query, array('DlM'));
@@ -159,25 +161,56 @@ class DlM extends CMSModule
 			$edit = $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
 			$delete = $this->CreateHandlerLink($id, 'delete_template', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return),'', false,false, 'class="deletetpl"');
 
-			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name);
+			$default = $this->CreateHandlerLink($id, 'default_template', $returnid, ($default_tpl == $tpl['name']) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return), '', false, false, 'class="defaulttpl"');
+
+			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name, 'default' => $default);
 		}
 
-		#todo: add templates from /templates to the list with import-option
+		$files = ListDir(cms_join_path(dirname(__FILE__), 'templates', ''), '.tpl');
+
+		foreach($files as $file) {
+			$import = $this->CreateLink($id, 'import_template', $returnid, $this->theme->DisplayImage('icons/system/import.gif', $this->Lang('import_template'),'','','systemicon'), array('tpl_name'=>$file, 'return' => $return));
+			$default = $this->CreateHandlerLink($id, 'default_template', $returnid, ($default_tpl == $file) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$file, 'return' => $return), '', false, false, 'class="defaulttpl"');
+
+			$tpls[] = array('import' => $import, 'name' => $file, 'default' => $default);
+		}
 
 		return $tpls;
 	}
 
-	function LoadTemplate($tpl, $separator = TPL_SEPARATOR){
-		$content = false;
+	function GetDefaultTemplate(){
+		$query = 'SELECT description FROM '.cms_db_prefix().'module_dlm_items WHERE dl_id = ?';
 
-		if(strrpos($tpl, '.tpl') === 0 || $content = trim($this->GetTemplate($tpl)) == '') {
-			$file = $content !== false ? 'default.tpl' : $tpl;
-			$content = file_get_contents(cms_join_path(dirname(__FILE__), 'templates', $file));
+		$result = $this->db->Execute($query, array(0));
+		$default_tpl = $result->FetchRow();
+
+		return $default_tpl['description'];
+	}
+
+	# overloaded
+	function GetTemplate($tpl){
+		if(substr($tpl, -4) != '.tpl')
+			$content = parent::GetTemplate($tpl);
+		else {
+			$content = file_get_contents(cms_join_path(dirname(__FILE__), 'templates', $tpl));
+		}
+
+		return $content;
+	}
+
+	function LoadTemplate($tpl, $separator = TPL_SEPARATOR){
+		$content = trim($this->GetTemplate($tpl));
+
+		if(strrpos($tpl, '.tpl') === 0 || $content === '') {
+			$file = ($content == '') ? $this->GetDefaultTemplate() : $tpl;
+			#$file .= (substr($file, -4) != '.tpl') ? '.tpl' : '';
+			$content = trim($this->GetTemplate($file));
 		}
 
 		return SplitTemplate($content, $separator);
 	}
 
+	# overloaded
 	function CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {
 		$text = '<select class="cms_dropdown" id="' . $id . $name . '" name="' . $id . $name . '"'. ($addtext != '' ? ' ' . $addtext : '') . '>';
 

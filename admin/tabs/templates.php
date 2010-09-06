@@ -1,8 +1,9 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Modify Templates')) exit;
+	if (!$this->CheckPermission('Manage Downloads') || !$this->CheckPermission('Modify Templates')) exit;
 
 	$this->smarty->assign('th_actions', $this->Lang('th_actions'));
+	$this->smarty->assign('th_default', $this->Lang('default'));
 	$this->smarty->assign('th_templates', lang('templates'));
 
 	$this->smarty->assign('areyousure_tpl', $this->Lang('areyousure_tpl'));

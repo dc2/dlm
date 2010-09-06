@@ -14,6 +14,7 @@
 	$lang['moddescription']	= 'Komfortabler und umfangreicher Download-Manager';
 
 	$lang['overview']	= 'Übersicht';
+	$lang['default']	= 'Standard';
 
 	$lang['accessdenied'] = 'Zugang verwehrt, bitte überprüfen Sie Ihre Berechtigungen.';
 	$lang['error']		= 'Fehler!';
@@ -44,6 +45,7 @@
 	$lang['error_noname']			= 'Es wurde kein Name angegeben (Fehlercode 15)';
 	$lang['error_dbinsert']			= 'Beim Eintragen in die Datenbank ist ein Fehler aufgetreten. (Fehlercode 16)';
 	$lang['error_dublicatename']	= 'Dieser Name ist bereits vergeben, bitte wählen Sie einen anderen Namen aus. (Errorcode 17)';
+	$lang['error_notplcontent']		= 'Dieses Template existiert nicht oder hat keinen Inhalt. (Errorcode 18)';
 
 	$lang['error_notfound']			= 'Die angegebene Datei wurde nicht gefunden. (Fehlercode 404)';
 	$lang['error_forbidden']		= 'Ihr Browser hat einen unzulässiger Referer übertragen.<br />Direktlinks sind nicht gestattet. (Fehlercode 403)';
@@ -120,6 +122,7 @@
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Template hinzufügen';
+	$lang['import_template']= 'Template importieren';
 	$lang['edit_template']	= 'Template bearbeiten';
 	$lang['delete_template']= 'Template löschen';
 	$lang['template_updated']= 'Template gespeichert.';

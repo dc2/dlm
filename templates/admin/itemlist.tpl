@@ -287,7 +287,7 @@
 
 							if(effects > 0) $newparent.css('display', 'none').fadeIn(500);
 						} else {
-							alert('FEHLER');
+							//alert('FEHLER');
 						}
 					}
 				});

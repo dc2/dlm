@@ -40,6 +40,10 @@
 			include('admin/actions/delete_template.php');
 		break;
 
+		case 'default_template':
+			include('admin/actions/default_template.php');
+		break;
+
 		default:
 			$this->Redirect($id, 'defaultadmin');
 		break;

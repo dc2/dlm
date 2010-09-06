@@ -14,6 +14,7 @@
 	$lang['moddescription']	= 'Comfortable und 	comprehensive Download-Manager';
 
 	$lang['overview']	= 'Overview';
+	$lang['default']	= 'Default';
 
 	$lang['accessdenied'] = 'Access denied, please check your Permissions.';
 	$lang['error']		= 'Error.';
@@ -121,6 +122,7 @@
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Add template';
+	$lang['import_template']= 'Import template';
 	$lang['edit_template']	= 'Edit template';
 	$lang['delete_template']= 'Delete template';
 	$lang['template_updated']= 'Template saved.';

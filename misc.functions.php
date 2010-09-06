@@ -131,6 +131,11 @@
 		return explode($separator, $tpl_content);
 	}
 
+	function ListDir($d,$x=''){
+		foreach(array_diff(scandir($d),array('.','..')) as $f)if(is_file($d.'/'.$f)&&(($x)?preg_match('/'.$x.'$/',$f):1))$l[]=$f;
+		return $l;
+	}
+
 	function DisplayImage($imageName, $alt='', $title='', $valign = 'middle', $class='', $style='') {
 		global $gCms;
 		$config =& $gCms->config;

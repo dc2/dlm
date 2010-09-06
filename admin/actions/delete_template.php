@@ -2,14 +2,6 @@
 	if (!isset($gCms)) exit;
 	if (!$this->CheckPermission('Manage Downloads') || !$this->CheckPermission('Modify Templates')) exit;
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		@ob_end_clean();@ob_end_clean();ob_start();
-	}
-
-	/*if(!$this->DeleteTemplate(urldecode($params['tpl_name']))) {
-		$this->errors[] = $this->Lang('error_dbinsert');
-	}*/
-
 	$this->DeleteTemplate(urldecode($params['tpl_name']));
 
 	if(!isset($params['ajax']) || $params['ajax'] != "true") {

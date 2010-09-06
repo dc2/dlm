@@ -2,14 +2,8 @@
 	if (!isset($gCms)) exit;
 	if (!$this->CheckPermission('Manage Downloads')) exit;
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		@ob_end_clean();@ob_end_clean();ob_start();
-	}
-
 	$item_id = isset($params['item_id']) ? $params['item_id'] : false;
-	if ($item_id === false) {
-		$this->Redirect($id, 'defaultadmin', $returnid);
-	}
+	if ($item_id === false) $this->Redirect($id, 'defaultadmin', $returnid);
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 
