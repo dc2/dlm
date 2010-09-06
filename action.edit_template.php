@@ -72,6 +72,10 @@
 		$tpl_detail   = $tpl_content[1];
 	}
 
+	if($params['tpl_import'] == true) {
+		$tpl_name = substr($tpl_name, 0, strlen($tpl_name) - 4);
+	}
+
 	$this->smarty->assign('startform', $this->CreateFormStart($id, 'edit_template', $returnid, 'post', '', false, '', array('active_tab' => 'templates')));
 	$this->smarty->assign('endform', $this->CreateFormEnd());
 	$this->smarty->assign('submit', $this->CreateFormEnd());

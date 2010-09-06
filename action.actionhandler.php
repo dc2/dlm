@@ -40,8 +40,8 @@
 			include('admin/actions/delete_template.php');
 		break;
 
-		case 'default_template':
-			include('admin/actions/default_template.php');
+		case 'set_default_template':
+			include('admin/actions/set_default_template.php');
 		break;
 
 		default:

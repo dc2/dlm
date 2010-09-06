@@ -161,7 +161,7 @@ class DlM extends CMSModule
 			$edit = $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return));
 			$delete = $this->CreateHandlerLink($id, 'delete_template', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_template'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return),'', false,false, 'class="deletetpl"');
 
-			$default = $this->CreateHandlerLink($id, 'default_template', $returnid, ($default_tpl == $tpl['name']) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return), '', false, false, 'class="defaulttpl"');
+			$default = $this->CreateHandlerLink($id, 'set_default_template', $returnid, ($default_tpl == $tpl['name']) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$tpl['name'], 'return' => $return), '', false, false, 'class="defaulttpl"');
 
 			$tpls[] = array('edit' => $edit, 'delete' => $delete, 'name' => $name, 'default' => $default);
 		}
@@ -169,8 +169,8 @@ class DlM extends CMSModule
 		$files = ListDir(cms_join_path(dirname(__FILE__), 'templates', ''), '.tpl');
 
 		foreach($files as $file) {
-			$import = $this->CreateLink($id, 'import_template', $returnid, $this->theme->DisplayImage('icons/system/import.gif', $this->Lang('import_template'),'','','systemicon'), array('tpl_name'=>$file, 'return' => $return));
-			$default = $this->CreateHandlerLink($id, 'default_template', $returnid, ($default_tpl == $file) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$file, 'return' => $return), '', false, false, 'class="defaulttpl"');
+			$import = $this->CreateLink($id, 'edit_template', $returnid, $this->theme->DisplayImage('icons/system/import.gif', $this->Lang('import_template'),'','','systemicon'), array('tpl_name'=>$file, 'tpl_import' => true, 'return' => $return));
+			$default = $this->CreateHandlerLink($id, 'set_default_template', $returnid, ($default_tpl == $file) ? $this->theme->DisplayImage('icons/system/true.gif', $this->Lang('default'),'','','systemicon') : $this->theme->DisplayImage('icons/system/false.gif', $this->Lang('default'),'','','systemicon'), array('tpl_name'=>$file, 'return' => $return), '', false, false, 'class="defaulttpl"');
 
 			$tpls[] = array('import' => $import, 'name' => $file, 'default' => $default);
 		}
