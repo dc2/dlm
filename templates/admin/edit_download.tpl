@@ -58,7 +58,7 @@
 	</div><br />
 	<div id="hideroot" style="display:none"></div>
 
-	<p class="pageinput">
+	<p>
 		<label for="m1_item_desc">{$desc_text}:</label>
 		<textarea rows="4" cols="50" name="m1_item_desc" id="m1_item_desc">{$desc_value}</textarea>
 	</p>

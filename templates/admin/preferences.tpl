@@ -17,6 +17,6 @@
 			<div>{$_returnid}</div>
 			<div>{$js_effects}</div>
 		</fieldset>
-		<p class="pageinput">{$prefsubmit}</p>
+		<p>{$prefsubmit}</p>
 	</div>
 {$endform}

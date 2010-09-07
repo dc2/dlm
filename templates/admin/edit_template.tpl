@@ -7,12 +7,12 @@
 		<input type="text" maxlength="255" size="60" value="{$name_value}" id="m1_tpl_name" name="m1_tpl_name" class="req" />
 	</p>
 
-	<p class="pageinput">
+	<p>
 		<label for="m1_tpl_overview">{$overview_text}:</label>
 		<textarea rows="4" cols="50" name="m1_tpl_overview" id="m1_tpl_overview">{$overview_value}</textarea>
 	</p><br />
 
-	<p class="pageinput">
+	<p>
 		<label for="m1_tpl_detail">{$detail_text}:</label>
 		<textarea rows="4" cols="50" name="m1_tpl_detail" id="m1_tpl_detail">{$detail_value}</textarea>
 	</p>
