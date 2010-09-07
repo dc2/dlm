@@ -203,7 +203,7 @@
 	$lang['help-showdesc'] = 'Soll die Beschreibung angezeigt werden?';
 	$lang['help-showmirror'] = 'Soll eine Mirror-Übersicht bei Downloads eingeblendet werden?';
 
-	/*$lang['changelog'] = '
+	$lang['changelog'] = '
 	<dl>
 		<dt>0.7</dt>
 		<dd>Templatebearbeitung im Admin-Panel</dd>
@@ -224,7 +224,7 @@
 
 		<dt>0.5b</dt>
 		<dd>erste Veröffentlichung von DlM</dd>
-	</dl>';*/
+	</dl>';
 	$lang['help'] = '
 
 	<h3>Was macht dieses Modul?</h3><p>Dieses Modul stellt einen umfangreichen und komfortabel zu bedienenden Download-Manager zur Verfügung.</p>
