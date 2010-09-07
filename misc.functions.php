@@ -170,9 +170,7 @@
 		#mirrors .right a{cursor:pointer;font-weight:bold;text-decoration:none}
 		#mirrors .right a:hover{color:#ff0000}
 
-		/*#dlmpage p{margin-bottom: 25px}*/
 		#dlmpage fieldset label{font-weight:normal}
-
 		#dlmpage input.error{border-color:#ff0000}
 		#dlmpage label {display: block;margin-bottom: 5px;font-weight:bold}
 		#dlmpage input ~ label {margin-top: 15px}
@@ -181,6 +179,9 @@
 
 		#dlmpage fieldset{margin-bottom:1em}
 		#dlmpage fieldset div{margin-bottom:1em}
+		dl{margin-left:15px}
+		dd{margin-left:15px}
+		dt{margin-top:10px}
 		'));
 	}
 ?>

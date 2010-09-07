@@ -180,7 +180,6 @@
 	$lang['items_deleted']	= 'Items successfully deleted.';
 	$lang['item_updated']	= 'Changes on item saved successfully.';
 
-
 	// -- Events - evd: event description -- //
 	$lang['evd-DownloadAdded']  = 'Send after a Download was added.';
 	$lang['evd-DownloadEdited']	= 'Send after a Download was edited.';
@@ -195,11 +194,11 @@
 	$lang['evd-ItemMoved']		= 'Send, after a node was moved.';
 	$lang['evd-ItemDeleted']	= 'Send, after a node was deleted.';
 
-
 	// -- Help -- //
 	$lang['help-item']	= 'ID of the node that should be shown. If it\'s a category an overview will be displayed. Otherwise there will be a detailpage for the download.';
 	$lang['help-root']	= 'ID of the root-node. If this parameter is specified, the path will be starting from <em>root</em>. (Nodes, that are not children of root can be display, but there will be no correct path).';
-	$lang['help-returnid']	= 'ID of the page DlM should be embedded in - standard can be set in the Preferences-Tab - only necessary for use with Pretty-URLs.';
+	$lang['help-template']	= 'Template that should be used. If the specified template is not found, the default-Template will be used. Please note that this parameter only takes effect, when you do <b>not</b> use Pretty-URLs.';
+	$lang['help-returnid']	= 'ID of the page DlM should be embedded in. Default value can be set in the Preferences-Tab. Only necessary for use with Pretty-URLs.';
 	$lang['help-dlmode']	= 'Internal Parameter. (controls if a download is downloaded from a mirror or the primary source).';
 	$lang['help-showpath']	= 'Should the path to the current node be shown?';
 	$lang['help-showdesc']	= 'Should the description be displayed?';
@@ -207,6 +206,12 @@
 
 	$lang['changelog'] = '
 	<dl>
+		<dt>0.7</dt>
+		<dd>Template editing on the ACP</dd>
+		<dd>new download obfuscating methods (e.g. pass file via PHP)</dd>
+		<dd>referer-filtering - you can now choose which referer should be allowed</dd>
+		<dd>some minor bugfixing</dd>
+
 		<dt>0.6</dt>
 		<dd>DlM can now be indexed and searched by search-module</dd>
 		<dd>reworked mirror-management</dd>

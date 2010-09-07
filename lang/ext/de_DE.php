@@ -193,16 +193,24 @@
 	$lang['evd-ItemMoved']		= 'Ausführen, nachdem ein Knoten verschoben wurde.';
 	$lang['evd-ItemDeleted']	= 'Ausführen, nachdem ein Knoten gelöscht wurde.';
 
-	// -- Module - Help -- //
+	// -- Help -- //
 	$lang['help-item'] = 'ID des Knotens, der angezeigt werden soll. Ist der Eintrag eine Typ Kategorie, so wird eine Übersicht angezeigt. Handelt es sich um einen Download, so wird die Detail-Seite angezeigt.';
 	$lang['help-root'] = 'ID des Ursprungsknotens. Ist dieser Parameter angegeben, wird der Pfad ausgehend von <em>root</em> angezeigt. (Knoten, die nicht unterhalb <em>root</em> liegen, können zwar auch angesehen werden, dort ist die Pfad-Anzeige allerdings fehlerhaft).';
+	$lang['help-template']	= 'Template, dass genutzt werden soll. Wenn das angegebene Template nicht vorhanden ist, wird das Standard-Template genutzt. Bitte beachten Sie, dass dieser Parameter nur dann Wirkung zeigt, wenn Pretty-URLs <b>nicht</b> genutzt werden.';
+	$lang['help-returnid']	= 'ID der Seite, auf der DlM eingebettet werden soll - der Standard-Wert kann im Einstellungen-Tab gesetzt werden. Dieser Parameter ist nur bei der Nutzung von Pretty-URLs nötig.';
 	$lang['help-dlmode'] = 'Interner Parameter. (Steuert, ob ein Download vom Mirror oder von der primären Quelle geladen wird).';
 	$lang['help-showpath'] = 'Soll der Pfad zum aktuellen Knoten angezeigt werden?';
 	$lang['help-showdesc'] = 'Soll die Beschreibung angezeigt werden?';
 	$lang['help-showmirror'] = 'Soll eine Mirror-Übersicht bei Downloads eingeblendet werden?';
 
-	$lang['changelog'] = '
+	/*$lang['changelog'] = '
 	<dl>
+		<dt>0.7</dt>
+		<dd>Templatebearbeitung im Admin-Panel</dd>
+		<dd>neue Verschleierungstechniken (unter anderem die Ausgabe durch PHP)</dd>
+		<dd>Referer-Filterung - es kann nun ausgewählt werden, welche Referer zulässig sind</dd>
+		<dd>kleinere Fehler behoben</dd>
+
 		<dt>0.6</dt>
 		<dd>DlM kann jetzt vom Suche-Modul indiziert und durchsucht werden</dd>
 		<dd>Mirror-Administration überarbeitet</dd>
@@ -216,7 +224,7 @@
 
 		<dt>0.5b</dt>
 		<dd>erste Veröffentlichung von DlM</dd>
-	</dl>';
+	</dl>';*/
 	$lang['help'] = '
 
 	<h3>Was macht dieses Modul?</h3><p>Dieses Modul stellt einen umfangreichen und komfortabel zu bedienenden Download-Manager zur Verfügung.</p>

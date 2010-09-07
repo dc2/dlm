@@ -1,9 +1,6 @@
 <?php
 
-#error_reporting(E_ALL|E_STRICT);
-
 define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
-#define(STD_TPL_SEPARATOR, 'stdtpl~;');
 
 class DlM extends CMSModule
 {
@@ -203,7 +200,6 @@ class DlM extends CMSModule
 
 		if(strrpos($tpl, '.tpl') === 0 || $content === '') {
 			$file = ($content == '') ? $this->GetDefaultTemplate() : $tpl;
-			#$file .= (substr($file, -4) != '.tpl') ? '.tpl' : '';
 			$content = trim($this->GetTemplate($file));
 		}
 
