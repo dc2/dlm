@@ -3,9 +3,10 @@
 		{capture assign="pagetitle"}{$pagetitle}{$path[1]}{$headline}{/capture}
 		{if strlen($path[0]) > 0}
 			<div style="margin-bottom: 15px; font-size: 0.75em"><strong>{$path_text}</strong>: {$path[0]}</div>
-		{/if}	
+		{/if}
 		<h3 style="margin-bottom: 5px">{$headline}</h3>
 		{if $itemcount > 0}
+			{if trim($description) != ''}<p class="description">{$description}</p>{/if}
 			<table cellspacing="1" class="default" style="margin: auto; width: 95%">
 				<thead>
 					<tr style="text-align:center">
@@ -45,7 +46,7 @@
 				<strong>{$path_text}</strong>: {$path[0]}
 			</div>
 		{/if}
-		
+
 		<h3>{$dl_name}</h3>
 		<a href="{$dl_link}" class="dlbutton" rel="nofollow"> <span>Download</span> </a>
 		<div style="margin-left: 10px; max-width: 400px">
@@ -60,7 +61,7 @@
 			</span>
 			<br style="clear: both" />
 		</div>
-		
+
 		{if $dl_mirrors !== false}
 			<div style="margin-top: 15px">
 				<h4>Verfügbare Downloadquellen</h4>
@@ -82,12 +83,12 @@
 						</tr>
 					{/foreach}
 					</tbody>
-					
+
 				</table>
 			</div>
 		{/if}
-		
-		
+
+
 		{if strlen($dl_description) > 0}
 			<br />
 			<h4 id="Beschreibung">{$dl_description_text}</h4>

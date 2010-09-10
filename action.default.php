@@ -25,6 +25,11 @@
 
 			$this->smarty->assign('th_name', $this->Lang('th_name'));
 			$this->smarty->assign('th_downloads', $this->Lang('downloads'));
+
+			if($item_id != 0 && (!isset($params['showdesc']) || $params['showdesc'] === true)) {
+				$this->smarty->assign('description', $dbitem['description']);
+				$this->smarty->assign('description_text',  $this->Lang('desc'));
+			}
 		} else {
 			$this->smarty->assign('itemcount', 0);
 			$this->smarty->assign('no_children', $this->Lang('no_children'));
