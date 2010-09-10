@@ -36,7 +36,7 @@ class DlM extends CMSModule
 	}
 
 	function GetVersion() {
-		return '0.7';
+		return '0.7.1';
 	}
 
 	function GetHelp() {
