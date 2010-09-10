@@ -5,11 +5,11 @@
 	$db =& $this->GetDb();
 
 	$this->RemovePermission('Manage Downloads');
-	$this->RemovePermission('Use DlM');
-	$this->RemovePermission('Set DlM Prefs');
+	$this->RemovePermission('Use DLM');
+	$this->RemovePermission('Set DLM Prefs');
 
-	$this->CreatePermission('Use DlM', 'Use DlM');
-	$this->CreatePermission('Set DlM Prefs', 'Set DlM Prefs');
+	$this->CreatePermission('Use DLM', 'Use DLM');
+	$this->CreatePermission('Set DLM Prefs', 'Set DLM Prefs');
 
 	if(version_compare($current_version, '0.7', '<')) {
 		$query = "UPDATE cms_module_dlm_items SET description = ? WHERE dl_id = ?";

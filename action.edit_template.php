@@ -20,7 +20,7 @@
 	$old_name = $params['oldname'];
 
 	#$query = 'SELECT template_name FROM '.cms_db_prefix().'module_templates WHERE module_name = ? AND SUBSTRING(template_name,1,?) = ?';
-	#$result = $this->db->Execute($query, array(STD_TPL_SEPARATOR, '', 'DlM', strlen(STD_TPL_SEPARATOR), STD_TPL_SEPARATOR));
+	#$result = $this->db->Execute($query, array(STD_TPL_SEPARATOR, '', 'DLM', strlen(STD_TPL_SEPARATOR), STD_TPL_SEPARATOR));
 
 	// update / save edit
 	if ((isset($params['submit']) || isset($params['temp'])) && trim($tpl_name) != '') {
@@ -30,12 +30,12 @@
 
 		if($tpl_name != $old_name && $oldname != '') {
 			$query = 'SELECT COUNT(template_name) AS cnt FROM '.cms_db_prefix().'module_templates WHERE module_name = ? AND MD5(template_name) = ?';
-			$result = $this->db->Execute($query, array('DlM', md5($tpl_name)));
+			$result = $this->db->Execute($query, array('DLM', md5($tpl_name)));
 			$row = $result->FetchRow();
 
 			if($row['cnt'] == 0) {
 				$query = 'UPDATE '.cms_db_prefix().'module_templates SET template_name = ?, content = ? WHERE module_name = ? AND MD5(template_name) = ?';
-				$this->db->Execute($query, array($tpl_name, $tpl_content, 'DlM', md5($old_name)));
+				$this->db->Execute($query, array($tpl_name, $tpl_content, 'DLM', md5($old_name)));
 			} else {
 				$this->errors[] = $this->Lang('error_dublicatename');
 				$tpl_name = $old_name;

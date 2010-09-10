@@ -1,13 +1,13 @@
 <?php
 	// -- Un- Installation / Upgrade -- //
-	$lang['postinstall']		= 'DlM erfolgreich installiert. Stellen Sie sicher, dass /downloads/ und /tmp/downloads/ beschreibbar sind und die Berechtigungen "Use DlM" und "Set DlM Prefs" richtig gesetzt sind.';
-	$lang['installerror']		= 'Während der Installation von DlM sind Fehler aufgetreten, möglicherweise konnten die Verzeichnisse /downloads/ und /tmp/downloads/ nicht erstellt werden. Stellen Sie sicher, dass sie vorhanden und beschreibbar sind.';
-	$lang['postuninstall']		= 'DlM - Download Manager erfolgreich deinstalliert.';
-	$lang['really_uninstall']	= 'Wollen Sie das DlM Modul wirklich deinstallieren?';
+	$lang['postinstall']		= 'DLM erfolgreich installiert. Stellen Sie sicher, dass /downloads/ und /tmp/downloads/ beschreibbar sind und die Berechtigungen "Use DLM" und "Set DLM Prefs" richtig gesetzt sind.';
+	$lang['installerror']		= 'Während der Installation von DLM sind Fehler aufgetreten, möglicherweise konnten die Verzeichnisse /downloads/ und /tmp/downloads/ nicht erstellt werden. Stellen Sie sicher, dass sie vorhanden und beschreibbar sind.';
+	$lang['postuninstall']		= 'DLM - Download Manager erfolgreich deinstalliert.';
+	$lang['really_uninstall']	= 'Wollen Sie das DLM Modul wirklich deinstallieren?';
 
 	$lang['uninstalled']	= 'Modul deinstalliert';
-	$lang['installed']		= 'DlM Version %s installiert.';
-	$lang['upgraded'] 		= 'DlM auf Version %s aktualisiert.';
+	$lang['installed']		= 'DLM Version %s installiert.';
+	$lang['upgraded'] 		= 'DLM auf Version %s aktualisiert.';
 
 	// -- misc -- //
 	$lang['friendlyname']	= 'Download Manager';
@@ -111,7 +111,7 @@
 	$lang['extensions']	= 'Dateiendungen';
 	$lang['extensions_desc'] = 'Dateiendungen getrennt durch Semikolon <b>;</b> und <b>ohne</b> führenden Punkt (z.B. jpg;png;gif;zip)';
 
-	$lang['returnid_desc']	= '<strong>returnid</strong> (ID der Seite, in der DlM eingebunden werden soll (nur für die Nutzung mit Pretty-URLs - jeder andere Content auf der entsprechenden Seite wird überschrieben))';
+	$lang['returnid_desc']	= '<strong>returnid</strong> (ID der Seite, in der DLM eingebunden werden soll (nur für die Nutzung mit Pretty-URLs - jeder andere Content auf der entsprechenden Seite wird überschrieben))';
 	$lang['obfuscate_desc']	= '<strong>Verschleierung</strong> (Wie soll der Dateiname im /downloads/-Verzeichnis verschleiert werden, um Hotlinking zu unterbinden?)';
 	$lang['obfuscate_list']	= 'Keine Verschleierung;temporäre Kopie;Ausgabe via PHP';
 	$lang['referer_desc']	= '<strong>Referer-Filterung</strong> (welche Referer sollen zugelassen werden)';
@@ -197,7 +197,7 @@
 	$lang['help-item'] = 'ID des Knotens, der angezeigt werden soll. Ist der Eintrag eine Typ Kategorie, so wird eine Übersicht angezeigt. Handelt es sich um einen Download, so wird die Detail-Seite angezeigt.';
 	$lang['help-root'] = 'ID des Ursprungsknotens. Ist dieser Parameter angegeben, wird der Pfad ausgehend von <em>root</em> angezeigt. (Knoten, die nicht unterhalb <em>root</em> liegen, können zwar auch angesehen werden, dort ist die Pfad-Anzeige allerdings fehlerhaft).';
 	$lang['help-template']	= 'Template, dass genutzt werden soll. Wenn das angegebene Template nicht vorhanden ist, wird das Standard-Template genutzt. Bitte beachten Sie, dass dieser Parameter nur dann Wirkung zeigt, wenn Pretty-URLs <b>nicht</b> genutzt werden.';
-	$lang['help-returnid']	= 'ID der Seite, auf der DlM eingebettet werden soll - der Standard-Wert kann im Einstellungen-Tab gesetzt werden. Dieser Parameter ist nur bei der Nutzung von Pretty-URLs nötig.';
+	$lang['help-returnid']	= 'ID der Seite, auf der DLM eingebettet werden soll - der Standard-Wert kann im Einstellungen-Tab gesetzt werden. Dieser Parameter ist nur bei der Nutzung von Pretty-URLs nötig.';
 	$lang['help-dlmode'] = 'Interner Parameter. (Steuert, ob ein Download vom Mirror oder von der primären Quelle geladen wird).';
 	$lang['help-showpath'] = 'Soll der Pfad zum aktuellen Knoten angezeigt werden?';
 	$lang['help-showdesc'] = 'Soll die Beschreibung angezeigt werden?';
@@ -212,7 +212,7 @@
 		<dd>kleinere Fehler behoben</dd>
 
 		<dt>0.6</dt>
-		<dd>DlM kann jetzt vom Suche-Modul indiziert und durchsucht werden</dd>
+		<dd>DLM kann jetzt vom Suche-Modul indiziert und durchsucht werden</dd>
 		<dd>Mirror-Administration überarbeitet</dd>
 		<dd>einige kleine Fehler beseitigt</dd>
 
@@ -223,13 +223,13 @@
 		<dd>englische Übersetzung hinzugefügt</dd>
 
 		<dt>0.5b</dt>
-		<dd>erste Veröffentlichung von DlM</dd>
+		<dd>erste Veröffentlichung von DLM</dd>
 	</dl>';
 	$lang['help'] = '
 
 	<h3>Was macht dieses Modul?</h3><p>Dieses Modul stellt einen umfangreichen und komfortabel zu bedienenden Download-Manager zur Verfügung.</p>
-	<h3>Wie wird dieses Modul eingesetzt?</h3>DlM lässt sich per <pre style="display: inline">{cms_module module="DlM" <em>parameter</em>}</pre> einbinden. <strong>Wichtig:</strong> Bei der Nutzung von Pretty-URLs wird der sonstige Content auf der Seite überschrieben.
+	<h3>Wie wird dieses Modul eingesetzt?</h3>DLM lässt sich per <pre style="display: inline">{cms_module module="DLM" <em>parameter</em>}</pre> einbinden. <strong>Wichtig:</strong> Bei der Nutzung von Pretty-URLs wird der sonstige Content auf der Seite überschrieben.
 	<h3 style="color: #ff0000">Wichtig</h3>
-	<p><tt>/downloads/</tt> und <tt>/tmp/downloads/</tt> müssen existieren und beschreibbar sein (am besten chmod 0777) - ansonsten wird DlM nicht richtig funktionieren.</p>
+	<p><tt>/downloads/</tt> und <tt>/tmp/downloads/</tt> müssen existieren und beschreibbar sein (am besten chmod 0777) - ansonsten wird DLM nicht richtig funktionieren.</p>
 	';
 ?>

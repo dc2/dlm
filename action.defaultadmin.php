@@ -15,7 +15,7 @@
 	
 	echo $this->SetTabHeader('general', $this->Lang('title_general'), ('general' == $active_tab) ? true : false);	
 	
-	if ($this->CheckPermission('Edit DlM Prefs'))
+	if ($this->CheckPermission('Edit DLM Prefs'))
 		echo $this->SetTabHeader('prefs', $this->Lang('title_prefs'), ('prefs' == $active_tab) ? true : false);
 			
 	if($this->CheckPermission('Modify Templates'))
@@ -28,7 +28,7 @@
 	require(cms_join_path('admin', 'tabs', 'general.php'));
 	echo $this->EndTab();
 
-	if ($this->CheckPermission('Set DlM Prefs')) {
+	if ($this->CheckPermission('Set DLM Prefs')) {
 		echo $this->StartTab('prefs', $params);
 		require(cms_join_path('admin', 'tabs', 'preferences.php'));
 		echo $this->EndTab();

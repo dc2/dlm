@@ -13,7 +13,7 @@
 	if(isset($dbitem)) {
 		if($this->tree->DeleteBranch($item_id)) {
 			$tab_message = 'item_deleted';
-			$this->Audit($item_id, $dbitem['name'], 'DlM: ' . ($dbitem['type'] == 0 ? 'Category' : 'Download').' deleted');
+			$this->Audit($item_id, $dbitem['name'], 'DLM: ' . ($dbitem['type'] == 0 ? 'Category' : 'Download').' deleted');
 		} else {
 			$this->errors[] = $this->Lang('error_item_delete');
 		}

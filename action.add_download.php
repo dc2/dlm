@@ -77,7 +77,7 @@
 					$query = 'INSERT INTO '.cms_db_prefix().'module_dlm_downloads (dl_parent_id, location, size, downloads, created_date, modified_date) '."VALUES (?, ?, ?, 0, NOW(), NOW())";
 					$result = $this->db->Execute($query, array($node, $item_location, $item_filesize));
 
-					$this->Audit($node, $item_name, 'DlM: Download added');
+					$this->Audit($node, $item_name, 'DLM: Download added');
 					$this->SendEvent('DownloadAdded', array('dl_item' => array('id' => $node, 'name' => $item_name)));
 					$this->tree->UpdateDownloadCount($node);
 

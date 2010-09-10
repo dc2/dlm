@@ -37,8 +37,8 @@
 		// Init the tree-strcuture and create root-node
 		$this->tree->Clear(array('name' => 'root', 'parent' => -1, 'description' => 'default.tpl'));
 
-		$this->CreatePermission('Use DlM', 'Use DownloadManager (DlM)');
-		$this->CreatePermission('Set DlM Prefs', 'Set Download Manager Preferences and edit Templates');
+		$this->CreatePermission('Use DLM', 'Use DownloadManager (DLM)');
+		$this->CreatePermission('Set DLM Prefs', 'Set Download Manager Preferences and edit Templates');
 
 		$this->CreateEvent('DownloadAdded');
 		$this->CreateEvent('DownloadEdited');
@@ -57,7 +57,7 @@
 		$this->Audit(0, $this->Lang('friendlyname'), $this->Lang('installed', $this->GetVersion()));
 	} else {
 		#die($this->Lang('installerror'));
-		$tmp = 'An error occurred during the installation of DlM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable than retry.';//$this->Lang('installerror');
+		$tmp = 'An error occurred during the installation of DLM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable than retry.';//$this->Lang('installerror');
 		return $tmp;
 	}
 ?>

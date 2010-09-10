@@ -39,7 +39,7 @@ class dltree extends dbtree {
 
 			}
 		} else {
-			$rows = $this->res->GetArray();
+			$rows = $this->res->GetAssoc();
 		}
 
 		return $rows;

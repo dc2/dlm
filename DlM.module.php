@@ -2,7 +2,7 @@
 
 define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
 
-class DlM extends CMSModule
+class DLM extends CMSModule
 {
 	var $db;
 	var $tree;
@@ -16,7 +16,7 @@ class DlM extends CMSModule
 	var $blacklist = false;
 	var $whitelist = false;
 
-	function DlM() {
+	function DLM() {
 		parent::CMSModule();
 
 		$this->db =& $this->GetDb();
@@ -28,7 +28,7 @@ class DlM extends CMSModule
 	}
 
 	function GetName() {
-		return 'DlM';
+		return 'DLM';
 	}
 
 	function GetFriendlyName() {
@@ -36,7 +36,7 @@ class DlM extends CMSModule
 	}
 
 	function GetVersion() {
-		return '0.7.1';
+		return '0.8';
 	}
 
 	function GetHelp() {
@@ -76,7 +76,7 @@ class DlM extends CMSModule
 	}
 
 	function VisibleToAdminUser() {
-		return $this->CheckPermission('Use DlM');
+		return $this->CheckPermission('Use DLM');
 	}
 
 	function GetDependencies() {
@@ -151,7 +151,7 @@ class DlM extends CMSModule
 		$default_tpl = $this->GetDefaultTemplate();
 
 		$query = 'SELECT template_name AS name from '.cms_db_prefix().'module_templates WHERE module_name = ? ORDER BY template_name ASC';
-		$result = $this->db->Execute($query, array('DlM'));
+		$result = $this->db->Execute($query, array('DLM'));
 
 		while ($tpl = $result->FetchRow()) {
 			$name = $this->CreateLink($id, 'edit_template', $returnid, $tpl['name'], array('tpl_name'=>$tpl['name'], 'return' => $return));
@@ -282,7 +282,7 @@ class DlM extends CMSModule
 	}
 
 	function GetTreeAdmin($node, $id, $indent = 0, &$dbtree = NULL, $return = false) {
-		#$this->tree->RebuildTree(, 0, 1, true);
+		#$this->tree->RebuildTree(0, 1, true);
 		$items = array();
 		$oldlevel = 0;
 		$skipuntil = false;
@@ -290,7 +290,6 @@ class DlM extends CMSModule
 		$returnid = NULL;
 
 		$dbtree = $dbtree === NULL ? $this->tree->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'expand', 'active', 'parent', 'type', 'name')) : $dbtree;
-
 		$count = count($dbtree);
 
 		if($count > 1) {
@@ -301,14 +300,14 @@ class DlM extends CMSModule
 			$root_level = $root['dl_level'];
 
 			while ($row = next($dbtree)) {
-				if($row['dl_id'] != $node){
+				$key = key($dbtree);
+				if($key != $node){
 					if($skipuntil === false || $row['dl_left'] > $skipuntil) {
 						$skipuntil = ($row['expand'] == 0) ? $row['dl_right'] : false;
 
 						$onerow = new stdClass();
 						$parent_info =& $dbtree[$row['parent']];
 
-						$key 	= $row['dl_id'];
 						$value 	= $row['name'];
 						$level 	= $row['dl_level'];
 						$type 	= $row['type'];
@@ -384,14 +383,14 @@ class DlM extends CMSModule
 			$root_level = $root['dl_level'];
 
 			while ($row = next($dbtree)) {
-				if($row['dl_id'] != $node) {
+				$key = key($dbtree);
+				if($key != $node) {
 					if($skipuntil === false || $row['dl_left'] > $skipuntil) {
 						$skipuntil = ($row['active'] == 0 || ($row['type'] == 0 && $row['downloads'] == 0)) ? $row['dl_right'] : false;
 
 						if(($row['type'] == 1 && $row['dl_level'] == $root_level + 1) || ($row['type'] == 0 && $row['downloads'] > 0) && $skipuntil === false) {
 							$onerow = new stdClass();
 
-							$key 	= $row['dl_id'];
 							$name 	= $row['name'];
 							$level 	= $row['dl_level'];
 							$type 	= $row['type'];
@@ -454,7 +453,7 @@ class DlM extends CMSModule
 
 		$firstrow = $this->tree->NextRow();
 		if($firstrow !== false) {
-				while ($row = $this->tree->NextRow()) {
+			while ($row = $this->tree->NextRow()) {
 				$key = (int)$row['dl_id'];
 
 				if($key != 0) {

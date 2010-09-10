@@ -91,6 +91,7 @@
 			$item_location = count($this->errors) == 0 ? $item_location : false;
 
 			if ($item_name !== false && $item_parent !== false && strlen(trim($item_name)) > 0) {
+				#echo '   '.$dbitem['parent'].' ::: '.$item_parent;exit;
 				if($dbitem['parent'] != $item_parent) {
 					$this->tree->MoveNode($item_id, $item_parent, $dbitem['parent']);
 				}
@@ -102,7 +103,7 @@
 					$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET name=?, description=?, parent=?, type=? WHERE dl_id = ?';
 					$this->db->Execute($query, array($item_name, $item_desc, $item_parent, 1, $item_id));
 
-					$this->Audit($item_id, $item_name, 'DlM: Download edited');
+					$this->Audit($item_id, $item_name, 'DLM: Download edited');
 					$this->SendEvent('DownloadEdited', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));
 				}
 			} else {

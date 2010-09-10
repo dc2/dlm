@@ -1,6 +1,6 @@
 <?php	
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Set DlM Prefs')) exit;
+	if (!$this->CheckPermission('Set DLM Prefs')) exit;
 	
 	if(isset($params['prefsubmit'])) {
 		$obfuscate	= (int) $params['obfuscate'];

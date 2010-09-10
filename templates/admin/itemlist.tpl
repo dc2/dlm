@@ -1,6 +1,6 @@
 {capture assign="itemlist"}
 	{if $itemcount > 0}
-		{*<script src="../modules/DlM/libs/js/jquery.form.min.js" type="text/javascript"></script>*}
+		{*<script src="../modules/DLM/libs/js/jquery.form.min.js" type="text/javascript"></script>*}
 
 
 		<script type="text/javascript">

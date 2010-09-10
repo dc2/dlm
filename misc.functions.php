@@ -139,7 +139,7 @@
 	function DisplayImage($imageName, $alt='', $title='', $valign = 'middle', $class='', $style='') {
 		global $gCms;
 		$config =& $gCms->config;
-		$img = $config['root_url'] . '/modules/DlM/images/'. $imageName;
+		$img = $config['root_url'] . '/modules/DLM/images/'. $imageName;
 
 		$valign = ($valign === false) ? '' : 'vertical-align: '.$valign . ';';
 

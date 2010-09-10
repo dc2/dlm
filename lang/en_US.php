@@ -1,13 +1,13 @@
 <?php
 	// -- Un- Installation / Upgrade -- //
-	$lang['postinstall']		= 'DlM installed. Make sure /downloads/ and /tmp/downloads/ are writeable and the permissions "Use DlM" and "Set DlM Prefs" are set correctly.';
-	$lang['installerror']		= 'An error occurred during the installation of DlM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable.';
-	$lang['postuninstall']		= 'DlM - Download Manager uninstalled.';
-	$lang['really_uninstall']	= 'Do you really want to remove DlM?';
+	$lang['postinstall']		= 'DLM installed. Make sure /downloads/ and /tmp/downloads/ are writeable and the permissions "Use DLM" and "Set DLM Prefs" are set correctly.';
+	$lang['installerror']		= 'An error occurred during the installation of DLM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable.';
+	$lang['postuninstall']		= 'DLM - Download Manager uninstalled.';
+	$lang['really_uninstall']	= 'Do you really want to remove DLM?';
 
-	$lang['uninstalled']	= 'DlM uninstalled.';
-	$lang['installed']		= 'DlM version %s installed.';
-	$lang['upgraded'] 		= 'DlM upgraded to version %s.';
+	$lang['uninstalled']	= 'DLM uninstalled.';
+	$lang['installed']		= 'DLM version %s installed.';
+	$lang['upgraded'] 		= 'DLM upgraded to version %s.';
 
 	// -- misc -- //
 	$lang['friendlyname']	= 'Download Manager';
@@ -111,7 +111,7 @@
 	$lang['extensions']	= 'File extensions';
 	$lang['extensions_desc'] = 'File extensions - separated whith semicolon <b>;</b> and <b>without</b> leading dot (e.g. <tt>jpg;png;gif;zip</tt>)';
 
-	$lang['returnid_desc']	= '<strong>returnid</strong> (ID of the page, DlM should be displayed in (only for use with Pretty-URLs - overwrites all other content on the page))';
+	$lang['returnid_desc']	= '<strong>returnid</strong> (ID of the page, DLM should be displayed in (only for use with Pretty-URLs - overwrites all other content on the page))';
 	$lang['obfuscate_desc']	= '<strong>Obfuscation</strong> (how should the source file in /downloads/ be obfuscated to prevent hotlinking?)';
 	$lang['obfuscate_list']	= 'No obfuscation;temporary copy;Output via PHP';
 	$lang['referer_desc']	= '<strong>Referer-Filtering</strong> (Which referers should be allowed?)';
@@ -198,7 +198,7 @@
 	$lang['help-item']	= 'ID of the node that should be shown. If it\'s a category an overview will be displayed. Otherwise there will be a detailpage for the download.';
 	$lang['help-root']	= 'ID of the root-node. If this parameter is specified, the path will be starting from <em>root</em>. (Nodes, that are not children of root can be display, but there will be no correct path).';
 	$lang['help-template']	= 'Template that should be used. If the specified template is not found, the default-Template will be used. Please note that this parameter only takes effect, when you do <b>not</b> use Pretty-URLs.';
-	$lang['help-returnid']	= 'ID of the page DlM should be embedded in. Default value can be set in the Preferences-Tab. Only necessary for use with Pretty-URLs.';
+	$lang['help-returnid']	= 'ID of the page DLM should be embedded in. Default value can be set in the Preferences-Tab. Only necessary for use with Pretty-URLs.';
 	$lang['help-dlmode']	= 'Internal Parameter. (controls if a download is downloaded from a mirror or the primary source).';
 	$lang['help-showpath']	= 'Should the path to the current node be shown?';
 	$lang['help-showdesc']	= 'Should the description be displayed?';
@@ -213,7 +213,7 @@
 		<dd>some minor bugfixing</dd>
 
 		<dt>0.6</dt>
-		<dd>DlM can now be indexed and searched by search-module</dd>
+		<dd>DLM can now be indexed and searched by search-module</dd>
 		<dd>reworked mirror-management</dd>
 		<dd>some minor bugfixes</dd>
 
@@ -230,8 +230,8 @@
 	$lang['help'] = '
 
 	<h3 style="color: #ff0000">What is this Module for?</h3><p>This module provides a fully functional and easy to use Download-Manager with much possibilities.</p>
-	<h3>How to use it?</h3>DlM is embedded using <tt>{cms_module module="DlM" <em>parameter</em>}</tt>. <strong>Attention:</strong> If you use Pretty-URLs all other content on the page (specified by <em>returnid</em>) will be overwritten.<br />
+	<h3>How to use it?</h3>DLM is embedded using <tt>{cms_module module="DLM" <em>parameter</em>}</tt>. <strong>Attention:</strong> If you use Pretty-URLs all other content on the page (specified by <em>returnid</em>) will be overwritten.<br />
 	<h3>Important</h3>
-	<p><tt>/downloads/</tt> and <tt>/tmp/downloads/</tt> have to exist and be writable (best chmod 0777) - otherwise DlM will refuse to work.</p>
+	<p><tt>/downloads/</tt> and <tt>/tmp/downloads/</tt> have to exist and be writable (best chmod 0777) - otherwise DLM will refuse to work.</p>
 	';
 ?>

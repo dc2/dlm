@@ -49,7 +49,7 @@
 					$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET name=?, description=?, parent=?, type=? WHERE dl_id = ?';
 					$this->db->Execute($query, array($item_name, $item_desc, $item_parent, 0, $item_id));
 
-					$this->Audit($item_id, $item_name, 'DlM: Category edited');
+					$this->Audit($item_id, $item_name, 'DLM: Category edited');
 					$this->SendEvent('CategoryEdited', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));
 				} else {
 					$this->errors[] = $this->Lang('error_nocategoryname');
