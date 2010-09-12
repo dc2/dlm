@@ -1,9 +1,7 @@
 <?php
-
 define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
 
-class DLM extends CMSModule
-{
+class DLM extends CMSModule {
 	var $db;
 	var $tree;
 	var $theme;
@@ -36,7 +34,7 @@ class DLM extends CMSModule
 	}
 
 	function GetVersion() {
-		return '0.7.2';
+		return '0.7.3';
 	}
 
 	function GetHelp() {
@@ -491,13 +489,7 @@ class DLM extends CMSModule
 	}
 
 	function GetDownload($item_id) {
-		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_downloads WHERE dl_parent_id = ?';
-		$result = $this->db->Execute($query, array((int)$item_id));
-
-		if($result->NumRows() > 0)
-			return $result->FetchRow();
-		else
-			return false;
+		$this->tree->GetDownload($item_id);
 	}
 
 	/* Download-Counter (Frontend) */
@@ -527,11 +519,6 @@ class DLM extends CMSModule
 
 		if($result->NumRows() > 0) {
 			if($admin === true) {
-				/*while($row = $result->FetchRow()) {
-					#$row['editlink']	= $this->CreateLink($id, 'edit_mirror', $returnid, $this->theme->DisplayImage('icons/system/edit.gif', $this->Lang('edit_mirror'),'','','systemicon'), array('item_id'=>$row['ID'], "return" => "edit_download,".$node));
-					#$row['deletelink']	= $this->CreateHandlerLink($id, 'delete_mirror', $returnid, $this->theme->DisplayImage('icons/system/delete.gif', $this->Lang('delete_mirror'),'','','systemicon'), array('item_id' => $row['ID'], "return" => "edit_download,".$node), $this->Lang('areyousure_mirror'));
-					$rows[] = $row;
-				}*/
 				$rows = $result->GetArray();
 			} else {
 				while($row = $result->FetchRow()) {

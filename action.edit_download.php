@@ -91,7 +91,6 @@
 			$item_location = count($this->errors) == 0 ? $item_location : false;
 
 			if ($item_name !== false && $item_parent !== false && strlen(trim($item_name)) > 0) {
-				#echo '   '.$dbitem['parent'].' ::: '.$item_parent;exit;
 				if($dbitem['parent'] != $item_parent) {
 					$this->tree->MoveNode($item_id, $item_parent, $dbitem['parent']);
 				}

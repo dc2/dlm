@@ -140,6 +140,16 @@ class dltree extends dbtree {
 		$this->dlm->SendEvent('ItemMoved', array('dl_item' => array('id' => $node)));
 	}
 
+	function GetDownload($item_id) {
+		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_downloads WHERE dl_parent_id = ?';
+		$result = $this->db->Execute($query, array((int)$item_id));
+
+		if($result->NumRows() > 0)
+			return $result->FetchRow();
+		else
+			return false;
+	}
+
 	function DeleteDownload($item_id) {
 		$dl = $this->GetDownload($item_id);
 		if($dl !== false) {
@@ -162,7 +172,7 @@ class dltree extends dbtree {
 		if($result->NumRows() > 0) {
 			while($row = $result->FetchRow()) {
 				if($row['type'] == 1) {
-					DeleteDownload($row['dl_id']);
+					$this->DeleteDownload($row['dl_id']);
 					$condition .= ' dl_parent_id = ' . $row['dl_id'] . ' OR ';
 
 					$this->UpdateDownloadCount($row['dl_id'], '-');
@@ -181,7 +191,7 @@ class dltree extends dbtree {
 	}
 
 	function DeleteBranch($node) {
-		DeleteDownloads($node);
+		$this->DeleteDownloads($node);
 		$this->DeleteAll($node);
 
 		$this->dlm->SendEvent('ItemDeleted', array('dl_item' => array('id' => $node)));
@@ -189,6 +199,7 @@ class dltree extends dbtree {
 		return true;
 	}
 
+	/*
 	function GetChildren($node) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_items WHERE parent = ? ORDER BY dl_left ASC';
 		$result = $this->db->Execute($query, array($node));
@@ -209,6 +220,7 @@ class dltree extends dbtree {
 		$info = $this->GetParentInfo((int) $node);
 		return $info['dl_id'];
 	}
+	*/
 
 	/*
 	function DeleteItem($item_id) {
