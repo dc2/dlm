@@ -480,9 +480,9 @@
 				<br />
 				<input type="submit" style="margin: 5px 0pt 0pt" value="Absenden" id="m1_listsubmit" name="m1_listsubmit" {*onclick="submitItemlist();return false"*} />
 			</div>
-		</div><br />
+		</div><br /><br />
 	{else}
-		<h4>{$no_children}</h4><br />
+		<h4>{$no_children}</h4>
 	{/if}
 {/capture}
 

@@ -28,9 +28,11 @@
 			{$itemlist}
 		</div>
 	{/if}
+	{if $add_category != ''}
 	<div style="margin-left: 15px">
 		{$add_category}&nbsp;{$add_download}
 	</div><br /><br />
+	{/if}
 
 	<p>
 		<label for="m1_item_desc">{$desc_text}:</label>
