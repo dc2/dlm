@@ -35,8 +35,6 @@
 		$item_desc		= (isset($params['item_desc'])		? $params['item_desc']		: false);
 		$item_parent	= (isset($params['item_parent'])	? $params['item_parent']	: false);
 		$item_location	= (isset($params['item_location'])	? $params['item_location']	: false);
-		$mirror_name	= (isset($params['mirror_name'])	? $params['mirror_name']	: false);
-		$mirror_url		= (isset($params['mirror_url'])		? $params['mirror_url']		: false);
 
 		$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
@@ -110,28 +108,7 @@
 			}
 
 			if(isset($params['mirror_names']) && is_array($params['mirror_names'])) {
-				$i = 0;
-				foreach($params['mirror_names'] as $mirror_name) {
-					$mirror_url = current($params['mirror_urls']);
-					$mirror_id = current($params['mirror_ids']);
-
-					if(trim($mirror_name) != '') {
-						if(ValidateURL($mirror_url)) {
-							if($mirror_id == 'false') {
-								$query 	= 'INSERT INTO '.cms_db_prefix().'module_dlm_mirrors (dl_parent_id, position, name, location, downloads) VALUES (?, ?, ?, ?, 0)';
-								$this->db->Execute($query, array($item_id, ++$i, $mirror_name, $mirror_url));
-							} elseif(substr($mirror_id, 0, 6) == 'delete') {
-								$query 	= 'DELETE FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_mirror_id = ?';
-								$this->db->Execute($query, array((int)substr($mirror_id, 6)));
-							} else {
-								$query 	= 'UPDATE '.cms_db_prefix().'module_dlm_mirrors SET position = ?, name = ?, location = ? WHERE dl_mirror_id = ?';
-								$this->db->Execute($query, array(++$i, $mirror_name, $mirror_url, $mirror_id));
-							}
-						}# else $this->errors[] = $this->Lang('error_malformedurl');
-					}# else $this->errors[] = $this->Lang('error_noname');
-
-					next($params['mirror_urls']);next($params['mirror_ids']);next($params['mirror_names']);
-				}
+				$this->UpdateMirrors($item_id, $params['mirror_names'], $params['mirror_urls'], $params['mirror_ids']);
 			}
 
 			if(isset($params['submit']) && count($this->errors) == 0) {

@@ -550,6 +550,31 @@ class DLM extends CMSModule {
 		return $rows;
 	}
 
+	function UpdateMirrors($node, $mirror_names, $mirror_urls, $mirror_ids){
+		$i = 0;
+		foreach($mirror_names as $mirror_name) {
+			$mirror_url = current($mirror_urls);
+			$mirror_id = current($mirror_ids);
+
+			if(trim($mirror_name) != '') {
+				if(ValidateURL($mirror_url)) {
+					if($mirror_id == 'false') {
+						$query 	= 'INSERT INTO '.cms_db_prefix().'module_dlm_mirrors (dl_parent_id, position, name, location, downloads) VALUES (?, ?, ?, ?, 0)';
+						$this->db->Execute($query, array($node, ++$i, $mirror_name, $mirror_url));
+					} elseif(substr($mirror_id, 0, 6) == 'delete') {
+						$query 	= 'DELETE FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_mirror_id = ?';
+						$this->db->Execute($query, array((int)substr($mirror_id, 6)));
+					} else {
+						$query 	= 'UPDATE '.cms_db_prefix().'module_dlm_mirrors SET position = ?, name = ?, location = ? WHERE dl_mirror_id = ?';
+						$this->db->Execute($query, array(++$i, $mirror_name, $mirror_url, $mirror_id));
+					}
+				}# else $this->errors[] = $this->Lang('error_malformedurl');
+			}# else $this->errors[] = $this->Lang('error_noname');
+
+			next($mirror_names);next($mirror_urls);next($mirror_ids);
+		}
+	}
+
 	/*function GetTemplate($tpl_name) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_templates WHERE t = ?';
 		$result = $this->db->Execute($query, array((int)$item_id));

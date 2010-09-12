@@ -72,27 +72,17 @@
 
 		if ($item_name !== false && strlen(trim($item_name)) > 0) {
 			if($item_location !== false && count($this->errors) == 0) {
-				$node = $this->tree->InsertNode($item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 1));
-				if($node !== false) {
+				$item_id = $this->tree->InsertNode($item_parent, array('name' => $item_name, 'description' => $item_desc, 'type' => 1));
+				if($item_id !== false) {
 					$query = 'INSERT INTO '.cms_db_prefix().'module_dlm_downloads (dl_parent_id, location, size, downloads, created_date, modified_date) '."VALUES (?, ?, ?, 0, NOW(), NOW())";
-					$result = $this->db->Execute($query, array($node, $item_location, $item_filesize));
+					$result = $this->db->Execute($query, array($item_id, $item_location, $item_filesize));
 
-					$this->Audit($node, $item_name, 'DLM: Download added');
-					$this->SendEvent('DownloadAdded', array('dl_item' => array('id' => $node, 'name' => $item_name)));
-					$this->tree->UpdateDownloadCount($node);
+					$this->Audit($item_id, $item_name, 'DLM: Download added');
+					$this->SendEvent('DownloadAdded', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));
+					$this->tree->UpdateDownloadCount($item_id);
 
 					if(isset($params['mirror_names']) && is_array($params['mirror_names'])) {
-						$newmirrors = array_combine($params['mirror_names'], $params['mirror_urls']);
-						$i = 0;
-
-						foreach($newmirrors as $name => $url) {
-							if(trim($name) != '') {
-								if(ValidateURL($mirror_url)) {
-									$query = 'INSERT INTO '.cms_db_prefix().'module_dlm_mirrors (dl_parent_id, position, name, location, downloads) VALUES (?, ?, ?, ?, 0)';
-									$this->db->Execute($query, array($node, ++$i, $name, $url));
-								}# else $this->errors[] = $this->Lang('error_malformedurl');
-							}# else $this->errors[] = $this->Lang('error_noname');
-						}
+						$this->UpdateMirrors($item_id, $params['mirror_names'], $params['mirror_urls'], $params['mirror_ids']);
 					}
 
 					if($return === false) {
@@ -175,12 +165,12 @@
 
 	$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
 
-	echo $this->CreateFormStart($id, 'add_download', $returnid, 'post', 'multipart/form-data');
+	$this->smarty->assign('startform', $this->CreateFormStart($id, 'add_download', $returnid, 'post', 'multipart/form-data'));
+	$this->smarty->assign('endform', $this->CreateFormEnd());
+
+	$this->smarty->assign('hidden', ($return !== false) ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : '');
 
 	echo $this->ProcessTemplate('admin/common.js.tpl');
 	echo $this->ProcessTemplate('admin/ajax.tpl');
 	echo $this->ProcessTemplate('admin/edit_download.tpl');
-
-	if($return !== false) echo $this->CreateInputHidden($id, 'return', implode(',', $return));
-	echo $this->CreateFormEnd();
 ?>
