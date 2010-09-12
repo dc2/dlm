@@ -7,7 +7,6 @@
 	clearstatcache();
 
 	if(((is_dir($dl_path) && (is_writable($dl_path) || chmod($dl_path, 0777))) || (!is_dir($dl_path) && mkdir($dl_path))) && ((is_dir($tmp_dir) && (is_writable($tmp_dir) || chmod($tmp_dir, 0777))) || (!is_dir($tmp_path) && mkdir($tmp_path)))) {
-	//if(false === true) {
 		$db =& $gCms->GetDb();
 
 		$taboptarray = array('mysql' => 'TYPE=MyISAM');
@@ -56,7 +55,6 @@
 
 		$this->Audit(0, $this->Lang('friendlyname'), $this->Lang('installed', $this->GetVersion()));
 	} else {
-		#die($this->Lang('installerror'));
 		$tmp = 'An error occurred during the installation of DLM. Possibly the folders /downloads/ and /tmp/downloads/ could not be created. Make sure they exist and are writable than retry.';//$this->Lang('installerror');
 		return $tmp;
 	}

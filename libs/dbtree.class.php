@@ -9,11 +9,11 @@
 * CLASS DESCRIPTION:
 * This class can be used to manipulate nested sets of database table
 * records that form an hierarchical tree.
-* 
+*
 * It provides means to initialize the record tree, insert record nodes
 * in specific tree positions, retrieve node and parent records, change
 * position of nodes and delete record nodes.
-* 
+*
 * It uses ANSI SQL statements and abstract DB libraryes, such as:
 * ADODB      Provides full functionality of the class: to make it
 *            work with many database types, support transactions,
@@ -23,10 +23,10 @@
 *            engine for dialogue with a database, it's emulate
 *            some ADODB functions (ATTENTION, class only shows variant
 *            of a spelling of the driver, use it only as example)
-* 
+*
 * The library works with support multilanguage interface of
 * technology GetText (GetText autodetection).
-* 
+*
 * This source file is part of the KFSITE Open Source Content
 * Management System.
 *
@@ -41,13 +41,13 @@
 *
 * The "GNU General Public License" (GPL) is available at
 * http://www.gnu.org/copyleft/gpl.html.
-* 
+*
 * CHANGELOG:
 *
 * v2.0
 *
 * [+] GetText autodetect added
-* 
+*
 * [+] DB libraries abstraction added
 */
 
@@ -56,7 +56,7 @@ class dbtree {
     * Detailed errors of a class (for the programmer and log-files)
     * array('error type (1 - fatal (write log), 2 - fatal (write log, send email)',
     * 'error info string', 'function', 'info 1', 'info 2').
-    * 
+    *
     * @var array
     */
     var $ERRORS = array();
@@ -64,21 +64,21 @@ class dbtree {
     /**
     * The information on a error for the user
     * array('string (error information)').
-    * 
+    *
     * @var array
     */
     var $ERRORS_MES = array();
 
     /**
     * Name of the table where tree is stored.
-    * 
+    *
     * @var string
     */
     var $table;
 
     /**
     * Unique number of node.
-    * 
+    *
     * @var bigint
     */
     var $table_id;
@@ -95,28 +95,28 @@ class dbtree {
 
     /**
     * Level of nesting.
-    * 
+    *
     * @var integer
     */
     var $table_level;
 
     /**
     * DB resource object.
-    * 
+    *
     * @var object
     */
     var $res;
 
     /**
     * Databse layer object.
-    * 
+    *
     * @var object
     */
     var $db;
 
     /**
     * The class constructor: initializes dbtree variables.
-    * 
+    *
     * @param string $table Name of the table
     * @param string $prefix A prefix for fields of the table(the example, mytree_id. 'mytree' is prefix)
     * @param object $db
@@ -124,14 +124,14 @@ class dbtree {
     */
 	function dbtree($table, $prefix, &$db) {
 		$this->db = &$db;
-		
+
 		$this->table = $table;
 		$this->table_id = $prefix . '_id';
 		$this->table_left = $prefix . '_left';
 		$this->table_right = $prefix . '_right';
 		$this->table_level = $prefix . '_level';
 		unset($prefix, $table);
-		
+
 		//define('DB_CACHE', true);
 		define('DB_CACHE', false);
 	}
@@ -139,7 +139,7 @@ class dbtree {
     /**
     * Sets initial parameters of a tree and creates root of tree
     * ATTENTION, all previous values in table are destroyed.
-    * 
+    *
     * @param array $data Contains parameters for additional fields of a tree (if is): 'filed name' => 'importance'
     * @return bool TRUE if successful, FALSE otherwise.
     */
@@ -239,7 +239,7 @@ class dbtree {
         }
         return $res->FetchRow();
     }
-		
+
 	function emulate_GetInsertSQL($data)
 	{
 		$keys = ''; $values = '';
@@ -251,12 +251,12 @@ class dbtree {
 				$values .= ', ';
 			}
 			$keys .= $key;
-			$values .= $this->db->qstr($value); 
+			$values .= $this->db->qstr($value);
 		}
-		
+
 		return 'INSERT INTO '.$this->table.' ('.$keys.') VALUES ('.$values.')';
 	}
-		
+
     /**
     * Add a new element in the tree to element with number $section_id.
     *
@@ -267,7 +267,7 @@ class dbtree {
     */
     function Insert($section_id, $condition = '', $data = array()) {
         $node_info = $this->GetNodeInfo($section_id);
-				
+
         if (FALSE === $node_info) {
             return FALSE;
         }
@@ -278,14 +278,14 @@ class dbtree {
         if (!empty($condition)) {
             $condition = $this->_PrepareCondition($condition);
         }
-		
+
         $sql = 'UPDATE ' . $this->table . ' SET '
         . $this->table_left . '=CASE WHEN ' . $this->table_left . '>' . $rightId . ' THEN ' . $this->table_left . '+2 ELSE ' . $this->table_left . ' END, '
         . $this->table_right . '=CASE WHEN ' . $this->table_right . '>=' . $rightId . ' THEN ' . $this->table_right . '+2 ELSE ' . $this->table_right . ' END '
         . 'WHERE ' . $this->table_right . '>=' . $rightId;
         $sql .= $condition;
         $this->db->StartTrans();
-        $res = $this->db->Execute($sql);	
+        $res = $this->db->Execute($sql);
         if (FALSE === $res) {
             $this->ERRORS[] = array(2, 'SQL query error.', __FILE__ . '::' . __CLASS__ . '::' . __FUNCTION__ . '::' . __LINE__, 'SQL QUERY: ' . $sql, 'SQL ERROR: ' . $this->db->ErrorMsg());
             $this->ERRORS_MES[] = extension_loaded('gettext') ? _('internal_error') : 'internal_error';
@@ -301,9 +301,9 @@ class dbtree {
             return FALSE;
         }
         $data[$this->table_id] = $this->db->GenID($this->table . '_seq', 2);
-				
+
         $sql = $this->emulate_GetInsertSQL($data);
-				
+
         if (!empty($sql)) {
             $res = $this->db->Execute($sql);
             if (FALSE === $res) {
@@ -361,7 +361,7 @@ class dbtree {
         }
         $data[$this->table_id] = $this->db->GenID($this->table . '_seq', 2);
         //$sql = $this->db->GetInsertSQL($res, $data);
-				$sql = $this->emulate_GetInsertSQL($data);
+		$sql = $this->emulate_GetInsertSQL($data);
         if (!empty($sql)) {
             $res = $this->db->Execute($sql);
             if (FALSE === $res) {
@@ -715,7 +715,7 @@ class dbtree {
             $this->ERRORS_MES[] = extension_loaded('gettext') ? _('internal_error') : 'internal_error';
             return FALSE;
         }
-		
+
         $this->res = $res;
         return TRUE;
     }

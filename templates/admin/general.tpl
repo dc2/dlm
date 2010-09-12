@@ -6,7 +6,7 @@
 	*}
 	<script src="../modules/DLM/libs/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 	{$itemlist}
-	<div class="pageoptions" style="margin: 40px 0 -10px 0">
+	<div class="pageoptions" style="margin: 25px 0 -10px 0">
 		{$add_category}&nbsp;{$add_download}&nbsp;{$expandall}&nbsp;{$contractall}
 	</div>
 {$endform}

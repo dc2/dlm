@@ -32,9 +32,9 @@
 			}
 		} else {
 			$this->smarty->assign('itemcount', 0);
-			$this->smarty->assign('no_children', $this->Lang('no_children'));
 		}
 
+		$this->smarty->assign('no_children', $this->Lang('no_children'));
 		echo $this->ProcessTemplateFromData($template[0]);
 	} elseif($dbitem['active'] == 1){
 		$download = $this->GetDownload($item_id);
@@ -54,7 +54,7 @@
 		$this->smarty->assign('dl_date', strftime('%d.%m.%Y', strtotime($download['created_date'])));
 		$this->smarty->assign('dl_link', $location);
 
-		$this->smarty->assign('dl_filename', $filename/*.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'*/);
+		$this->smarty->assign('dl_filename', $filename);
 		$this->smarty->assign('dl_fileext', $fileext);
 
 		if(!isset($params['showdesc']) || $params['showdesc'] === true) {

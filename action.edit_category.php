@@ -30,7 +30,6 @@
 
 	if($dbitem != false) {
 		if($dbitem['type'] == 0) {
-			// set all the params for update
 			$item_name = $dbitem['name'];
 			$item_desc = $dbitem['description'];
 			$item_parent = $dbitem['parent'];
@@ -39,7 +38,6 @@
 			$item_desc = (isset($params['item_desc']) ? $params['item_desc'] : $item_desc);
 			$item_parent = (isset($params['item_parent']) ? $params['item_parent'] : $item_parent);
 
-			// update / save edit
 			if (isset($params['submit']) || isset($params['temp'])) {
 				if ($item_name != '') {
 					if(($oldparent = $dbitem['parent']) != $item_parent) {
@@ -109,7 +107,7 @@
 
 			//$this->smarty->assign('view', $this->CreateLink('m03794', 'default', 247, $this->theme->DisplayImage('icons/system/view.gif', $this->Lang('view'),'','','systemicon'), array('item' => $item_id), '', false, true, '', false));
 
-			// now retrieve the tree of children
+			// retrieve the tree of children
 			$items = $this->GetTreeAdmin($item_id, $id, $dbitem['dl_level'], $dbtree, "edit_category,$item_id");
 
 			$this->smarty->assign('rootlevel', $dbitem['dl_level']);
@@ -121,7 +119,6 @@
 
 				$this->smarty->assign('node_children', $this->Lang('node_children'));
 				$this->smarty->assign('th_name', $this->Lang('th_name'));
-				#$this->smarty->assign('th_template', $this->Lang('template'));
 				$this->smarty->assign('th_type', $this->Lang('th_type'));
 				$this->smarty->assign('th_id', $this->Lang('th_id'));
 				$this->smarty->assign('th_active', $this->Lang('th_active'));

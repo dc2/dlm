@@ -19,10 +19,6 @@
 	$tpl_name = urldecode($params['tpl_name']);
 	$old_name = $params['oldname'];
 
-	#$query = 'SELECT template_name FROM '.cms_db_prefix().'module_templates WHERE module_name = ? AND SUBSTRING(template_name,1,?) = ?';
-	#$result = $this->db->Execute($query, array(STD_TPL_SEPARATOR, '', 'DLM', strlen(STD_TPL_SEPARATOR), STD_TPL_SEPARATOR));
-
-	// update / save edit
 	if ((isset($params['submit']) || isset($params['temp'])) && trim($tpl_name) != '') {
 		$tpl_overview = $params['tpl_overview'];
 		$tpl_detail = $params['tpl_detail'];
