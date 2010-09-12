@@ -11,7 +11,7 @@
 	$dbitem = $this->tree->GetItem($item_id);
 
 	if(isset($dbitem)) {
-		if($this->tree->DeleteBranch($item_id)) {
+		if($this->DeleteBranch($item_id)) {
 			$tab_message = 'item_deleted';
 			$this->Audit($item_id, $dbitem['name'], 'DLM: ' . ($dbitem['type'] == 0 ? 'Category' : 'Download').' deleted');
 		} else {

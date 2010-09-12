@@ -15,9 +15,9 @@
 		switch((int)$params['listaction']) {
 			case 0:	// delete
 				foreach($items as $key => $value) {
-					$this->Audit($key, $dbitem['name'], 'DLM: ' . 'Item (batch) deleted');
-					$this->SendEvent('ItemDeleted', array('dl_item' => array('id' => $item_id, 'name' => $item_name)));
-					if(!$this->tree->DeleteBranch($key))
+					$this->Audit($key, '', 'DLM: ' . 'Item (batch) deleted');
+					$this->SendEvent('ItemDeleted', array('dl_item' => array('id' => $key)));
+					if(!$this->DeleteBranch($key))
 						$error = true;
 				}
 

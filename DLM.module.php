@@ -1,5 +1,8 @@
 <?php
-define(TPL_SEPARATOR, '<!-- // :::TPL-SEPARATOR::: // -->');
+define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
+
+error_reporting(E_ALL|E_STRICT|E_NOTICE);
+#error_reporting(E_ALL);
 
 class DLM extends CMSModule {
 	var $db;
@@ -22,7 +25,7 @@ class DLM extends CMSModule {
 		require_once(cms_join_path(dirname(__FILE__), 'misc.functions.php'));
 		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));
 
-		$this->tree = new dltree($this, cms_db_prefix().$this->table, $this->prefix, $this->db);
+		$this->tree = new dltree(cms_db_prefix().$this->table, $this->prefix, $this->db);
 	}
 
 	function GetName() {
@@ -279,6 +282,22 @@ class DLM extends CMSModule {
 		$this->whitelist = trim(($this->whitelist !== false) ? $this->whitelist : $this->GetPreference('whitelist', false));
 	}
 
+	function MoveNode($node, $newparent, $oldparent, $condition = ''){
+		$this->tree->MoveAll($node, $newparent, $condition);
+		$this->tree->RecalcDownloadsAll(array($newparent, $oldparent));
+
+		$this->SendEvent('ItemMoved', array('dl_item' => array('id' => $node)));
+	}
+
+	function DeleteBranch($node) {
+		$this->tree->DeleteDownloads($node);
+		$this->tree->DeleteAll($node);
+
+		$this->SendEvent('ItemDeleted', array('dl_item' => array('id' => $node)));
+
+		return true;
+	}
+
 	function GetTreeAdmin($node, $id, $indent = 0, &$dbtree = NULL, $return = false) {
 		#$this->tree->RebuildTree(0, 1, true);
 		$items = array();
@@ -489,7 +508,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetDownload($item_id) {
-		$this->tree->GetDownload($item_id);
+		return $this->tree->GetDownload($item_id); // sourced out into dltree because it's needed there, too
 	}
 
 	/* Download-Counter (Frontend) */

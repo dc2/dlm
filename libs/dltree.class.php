@@ -3,10 +3,7 @@
 require_once('dbtree.class.php');
 
 class dltree extends dbtree {
-	var $dlm;
-
-	function dltree(&$dlm, $table, $prefix, &$db) {
-		$this->dlm =& $dlm;
+	function dltree($table, $prefix, &$db) {
 		parent::dbtree($table, $prefix, $db);
 	}
 
@@ -133,13 +130,6 @@ class dltree extends dbtree {
 		return $this->Insert($node, $condition, $data);
 	}
 
-	function MoveNode($node, $newparent, $oldparent, $condition = ''){
-		$this->MoveAll($node, $newparent, $condition);
-		$this->RecalcDownloadsAll(array($newparent, $oldparent));
-
-		$this->dlm->SendEvent('ItemMoved', array('dl_item' => array('id' => $node)));
-	}
-
 	function GetDownload($item_id) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_downloads WHERE dl_parent_id = ?';
 		$result = $this->db->Execute($query, array((int)$item_id));
@@ -190,16 +180,6 @@ class dltree extends dbtree {
 		} else return false;
 	}
 
-	function DeleteBranch($node) {
-		$this->DeleteDownloads($node);
-		$this->DeleteAll($node);
-
-		$this->dlm->SendEvent('ItemDeleted', array('dl_item' => array('id' => $node)));
-
-		return true;
-	}
-
-	/*
 	function GetChildren($node) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_items WHERE parent = ? ORDER BY dl_left ASC';
 		$result = $this->db->Execute($query, array($node));
@@ -220,7 +200,6 @@ class dltree extends dbtree {
 		$info = $this->GetParentInfo((int) $node);
 		return $info['dl_id'];
 	}
-	*/
 
 	/*
 	function DeleteItem($item_id) {

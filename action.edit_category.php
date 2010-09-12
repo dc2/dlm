@@ -41,7 +41,7 @@
 			if (isset($params['submit']) || isset($params['temp'])) {
 				if ($item_name != '') {
 					if(($oldparent = $dbitem['parent']) != $item_parent) {
-						$this->tree->MoveNode($item_id, $item_parent, $oldparent);
+						$this->MoveNode($item_id, $item_parent, $oldparent);
 					}
 
 					$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET name=?, description=?, parent=?, type=? WHERE dl_id = ?';
@@ -91,7 +91,7 @@
 			$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_category,$item_id"));
 
 			$this->smarty->assign('name_text', $this->Lang('name'));
-			$this->smarty->assign('name_value', html_entity_decode($item_name, ENT_QUOTES, 'UTF-8'));
+			$this->smarty->assign('name_value', htmlspecialchars($item_name));
 
 			$this->smarty->assign('parent_text', $this->Lang('parent_category'));
 			$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));

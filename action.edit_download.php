@@ -16,9 +16,9 @@
 		}
 	}
 
-	$item_id = isset($params['item_id']) ? $params['item_id'] : '';
+	$item_id = isset($params['item_id']) ? (int)$params['item_id'] : false;
 
-	if ($item_id == '') {
+	if ($item_id === false) {
 		$this->Redirect($id, 'defaultadmin', $returnid);
 	}
 
@@ -92,7 +92,7 @@
 
 			if ($item_name !== false && $item_parent !== false && strlen(trim($item_name)) > 0) {
 				if($dbitem['parent'] != $item_parent) {
-					$this->tree->MoveNode($item_id, $item_parent, $dbitem['parent']);
+					$this->MoveNode($item_id, $item_parent, $dbitem['parent']);
 				}
 
 				if($item_location != false) {
@@ -192,7 +192,7 @@
 		$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_download,$item_id"));
 
 		$this->smarty->assign('name_text', $this->Lang('name'));
-		$this->smarty->assign('name_value', html_entity_decode($item_name, ENT_QUOTES, 'UTF-8'));
+		$this->smarty->assign('name_value', htmlspecialchars($item_name));
 
 		$this->smarty->assign('filesize_text', $this->Lang('filesize'));
 		$this->smarty->assign('filesize_value', (int)$item_filesize);
