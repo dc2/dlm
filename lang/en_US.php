@@ -86,7 +86,6 @@
 
 	$lang['template']	= 'Template';
 
-
 	// -- Adminpanel -- //
 
 	// - Tabs - //
@@ -95,7 +94,7 @@
 	$lang['title_general'] = 'Overview';
 
 	// - General tab - //
-	$lang['no_children'] = 'No children.';
+	$lang['no_children'] = 'No items existing.';
 
 	$lang['th_name']	= 'Name';
 	$lang['th_type']	= 'Type';

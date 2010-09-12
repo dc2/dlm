@@ -95,7 +95,7 @@
 	$lang['title_general']		= 'Übersicht';
 
 	// - General tab - //
-	$lang['no_children'] = 'Es sind keine untergeordneten Einträge vorhanden.';
+	$lang['no_children'] = 'Es sind keine Einträge vorhanden.';
 
 	$lang['th_name'] = 'Name';
 	$lang['th_type'] = 'Typ';
