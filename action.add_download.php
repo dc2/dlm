@@ -23,52 +23,21 @@
 	$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
 	if (isset($params['submit'])) {
-
-		$dldir = cms_join_path(dirname(__FILE__), '..', '..', 'downloads', '');
-
-		if(!empty($_FILES[$id.'item_upload']['tmp_name'])) {
-			if(is_dir($dldir) && is_writable($dldir)) {
-				$tmp_name = $_FILES[$id.'item_upload']['tmp_name'];
-				$filename = $_FILES[$id.'item_upload']['name'];
-				$fileext = substr(strrchr($filename, '.'), 1);
-
-				$md5 = md5_file($tmp_name);
-				$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . '_' . md5($filename . $md5 . microtime()) . '.' . $fileext;
-				$item_filesize = $_FILES[$id.'item_upload']['size'];
-
-				if(ValidateExtension($this, $filename)) {
-					if(!file_exists($dldir . $new_filename)) {
-						if(!@move_uploaded_file($tmp_name, $dldir . $new_filename)) {
-							$this->errors[] = $this->Lang('error_upload');
-						} else {
-							$item_location = '$$'.$new_filename;
-						}
-					} else {
-						$time = microtime();
-						if(move_uploaded_file($tmp_name, $dldir . md5($time)) &&	unlink($dldir . md5($time))) {
-							$item_location = '$$'.$new_filename;
-						} else {
-							$this->errors[] = $this->Lang('error_filedelete');
-						}
-					}
-				} else {
-					$this->errors[] = $this->Lang('error_fileext');
-					$item_location = false;
-				}
-			} else {
-				$this->errors[] = $this->Lang('error_downloadsdir');
-			}
+		if($item_location = $this->UploadFile($id)) {
+			//
 		} elseif(!empty($params['item_location'])) {
-			if (!ValidateURL($item_location))  {
+			if (!ValidateURL($item_location)) {
 				$this->errors[] = $this->Lang('error_malformedurl');
-				$item_location = false;
 			} elseif(ValidateExtension($this, $item_location)) {
 				$item_location = str_replace($config['root_url'] . '/downloads/', '$$', $item_location);
 			} else {
 				$this->errors[] = $this->Lang('error_fileext');
-				$item_location = false;
 			}
+		} else {
+			$this->errors[] = $this->Lang('error_nofile');
 		}
+
+		$item_location = count($this->errors) == 0 ? $item_location : false;
 
 		if ($item_name !== false && strlen(trim($item_name)) > 0) {
 			if($item_location !== false && count($this->errors) == 0) {
@@ -128,7 +97,6 @@
 
 	if(empty($item_location)) {
 		$this->smarty->assign('upload_text', $this->Lang('upload'));
-
 		$this->smarty->assign('or', $this->Lang('or'));
 	} else {
 		$this->smarty->assign('edit_location', $this->CreateInputSubmit($id, 'edit_location', $this->Lang('edit_location')));
@@ -137,10 +105,10 @@
 	$this->LoadBwList();
 	if($this->whitelist != '') {
 		$this->smarty->assign('allowed_text', $this->Lang('allowed_extensions'));
-		$this->smarty->assign('allowed_list', '.'.str_replace(';', ', .', $this->whitelist/*substr($this->whitelist, strlen($this->whitelist)-2) == ';' ? $this->whitelist : substr($this->whitelist, 0, strlen($this->whitelist))*/));
+		$this->smarty->assign('allowed_list', '.'.str_replace(';', ', .', $this->whitelist));
 	} elseif($this->blacklist != '') {
 		$this->smarty->assign('forbidden_text', $this->Lang('forbidden_extensions'));
-		$this->smarty->assign('forbidden_list', '.'.str_replace(';', ', .', $this->blacklist/*substr($this->blacklist, strlen($this->blacklist)-2) == ';' ? $this->blacklist : substr($this->blacklist, 0, strlen($this->blacklist))*/));
+		$this->smarty->assign('forbidden_list', '.'.str_replace(';', ', .', $this->blacklist));
 	}
 
 	$this->smarty->assign('location_text', $this->Lang('location'));
@@ -161,14 +129,14 @@
 	$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));
 	$this->smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel')));
 
-	echo $this->DisplayErrors();
-
-	$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
-
 	$this->smarty->assign('startform', $this->CreateFormStart($id, 'add_download', $returnid, 'post', 'multipart/form-data'));
 	$this->smarty->assign('endform', $this->CreateFormEnd());
 
 	$this->smarty->assign('hidden', ($return !== false) ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : '');
+
+	$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
+
+	echo $this->DisplayErrors();
 
 	echo $this->ProcessTemplate('admin/common.js.tpl');
 	echo $this->ProcessTemplate('admin/ajax.tpl');

@@ -511,6 +511,38 @@ class DLM extends CMSModule {
 		return $this->tree->GetDownload($item_id); // sourced out into dltree because it's needed there, too
 	}
 
+	function UploadFile($id){
+		if(!empty($_FILES[$id.'item_upload']['tmp_name']) && $_FILES[$id.'item_upload']['error'] == 0 && $_FILES[$id.'item_upload']['size'] > 0) {
+			$dldir = cms_join_path(dirname(__FILE__), '..', '..', 'downloads', '');
+
+			if(is_dir($dldir) && is_writable($dldir)) {
+				$tmp_name = $_FILES[$id.'item_upload']['tmp_name'];
+				$filename = $_FILES[$id.'item_upload']['name'];
+				$fileext = substr(strrchr($filename, '.'), 1);
+
+				$md5 = md5_file($tmp_name);
+				$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . '_' . md5($filename . $md5) . '.' . $fileext;
+				$item_filesize = $_FILES[$id.'item_upload']['size'];
+
+				if(ValidateExtension($this, $filename)) {
+					if(!file_exists($dldir . $new_filename)) {
+						if(!@move_uploaded_file($tmp_name, $dldir . $new_filename)) {
+							$this->errors[] = $this->Lang('error_upload');
+						} else {
+							return '$$'.$new_filename;
+						}
+					} else {/* same file already exists - don't do anything */}
+				} else {
+					$this->errors[] = $this->Lang('error_fileext');
+				}
+			} else {
+				$this->errors[] = $this->Lang('error_downloadsdir');
+			}
+
+			return false;
+		} else return false;
+	}
+
 	/* Download-Counter (Frontend) */
 	function DownloadCounter($item_id, $mirror_id = false) {
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_downloads SET downloads = downloads + 1 WHERE dl_parent_id = ?';

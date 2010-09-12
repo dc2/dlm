@@ -2,9 +2,8 @@
 	if (!isset($gCms)) exit;
 	if (!$this->CheckPermission('Manage Downloads')) exit;
 
-	$this->theme =& $gCms->variables['admintheme'];
-
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
+	$this->theme =& $gCms->variables['admintheme'];
 
 	if (isset($params['cancel'])) {
 		if($return === false) {
@@ -39,40 +38,8 @@
 		$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
 		if (isset($params['submit']) || isset($params['temp']) || (isset($params['temp_2']) && $params['temp_2'] == 'true')) {
-			if(!empty($_FILES[$id.'item_upload']['tmp_name']) && $_FILES[$id.'item_upload']['error'] == 0 && $_FILES[$id.'item_upload']['size'] > 0) {
-				$dldir = cms_join_path(dirname(__FILE__), '..', '..', 'downloads', '');
-
-				if(is_dir($dldir) && is_writable($dldir)) {
-					$tmp_name = $_FILES[$id.'item_upload']['tmp_name'];
-					$filename = $_FILES[$id.'item_upload']['name'];
-					$fileext = substr(strrchr($filename, '.'), 1);
-
-					$md5 = md5_file($tmp_name);
-					$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . '_' . md5($filename . $md5 . $item_id) . '.' . $fileext;
-					$item_filesize = $_FILES[$id.'item_upload']['size'];
-
-					if(ValidateExtension($this, $filename)) {
-						if(!file_exists($dldir . $new_filename)) {
-							if(!move_uploaded_file($tmp_name, $dldir . $new_filename)) {
-								$this->errors[] = $this->Lang('error_upload');
-							} else {
-								$item_location = '$$'.$new_filename;
-							}
-						} else {
-							$time = microtime();
-							if(move_uploaded_file($tmp_name, $dldir . md5($time)) &&	unlink($dldir . md5($time))) {
-								$item_location = '$$'.$new_filename;
-							} else {
-								$this->errors[] = $this->Lang('error_filedelete');
-							}
-						}
-					} else {
-						$this->errors[] = $this->Lang('error_fileext');
-						$item_location = false;
-					}
-				} else {
-					$this->errors[] = $this->Lang('error_downloadsdir');
-				}
+			if($item_location = $this->UploadFile($id)) {
+				//
 			} elseif(!empty($params['item_location'])) {
 				if (!ValidateURL($item_location)) {
 					$this->errors[] = $this->Lang('error_malformedurl');
@@ -80,7 +47,6 @@
 					$item_location = str_replace($config['root_url'] . '/downloads/', '$$', $item_location);
 				} else {
 					$this->errors[] = $this->Lang('error_fileext');
-					$item_location = false;
 				}
 			} else {
 				$this->errors[] = $this->Lang('error_nofile');
@@ -160,10 +126,6 @@
 			exit;
 		}
 
-		echo $this->DisplayErrors();
-
-		$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
-
 		$this->smarty->assign('headline', $this->Lang('edit_download'));
 		$this->smarty->assign('path_text', $this->Lang('path_text'));
 		$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_download,$item_id"));
@@ -176,7 +138,6 @@
 
 		if(empty($item_location)) {
 			$this->smarty->assign('upload_text', $this->Lang('upload'));
-
 			$this->smarty->assign('or', $this->Lang('or'));
 		} else {
 			$this->smarty->assign('edit_location', $this->CreateInputSubmit($id, 'edit_location', $this->Lang('edit_location')));
@@ -195,11 +156,11 @@
 		$this->smarty->assign('location_value', $item_location);
 
 		$this->smarty->assign('mirror_text', $this->Lang('mirror'));
-		#$this->smarty->assign('mirror_desc', $this->Lang('mirror_desc'));
 		$this->smarty->assign('mirror_name', $this->Lang('name'));
 		$this->smarty->assign('mirror_url', $this->Lang('url'));
 		$this->smarty->assign('add_mirror', $this->Lang('add_mirror'));
 		$this->smarty->assign('areyousure_mirror', $this->Lang('areyousure_mirror'));
+		$this->smarty->assign('toggle', $this->Lang('toggle'));
 
 		$this->smarty->assign('mirrors', $this->GetMirrors($item_id, $id, $returnid, true));
 
@@ -220,7 +181,9 @@
 
 		$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'item_id', $item_id) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
 
-		$this->smarty->assign('toggle', $this->Lang('toggle'));
+		$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
+
+		echo $this->DisplayErrors();
 
 		echo $this->ProcessTemplate('admin/common.js.tpl');
 		echo $this->ProcessTemplate('admin/ajax.tpl');
