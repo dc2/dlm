@@ -16,8 +16,8 @@
 
 	if(isset($params['ajax']) && $params['ajax'] === "true") {ob_start();}
 
-	$tpl_name = urldecode($params['tpl_name']);
-	$old_name = $params['oldname'];
+	$tpl_name = isset($params['tpl_name']) ? urldecode($params['tpl_name']) : '';
+	$old_name = isset($params['oldname']) ? $params['oldname'] : $tpl_name;
 
 	if ((isset($params['submit']) || isset($params['temp'])) && trim($tpl_name) != '') {
 		$tpl_overview = $params['tpl_overview'];
@@ -62,13 +62,15 @@
 			}
 			exit;
 		}
-	} else {
+	} elseif(trim($tpl_name) != ''){
 		$tpl_content  = SplitTemplate($this->GetTemplate($tpl_name));
 		$tpl_overview = $tpl_content[0];
 		$tpl_detail   = $tpl_content[1];
+	} else {
+		$tpl_overview = $tpl_detail = '';
 	}
 
-	if($params['tpl_import'] == true) {
+	if(isset($params['tpl_import']) && $params['tpl_import'] == true) {
 		$tpl_name = substr($tpl_name, 0, strlen($tpl_name) - 4);
 	}
 

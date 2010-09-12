@@ -32,6 +32,7 @@
 				var $imgs = $dlink.parent().parent().parent().find('a.defaulttpl img').not($dlink.children('img'));
 				$imgs.attr('src', str_replace('true.gif', 'false.gif', $dlink.children('img').attr('src')));
 				$dlink.children('img').attr('src', str_replace('false.gif', 'true.gif', $dlink.children('img').attr('src')));
+				RecolourRows('.pagetable');
 			}
 		});
 

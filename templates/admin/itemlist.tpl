@@ -74,10 +74,6 @@
 			}
 			*/
 
-			function RecolourRows(index) {
-				jQuery('#itemlist tr').removeClass('row1').addClass('row2').filter(':even').addClass('row1').removeClass('row2');
-			}
-
 			function onDelete($el, id, level) {
 				var $movelinks = $el.children('td.movelinks');
 
