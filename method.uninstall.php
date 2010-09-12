@@ -50,6 +50,19 @@
 	$this->RemovePermission('Use DLM');
 	$this->RemovePermission('Set DLM Prefs');
 
+	// remove siteprefs
+	$this->RemovePreference('js_effects');
+	$this->RemovePreference('returnid');
+	$this->RemovePreference('whitelist');
+	$this->RemovePreference('blacklist');
+	$this->RemovePreference('obfuscate');
+	$this->RemovePreference('referer');
+	$this->RemovePreference('allowed_referer');
+
+	// remove templates
+	$query = "DELETE FROM ".cms_db_prefix()."module_templates WHERE module_name = ?";
+	$db->Execute($query, array('DLM'));
+
 	// remove events
 	$this->RemoveEvent('DownloadAdded');
 	$this->RemoveEvent('DownloadEdited');

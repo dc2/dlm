@@ -12,7 +12,7 @@
 	$this->CreatePermission('Set DLM Prefs', 'Set DLM Prefs');
 
 	if(version_compare($current_version, '0.7', '<')) {
-		$query = "UPDATE cms_module_dlm_items SET description = ? WHERE dl_id = ?";
+		$query = "UPDATE ".cms_db_prefix()."module_dlm_items SET description = ? WHERE dl_id = ?";
 		$db->Execute($query, array('default.tpl', 0));
 	}
 
@@ -27,7 +27,7 @@
 			$dict->ExecuteSQLArray($sqlarray);
 		break;
 		default:
-			#ALTER TABLE `cms_module_dlm_items` CHANGE `type` `type` VARCHAR( 10 ) NOT NULL DEFAULT '0'
+			#$query = "ALTER TABLE `".cms_db_prefix()."module_dlm_items` CHANGE `type` `type` VARCHAR( 10 ) NOT NULL DEFAULT '0'";
 		break;
 	}
 
