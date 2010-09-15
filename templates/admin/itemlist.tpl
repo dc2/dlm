@@ -85,7 +85,6 @@
 					url: href,
 					type: 'POST',
 					success: function(response) {
-						//alert(response);
 						jQuery('#itemlist').html(response);
 						setupEvents('#itemlist');
 					}
