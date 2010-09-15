@@ -11,13 +11,14 @@
 	$result = $this->db->execute($query);
 	$popular_downloads = $result->GetArray();
 
-	/*for($downloads as $download) {
-
-	}*/
-
 	$query = 'SELECT i.dl_id, i.name, d.created_date AS date FROM '.cms_db_prefix().'module_dlm_downloads d, '.cms_db_prefix().'module_dlm_items i WHERE i.type = 1 AND i.dl_id = d.dl_parent_id ORDER BY d.created_date DESC LIMIT 15';
 	$result = $this->db->execute($query);
 	$new_downloads = $result->GetArray();
+
+	for($i = 0; $i < count($popular_downloads); $i++) {
+		$popular_downloads[$i]['link'] = $this->CreateLink($id, 'edit_download', $returnid, $popular_downloads[$i]['name'], array('item_id'=>$popular_downloads[$i]['dl_id']));
+		$new_downloads[$i]['link'] = $this->CreateLink($id, 'edit_download', $returnid, $new_downloads[$i]['name'], array('item_id'=>$new_downloads[$i]['dl_id']));
+	}
 
 	$this->smarty->assign('dlcnt', $dlcnt);
 	$this->smarty->assign_by_ref('popular_downloads', $popular_downloads);

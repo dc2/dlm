@@ -78,12 +78,7 @@
 				exit;
 			}
 
-			echo $this->DisplayErrors();
 
-			$this->smarty->assign('add_category', $this->CreateLink($id, 'add_category', $returnid, DisplayImage('category_new.png', $this->Lang('category'), $this->Lang('category')), array("return" => "edit_category,$item_id"), '', false, false, '') .' '. $this->CreateLink($id, 'add_category', $returnid, $this->Lang('add_category'), array("return" => "edit_category,$item_id"), '', false, false, 'class="pageoptions"'));
-			$this->smarty->assign('add_download', $this->CreateLink($id, 'add_download', $returnid, DisplayImage('download_new.png', $this->Lang('download'), $this->Lang('download')), array("return" => "edit_category,$item_id"), '', false, false, '') .' '. $this->CreateLink($id, 'add_download', $returnid, $this->Lang('add_download'), array("return" => "edit_category,$item_id"), '', false, false, 'class="pageoptions"'));
-
-			$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
 
 			// form
 			$this->smarty->assign('headline', $this->Lang('edit_category'));
@@ -143,12 +138,23 @@
 				$this->ProcessTemplate('admin/itemlist.tpl');
 			}
 
+			$this->smarty->assign('expandall', $this->CreateHandlerLink($id, 'expandall', $returnid, DisplayImage('expandall.png', $this->Lang('expandall'), $this->Lang('expandall')).$this->Lang('expandall'), array('item' => $item_id), '', false, false, 'id="expandall"'));
+			$this->smarty->assign('contractall', $this->CreateHandlerLink($id, 'contractall', $returnid, DisplayImage('contractall.png', $this->Lang('contractall'), $this->Lang('contractall')).$this->Lang('contractall'), array('item' => $item_id), '', false, false, 'id="contractall"'));
+
+			$this->smarty->assign('add_category', $this->CreateLink($id, 'add_category', $returnid, DisplayImage('category_new.png', $this->Lang('category'), $this->Lang('category')).' '.$this->Lang('add_category'), array("return" => "edit_category,$item_id"), '', false, false, ''));
+			$this->smarty->assign('add_download', $this->CreateLink($id, 'add_download', $returnid, DisplayImage('download_new.png', $this->Lang('download'), $this->Lang('download')).' '.$this->Lang('add_download'), array("return" => "edit_category,$item_id"), '', false, false, ''));
+
 			$this->smarty->assign('toggle', $this->Lang('toggle'));
 
 			$this->smarty->assign('startform', $this->CreateFormStart($id, 'edit_category', $returnid));
 			$this->smarty->assign('endform', $this->CreateFormEnd());
 
 			$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'item_id', $item_id) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
+
+			$this->smarty->assign('js_effects', $this->GetPreference('js_effects', 0));
+
+			echo $this->DisplayErrors();
+
 
 			echo $this->ProcessTemplate('admin/common.js.tpl');
 			echo $this->ProcessTemplate('admin/ajax.tpl');

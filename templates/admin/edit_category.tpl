@@ -30,7 +30,7 @@
 	{/if}
 	{if $add_category != ''}
 	<div style="margin-left: 15px">
-		{$add_category}&nbsp;{$add_download}
+		{$add_category}&nbsp;&nbsp;{$add_download}&nbsp;&nbsp;&nbsp;{$expandall}&nbsp;&nbsp;{$contractall}
 	</div><br /><br />
 	{/if}
 

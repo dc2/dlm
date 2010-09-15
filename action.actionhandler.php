@@ -22,15 +22,32 @@
 
 		case 'expandall':
 		case 'contractall':
-			$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET expand = ?';
-			$this->db->Execute($query, array(($params['_action'] == 'contractall') ? 0 : 1));
+			$item = false;
+			$level = 0;
+			$expand = ($params['_action'] == 'contractall') ? 0 : 1;
+
+			if(isset($params['item'])) {
+				$item = (int)$params['item'];
+				$info = $this->tree->GetNodeInfo($item);
+				$left = $info[0];
+				$right = $info[1];
+				$level = $info[2];
+			}
+
+			if($item === false) {
+				$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET expand = ?';
+				$this->db->Execute($query, array($expand));
+			} else {
+				$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET expand = ? WHERE dl_id =  ? OR (dl_left > ? AND dl_right < ?)';
+				$this->db->Execute($query, array($expand, $item, $left, $right));
+			}
 
 			if(!$params['ajax']) {
 				$this->Redirect($id, 'defaultadmin', '');
 			} else {
 				$this->theme =& $gCms->variables['admintheme'];
 				$this->smarty->assign('showrows', true);
-				$this->smarty->assign_by_ref('items', $this->GetTreeAdmin(0, $id));
+				$this->smarty->assign_by_ref('items', $this->GetTreeAdmin((int)$item, $id, $level));
 				echo $this->ProcessTemplate('admin/rows.tpl');
 				exit;
 			}

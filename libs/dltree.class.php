@@ -191,6 +191,7 @@ class dltree extends dbtree {
 		return $rows;
 	}
 
+	/*
 	function GetChildrenCount($node) {
 		$info = $this->GetNodeInfo($node);
 		return ($info[1] - $info[0] - 1) / 2;
@@ -200,6 +201,7 @@ class dltree extends dbtree {
 		$info = $this->GetParentInfo((int) $node);
 		return $info['dl_id'];
 	}
+	*/
 
 	/*
 	function DeleteItem($item_id) {
