@@ -89,9 +89,9 @@
 	// -- Adminpanel -- //
 
 	// - Tabs - //
-	$lang['title_prefs'] = 'Preferences';
-	$lang['title_categories'] = 'Categories';
 	$lang['title_general'] = 'Overview';
+	$lang['title_prefs'] = 'Preferences';
+	$lang['title_statistics'] = 'Statistics';
 
 	// - General tab - //
 	$lang['no_children'] = 'No items existing.';
@@ -118,6 +118,9 @@
 	$lang['allowed_referer'] = '<strong>Allowed Referer</strong> (separated by semicolon <b>;</b> e.g. <span style="color: #666">example.com;somedomain.com</span> - this only takes effect if "userdefined" ist chosen as referer-filtering)';
 	$lang['js_effects_text'] = '<strong>JavaScript Effects</strong> (<b style="color: #ff0000">Attention:</b> When <em>All</em> is selected there could be performance issues on high item-count.)';
 	$lang['js_effetcs_list'] = 'None;Simple;All';
+
+	// - Statistics zab - //
+	$lang['th_date'] = 'Date';
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Add template';

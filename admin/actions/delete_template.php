@@ -1,6 +1,6 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Manage Downloads') || !$this->CheckPermission('Modify Templates')) exit;
+	if (!$this->CheckPermission('Use DLM') || !$this->CheckPermission('Modify Templates')) exit;
 
 	$this->DeleteTemplate(urldecode($params['tpl_name']));
 

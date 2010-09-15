@@ -1,6 +1,6 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Manage Downloads')) exit;
+	if (!$this->CheckPermission('Use DLM')) exit;
 
 	$this->smarty->assign('startform', $this->CreateFormStart($id, 'listactions', $returnid));
 	$this->smarty->assign('endform', $this->CreateFormEnd());
@@ -35,8 +35,8 @@
 	$this->smarty->assign('deactivate', $this->Lang('deactivate'));
 	$this->smarty->assign('suborder', $this->Lang('suborder'));
 
-	$this->smarty->assign('expandall', $this->CreateHandlerLink($id, 'expandall', $returnid, $this->theme->DisplayImage('icons/system/expandall.gif', $this->Lang('expandall'),'','','systemicon').$this->Lang('expandall'), array(), '', false, false, ''));
-	$this->smarty->assign('contractall', $this->CreateHandlerLink($id, 'contractall', $returnid, $this->theme->DisplayImage('icons/system/contractall.gif', $this->Lang('contractall'),'','','systemicon').$this->Lang('contractall'), array(), '', false, false, ''));
+	$this->smarty->assign('expandall', $this->CreateHandlerLink($id, 'expandall', $returnid, $this->theme->DisplayImage('icons/system/expandall.gif', $this->Lang('expandall'),'','','systemicon').$this->Lang('expandall'), array(), '', false, false, 'id="expandall"'));
+	$this->smarty->assign('contractall', $this->CreateHandlerLink($id, 'contractall', $returnid, $this->theme->DisplayImage('icons/system/contractall.gif', $this->Lang('contractall'),'','','systemicon').$this->Lang('contractall'), array(), '', false, false, 'id="contractall"'));
 
 	$this->smarty->assign('add_category', $this->CreateLink($id, 'add_category', $returnid, $this->theme->DisplayImage('icons/system/newobject.gif', $this->Lang('add_category'),'','','systemicon').$this->Lang('add_category'), array(), '', false, false, ''));
 	$this->smarty->assign('add_download', $this->CreateLink($id, 'add_download', $returnid, $this->theme->DisplayImage('icons/system/newobject.gif', $this->Lang('add_download'),'','','systemicon').$this->Lang('add_download'), array(), '', false, false, ''));

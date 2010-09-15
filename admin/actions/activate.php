@@ -1,6 +1,6 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Manage Downloads')) exit;
+	if (!$this->CheckPermission('Use DLM')) exit;
 
 	$item_id = isset($params['item_id']) ? $params['item_id'] : false;
 	if ($item_id === false)	$this->Redirect($id, 'defaultadmin', $returnid);

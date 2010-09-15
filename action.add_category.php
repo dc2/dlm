@@ -1,6 +1,6 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Manage Downloads')) exit;
+	if (!$this->CheckPermission('Use DLM')) exit;
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 	$item_parent = (int) $return[1];

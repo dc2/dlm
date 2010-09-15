@@ -90,9 +90,9 @@
 	// -- Adminpanel -- //
 
 	// - Tabs - //
+	$lang['title_general']	= 'Übersicht';
 	$lang['title_prefs']	= 'Optionen';
-	$lang['title_categories']	= 'Kategorien';
-	$lang['title_general']		= 'Übersicht';
+	$lang['title_statistics'] = 'Statistiken';
 
 	// - General tab - //
 	$lang['no_children'] = 'Es sind keine Einträge vorhanden.';
@@ -119,6 +119,9 @@
 	$lang['allowed_referer'] = '<strong>Erlaubte Referer</strong> (getrennt durch Semikolon <b>;</b> z.B. <span style="color: #666">example.com;somedomain.com</span> - diese Einstellung zeigt nur Wirkung, falls als Referer-Filterung "benutzerdefiniert" gewählt ist)';
 	$lang['js_effects_text'] = '<strong>JavaScript Effekte</strong> (<b style="color: #ff0000">Achtung:</b> Bei der Einstellung <em>Alle</em> kann es bei vielen Einträgen zu Performance-Problemen kommen)';
 	$lang['js_effetcs_list'] = 'Keine;Einfach;Alle';
+
+	// - Statistics zab - //
+	$lang['th_date'] = 'Datum';
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Template hinzufügen';

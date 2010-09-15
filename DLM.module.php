@@ -2,7 +2,7 @@
 define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
 
 error_reporting(E_ALL|E_STRICT|E_NOTICE);
-#error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 class DLM extends CMSModule {
 	var $db;
@@ -37,7 +37,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetVersion() {
-		return '0.7.3';
+		return '0.8';
 	}
 
 	function GetHelp() {

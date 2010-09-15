@@ -1,6 +1,6 @@
 <?php
 	if (!isset($gCms)) exit;
-	if (!$this->CheckPermission('Manage Downloads')) exit;
+	if (!$this->CheckPermission('Use DLM')) exit;
 
 	$this->theme =& $gCms->variables['admintheme'];
 

@@ -39,6 +39,9 @@
 
 				jQuery('#m1_moduleform_1').append('<input name="suppressoutput" id="suppressoutput" value="true" type="hidden" /><input name="m1_ajax" id="m1_ajax" value="true" type="hidden" />');
 				jQuery('#m1_listsubmit').click(SubmitList);
+
+				jQuery('#expandall').click(ExpandAll);
+				jQuery('#contractall').click(ExpandAll);
 			});
 
 			// this function returns all children of the specified node in the DOM
@@ -73,6 +76,23 @@
 				} else return $siblings;
 			}
 			*/
+
+			function ExpandAll($elink){
+				$elink = jQuery($elink.currentTarget);
+				var href = $elink.attr('href') + '&m1_ajax=true';
+
+				jQuery.ajax({
+					url: href,
+					type: 'POST',
+					success: function(response) {
+						//alert(response);
+						jQuery('#itemlist').html(response);
+						setupEvents('#itemlist');
+					}
+				});
+
+				return false;
+			}
 
 			function onDelete($el, id, level) {
 				var $movelinks = $el.children('td.movelinks');

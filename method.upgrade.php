@@ -4,10 +4,6 @@
 	$current_version = $oldversion;
 	$db =& $this->GetDb();
 
-	$this->RemovePermission('Manage Downloads');
-	$this->RemovePermission('Use DLM');
-	$this->RemovePermission('Set DLM Prefs');
-
 	$this->CreatePermission('Use DLM', 'Use DLM');
 	$this->CreatePermission('Set DLM Prefs', 'Set DLM Prefs');
 
