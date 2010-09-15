@@ -55,6 +55,7 @@
 
 	// validations functions //
 	function ValidateURL($url) {
+		die(var_dump($url));
 		$pattern = "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i";
 		if (preg_match($pattern, $url))
 			return true;

@@ -23,7 +23,7 @@
 	$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
 	if (isset($params['submit'])) {
-		if($item_location = $this->UploadFile($id)) {
+		if($item_location == $this->UploadFile($id)) {
 			//
 		} elseif(!empty($params['item_location'])) {
 			if (!ValidateURL($item_location)) {
