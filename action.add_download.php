@@ -23,9 +23,15 @@
 	$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
 	if (isset($params['submit'])) {
-		if($item_location == $this->UploadFile($id)) {
-			//
-		} elseif(!empty($params['item_location'])) {
+		$item_location = $this->UploadFile($id);
+
+		if(is_array($item_location)) {
+			$item_filesize = $item_location[1];
+			$item_location = $item_location[0];
+		}
+
+		if($item_location === false && !empty($params['item_location'])) {
+			$item_location = $params['item_location'];
 			if (!ValidateURL($item_location)) {
 				$this->errors[] = $this->Lang('error_malformedurl');
 			} elseif(ValidateExtension($this, $item_location)) {
@@ -33,7 +39,7 @@
 			} else {
 				$this->errors[] = $this->Lang('error_fileext');
 			}
-		} else {
+		} elseif ($item_location === false){
 			$this->errors[] = $this->Lang('error_nofile');
 		}
 

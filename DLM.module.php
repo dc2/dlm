@@ -37,7 +37,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetVersion() {
-		return '0.7.4';
+		return '0.7.5';
 	}
 
 	function GetHelp() {
@@ -554,9 +554,11 @@ class DLM extends CMSModule {
 						if(!@move_uploaded_file($tmp_name, $dldir . $new_filename)) {
 							$this->errors[] = $this->Lang('error_upload');
 						} else {
-							return '$$'.$new_filename;
+							return array('$$'.$new_filename, $item_filesize);
 						}
-					} else {/* same file already exists - don't do anything */}
+					} else {
+						return array('$$'.$new_filename, $item_filesize);
+					}
 				} else {
 					$this->errors[] = $this->Lang('error_fileext');
 				}
