@@ -31,6 +31,7 @@
 		}
 
 		if($item_location === false && !empty($params['item_location'])) {
+			$item_location = $params['item_location'];
 			if (!ValidateURL($item_location)) {
 				$this->errors[] = $this->Lang('error_malformedurl');
 			} elseif(ValidateExtension($this, $item_location)) {
