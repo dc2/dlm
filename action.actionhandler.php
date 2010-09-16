@@ -47,7 +47,7 @@
 			} else {
 				$this->theme =& $gCms->variables['admintheme'];
 				$this->smarty->assign('showrows', true);
-				$this->smarty->assign_by_ref('items', $this->GetTreeAdmin((int)$item, $id, $level));
+				$this->smarty->assign('items', $this->GetTreeAdmin((int)$item, $id, $level));
 				echo $this->ProcessTemplate('admin/rows.tpl');
 				exit;
 			}

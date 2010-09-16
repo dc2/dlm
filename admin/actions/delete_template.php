@@ -15,15 +15,5 @@
 		}
 	}
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		ob_end_clean();
-		if(count($this->errors) == 0) {
-			echo "1,";
-			//echo $this->Lang($tab_message);
-		} else {
-			echo "0,";
-			echo $this->DisplayErrors(true);
-		}
-		exit;
-	}
+	$this->AjaxResponse('');
 ?>

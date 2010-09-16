@@ -37,7 +37,7 @@
 
 		$item_filesize	= (isset($params['item_filesize'])	? str_replace('.', '', $params['item_filesize']) : false);
 
-		if (isset($params['submit']) || isset($params['temp']) || (isset($params['temp_2']) && $params['temp_2'] == 'true')) {
+		if (isset($params['submit']) || isset($params['temp'])) {
 			if($item_location == $this->UploadFile($id)) {
 				//
 			} elseif(!empty($params['item_location'])) {
@@ -114,17 +114,7 @@
 			}
 		}
 
-		if(isset($params['ajax']) && $params['ajax'] === "true") {
-			$content = ob_get_contents();ob_end_clean();
-			if(count($this->errors) == 0) {
-				echo "1,";
-				echo $this->Lang('download_updated');
-			} else {
-				echo "0,";
-				echo $this->DisplayErrors(true);
-			}
-			exit;
-		}
+		$this->AjaxResponse($this->Lang('download_updated'), false, 0);
 
 		$this->smarty->assign('headline', $this->Lang('edit_download'));
 		$this->smarty->assign('path_text', $this->Lang('path_text'));
@@ -170,7 +160,7 @@
 		$this->smarty->assign('desc_text', $this->Lang('desc'));
 		$this->smarty->assign('desc_value', htmlspecialchars($item_desc));
 
-		$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
+		//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
 
 		$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));
 		$this->smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel')));

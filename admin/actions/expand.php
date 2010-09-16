@@ -34,17 +34,5 @@
 		}
 	} else $this->errors[] = $this->Lang('no_children');
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		$content = ob_get_contents();ob_end_clean();
-		if(count($this->errors) == 0) {
-			echo '1,'.count($items).';';
-			echo $this->ProcessTemplate('admin/rows.tpl');
-		} else {
-			echo '0,';
-			echo $this->DisplayErrors(true);
-		}
-		exit;
-	}
-
-	echo $this->DisplayErrors();
+	$this->AjaxResponse(count($items).';'.$this->ProcessTemplate('admin/rows.tpl'));
 ?>

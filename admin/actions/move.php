@@ -48,17 +48,5 @@
 		}
 	}
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		ob_end_clean();
-		if(count($this->errors) == 0) {
-			echo "1,";
-			echo $this->Lang('item_moved');
-		} else {
-			echo "0,";
-			echo $this->DisplayErrors(true);
-		}
-		exit;
-	}
-
-	echo $this->DisplayErrors();
+	$this->AjaxResponse($this->Lang('item_moved'));
 ?>

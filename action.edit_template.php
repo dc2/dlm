@@ -51,17 +51,7 @@
 			exit;
 		}
 
-		if(isset($params['ajax']) && $params['ajax'] === "true") {
-			$content = ob_get_contents();ob_end_clean();
-			if(count($this->errors) == 0) {
-				echo "1,";
-				echo $this->Lang('template_updated');
-			} else {
-				echo "0,";
-				echo $this->DisplayErrors(true);
-			}
-			exit;
-		}
+		$this->AjaxResponse($this->Lang('template_updated'), false, 0);
 	} elseif(trim($tpl_name) != ''){
 		$tpl_content  = SplitTemplate($this->GetTemplate($tpl_name));
 		$tpl_overview = $tpl_content[0];
@@ -89,7 +79,7 @@
 
 	$this->smarty->assign('headline', $this->Lang('edit_template'));
 
-	$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
+	//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
 	$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'oldname', $tpl_name) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
 
 	$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));

@@ -2,7 +2,7 @@
 define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
 
 error_reporting(E_ALL|E_STRICT|E_NOTICE);
-error_reporting(E_ALL);
+#error_reporting(E_ALL);
 
 class DLM extends CMSModule {
 	var $db;
@@ -37,7 +37,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetVersion() {
-		return '0.7.4';
+		return '0.8';
 	}
 
 	function GetHelp() {
@@ -252,6 +252,24 @@ class DLM extends CMSModule {
 				$module->AddWords($this->GetName(), $row['dl_id'], $row['type'] == 1 ? 'download' : 'category', $row['name'] . ' ' . $row['description']);
 			}
 		}
+	}
+
+	function AjaxResponse($success = '', $error = false, $display_errors = true){
+		global $params;
+
+		$error = $error == false ? $this->DisplayErrors(true) : $error;
+
+		if(isset($params['ajax']) && $params['ajax'] == "true") {
+			ob_end_clean();
+			if(count($this->errors) == 0) {
+				echo '1,'.$success;
+			} else {
+				echo '0,';
+				echo $error;
+			}
+			exit;
+		} elseif($display_errors === true)
+			echo $this->DisplayErrors();
 	}
 
 	function CreateHandlerLink($id, $action, $returnid='', $contents='', $params=array(), $warn_message='', $onlyhref=false, $inline=false, $addttext='', $targetcontentonly=false, $prettyurl='') {
