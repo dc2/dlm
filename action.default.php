@@ -10,7 +10,7 @@
 	$dbitem = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
 
 	if(!isset($params['showpath']) || $params['showpath'] === true) {
-		$this->smarty->assign('path_text', $this->Lang('path_text'));
+		$this->smarty->assign('th_path', $this->Lang('th_path'));
 		$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, $root_info));
 	}
 
@@ -24,11 +24,14 @@
 			$this->smarty->assign('itemcount', count($items));
 
 			$this->smarty->assign('th_name', $this->Lang('th_name'));
+			$this->smarty->assign('th_download', $this->Lang('download'));
 			$this->smarty->assign('th_downloads', $this->Lang('downloads'));
+			$this->smarty->assign('th_traffic', $this->Lang('th_traffic'));
+
 
 			if($item_id != 0 && (!isset($params['showdesc']) || $params['showdesc'] === true)) {
 				$this->smarty->assign('description', $dbitem['description']);
-				$this->smarty->assign('description_text',  $this->Lang('desc'));
+				$this->smarty->assign('th_description',  $this->Lang('desc'));
 			}
 		} else {
 			$this->smarty->assign('itemcount', 0);
@@ -49,6 +52,14 @@
 		$filename = $info['filename'];
 		$fileext = $info['fileext'];
 
+		$this->smarty->assign('th_date', $this->Lang('th_date'));
+		$this->smarty->assign('th_traffic', $this->Lang('th_traffic'));
+		$this->smarty->assign('th_filename', $this->Lang('filename'));
+		$this->smarty->assign('th_filesize', $this->Lang('filesize'));
+		$this->smarty->assign('th_downloads', $this->Lang('downloads'));
+		$this->smarty->assign('th_download', $this->Lang('download'));
+		$this->smarty->assign('th_available_sources', $this->Lang('available_sources'));
+
 		$this->smarty->assign('dl_id', $item_id);
 		$this->smarty->assign('dl_name', $dbitem['name']);
 		$this->smarty->assign('dl_date', strftime('%d.%m.%Y', strtotime($download['created_date'])));
@@ -59,7 +70,7 @@
 
 		if(!isset($params['showdesc']) || $params['showdesc'] === true) {
 			$this->smarty->assign('dl_description', $dbitem['description']);
-			$this->smarty->assign('dl_description_text',  $this->Lang('desc'));
+			$this->smarty->assign('th_dl_description',  $this->Lang('desc'));
 		}
 
 		$this->smarty->assign('dl_size', FormatFilesize($download['size']));

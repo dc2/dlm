@@ -1,19 +1,19 @@
 {$startform}
 	<div class="pageoverflow">
 		<fieldset>
-			<legend>{$extensions_text}</legend>
+			<legend>{$th_extensions}</legend>
 			<p>{$extensions_desc}</p>
 			<div>{$blacklist}</div>
 			<div>{$whitelist}</div>
 		</fieldset>
 		<fieldset>
-			<legend>{$downloads_text}</legend>
+			<legend>{$th_downloads}</legend>
 			<div>{$obfuscate}</div>
 			<div>{$referer}</div>
 			<div>{$allowed_referer}</div>
 		</fieldset>
 		<fieldset>
-			<legend>{$misc_text}</legend>
+			<legend>{$th_misc}</legend>
 			<div>{$_returnid}</div>
 			<div>{$js_effects}</div>
 		</fieldset>

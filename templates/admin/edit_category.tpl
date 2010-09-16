@@ -7,18 +7,18 @@
 	{/if}
 	{if strlen($path[0]) > 0}
 		<p>
-			<strong>&nbsp;&nbsp;&nbsp;&nbsp;{$path_text}</strong>:&nbsp;{$path[0]}
+			<strong>&nbsp;&nbsp;&nbsp;&nbsp;{$th_path}</strong>:&nbsp;{$path[0]}
 		</p>
 		<br />
 	{/if}
 
 	<p>
-		<label for="m1_item_name">{$name_text}: *</label>
+		<label for="m1_item_name">{$th_name}: *</label>
 		<input type="text" maxlength="255" size="60" value="{$name_value}" id="m1_item_name" name="m1_item_name" class="req" />
 	</p><br />
 
 	<p>
-		<label for="m1_item_parent">{$parent_text}:</label>
+		<label for="m1_item_parent">{$th_parent}:</label>
 		{$parent_input}
 	</p><br />
 
@@ -35,7 +35,7 @@
 	{/if}
 
 	<p>
-		<label for="m1_item_desc">{$desc_text}:</label>
+		<label for="m1_item_desc">{$th_desc}:</label>
 		<textarea rows="4" cols="50" name="m1_item_desc" id="m1_item_desc">{$desc_value}</textarea>
 	</p>
 

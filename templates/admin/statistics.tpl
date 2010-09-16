@@ -20,6 +20,26 @@
 	</tbody>
 </table>
 </div>
+<div style="float:left; margin-right: 30px">
+<h3>Downloads mit dem meisten Traffic</h3>
+<table class="pagetable" style="max-width: 550px; margin: 0 20px 0 10px">
+	<thead>
+		<tr>
+			<th>{$th_name}</th>
+			<th style="text-align:center">{$th_traffic}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$traffic_downloads item=dl}
+		{cycle values="row1,row2" assign=rowclass name=traffic_row}
+		<tr class="{$rowclass}">
+			<td>{$dl.link}</td>
+			<td style="text-align:right">{$dl.traffic}</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+</div>
 <div style="float:left">
 <h3>Neueste Downloads</h3>
 <table class="pagetable" style="max-width: 550px; margin: 0 20px 0 10px">

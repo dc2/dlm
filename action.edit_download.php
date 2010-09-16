@@ -115,17 +115,17 @@
 		$this->AjaxResponse($this->Lang('download_updated'), false, 0);
 
 		$this->smarty->assign('headline', $this->Lang('edit_download'));
-		$this->smarty->assign('path_text', $this->Lang('path_text'));
+		$this->smarty->assign('th_path', $this->Lang('th_path'));
 		$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_download,$item_id"));
 
-		$this->smarty->assign('name_text', $this->Lang('name'));
+		$this->smarty->assign('th_name', $this->Lang('name'));
 		$this->smarty->assign('name_value', htmlspecialchars($item_name));
 
-		$this->smarty->assign('filesize_text', $this->Lang('filesize'));
+		$this->smarty->assign('th_filesize', $this->Lang('filesize_bytes'));
 		$this->smarty->assign('filesize_value', (int)$item_filesize);
 
 		if(empty($item_location)) {
-			$this->smarty->assign('upload_text', $this->Lang('upload'));
+			$this->smarty->assign('th_uploads', $this->Lang('upload'));
 			$this->smarty->assign('or', $this->Lang('or'));
 		} else {
 			$this->smarty->assign('edit_location', $this->CreateInputSubmit($id, 'edit_location', $this->Lang('edit_location')));
@@ -133,17 +133,17 @@
 
 		$this->LoadBwList();
 		if($this->whitelist != '') {
-			$this->smarty->assign('allowed_text', $this->Lang('allowed_extensions'));
+			$this->smarty->assign('th_allowed', $this->Lang('allowed_extensions'));
 			$this->smarty->assign('allowed_list', '.'.str_replace(';', ', .', $this->whitelist));
 		} elseif($this->blacklist != '') {
-			$this->smarty->assign('forbidden_text', $this->Lang('forbidden_extensions'));
+			$this->smarty->assign('th_forbidden', $this->Lang('forbidden_extensions'));
 			$this->smarty->assign('forbidden_list', '.'.str_replace(';', ', .', $this->blacklist));
 		}
 
-		$this->smarty->assign('location_text', $this->Lang('location'));
+		$this->smarty->assign('th_location', $this->Lang('location'));
 		$this->smarty->assign('location_value', $item_location);
 
-		$this->smarty->assign('mirror_text', $this->Lang('mirror'));
+		$this->smarty->assign('th_mirror', $this->Lang('mirror'));
 		$this->smarty->assign('mirror_name', $this->Lang('name'));
 		$this->smarty->assign('mirror_url', $this->Lang('url'));
 		$this->smarty->assign('add_mirror', $this->Lang('add_mirror'));
@@ -152,10 +152,10 @@
 
 		$this->smarty->assign('mirrors', $this->GetMirrors($item_id, $id, $returnid, true));
 
-		$this->smarty->assign('parent_text', $this->Lang('parent_category'));
+		$this->smarty->assign('th_parent', $this->Lang('parent_category'));
 		$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
 
-		$this->smarty->assign('desc_text', $this->Lang('desc'));
+		$this->smarty->assign('th_desc', $this->Lang('desc'));
 		$this->smarty->assign('desc_value', htmlspecialchars($item_desc));
 
 		//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));

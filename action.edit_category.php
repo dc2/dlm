@@ -69,16 +69,16 @@
 
 			// form
 			$this->smarty->assign('headline', $this->Lang('edit_category'));
-			$this->smarty->assign('path_text', $this->Lang('path_text'));
+			$this->smarty->assign('th_path', $this->Lang('th_path'));
 			$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_category,$item_id"));
 
-			$this->smarty->assign('name_text', $this->Lang('name'));
+			$this->smarty->assign('th_name', $this->Lang('name'));
 			$this->smarty->assign('name_value', htmlspecialchars($item_name));
 
-			$this->smarty->assign('parent_text', $this->Lang('parent_category'));
+			$this->smarty->assign('th_parent', $this->Lang('parent_category'));
 			$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
 
-			$this->smarty->assign('desc_text', $this->Lang('desc'));
+			$this->smarty->assign('th_desc', $this->Lang('desc'));
 			$this->smarty->assign('desc_value', $item_desc);
 
 			//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));

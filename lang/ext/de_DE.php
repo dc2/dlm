@@ -25,6 +25,10 @@
 
 	$lang['no_default'] = 'Keine / Ohne Vorgabe';
 
+	$lang['filename'] = 'Dateiname';
+	$lang['filesize'] = 'Dateigröße';
+	$lang['available_sources'] = 'Verfügbare Downloadquellen';
+
 	// errors
 	$lang['error']					= 'Bei der Operation ist ein Fehler aufgetreten. (Fehlercode 00)';
 	$lang['error_nocategoryname']	= 'Es wurde kein Name für die Kategorie angegeben! (Fehlercode 01)';
@@ -122,6 +126,7 @@
 
 	// - Statistics zab - //
 	$lang['th_date'] = 'Datum';
+	$lang['th_traffic'] = 'Traffic';
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Template hinzufügen';
@@ -134,10 +139,10 @@
 
 	// add / edit / delete items //
 	$lang['name'] 		= 'Name';
-	$lang['filesize'] 	= 'Dateigröße (in Bytes)';
 	$lang['desc'] 		= 'Beschreibung';
 	$lang['location']	= 'Adresse';
 	$lang['upload'] 	= 'Datei hochladen';
+	$lang['filesize_bytes'] = 'Dateigröße (in Bytes)';
 
 	$lang['allowed_extensions'] = 'Erlaubte '.$lang['extensions'];
 	$lang['forbidden_extensions'] = 'Verbotene '.$lang['extensions'];
@@ -148,7 +153,7 @@
 	$lang['add_mirror']		= 'Mirror hinzufügen';
 
 	$lang['parent_category'] = 'Übergeordnete Kategorie';
-	$lang['path_text'] = 'Pfad';
+	$lang['th_path'] = 'Pfad';
 
 	$lang['edit_location'] = 'Diese Datei löschen und ersetzen';
 

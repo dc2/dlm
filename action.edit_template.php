@@ -68,13 +68,13 @@
 	$this->smarty->assign('endform', $this->CreateFormEnd());
 	$this->smarty->assign('submit', $this->CreateFormEnd());
 
-	$this->smarty->assign('name_text', $this->Lang('name'));
+	$this->smarty->assign('th_name', $this->Lang('name'));
 	$this->smarty->assign('name_value', html_entity_decode($tpl_name, ENT_QUOTES, 'UTF-8'));
 
-	$this->smarty->assign('overview_text', $this->Lang('overview_tpl'));
+	$this->smarty->assign('th_overview', $this->Lang('overview_tpl'));
 	$this->smarty->assign('overview_value', htmlspecialchars($tpl_overview));
 
-	$this->smarty->assign('detail_text', $this->Lang('detail_tpl'));
+	$this->smarty->assign('th_detail', $this->Lang('detail_tpl'));
 	$this->smarty->assign('detail_value', htmlspecialchars($tpl_detail));
 
 	$this->smarty->assign('headline', $this->Lang('edit_template'));

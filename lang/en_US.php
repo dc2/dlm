@@ -25,6 +25,10 @@
 
 	$lang['no_default'] = 'None / No Default';
 
+	$lang['filename'] = 'Dateiname';
+	$lang['filesize'] = 'Dateigröße';
+	$lang['available_sources'] = 'Available download sources';
+
 	// errors
 	$lang['error']					= 'An error occurred during the last operation. (Errorcode 00)';
 	$lang['error_nocategoryname']	= 'You have to specify a name for the category. (Errorcode 01)';
@@ -121,6 +125,7 @@
 
 	// - Statistics zab - //
 	$lang['th_date'] = 'Date';
+	$lang['th_traffic'] = 'Traffic';
 
 	// - Templates tab - //
 	$lang['add_template']	= 'Add template';
@@ -135,10 +140,10 @@
 
 	// add / edit / delete items //
 	$lang['name'] 		= 'Name';
-	$lang['filesize'] 	= 'Filesize (in Bytes)';
 	$lang['desc'] 		= 'Description';
 	$lang['location']	= 'Adress';
 	$lang['upload'] 	= 'Upload file';
+	$lang['filesize_bytes'] = 'Filesize (in Bytes)';
 
 	$lang['allowed_extensions'] = 'Allowed '.$lang['extensions'];
 	$lang['forbidden_extensions'] = 'Forbidden '.$lang['extensions'];
@@ -149,7 +154,7 @@
 	$lang['add_mirror']		= 'Add mirror';
 
 	$lang['parent_category'] = 'Parent Category';
-	$lang['path_text'] = 'Path';
+	$lang['th_path'] = 'Path';
 
 	$lang['edit_location'] = 'Delete and replace this file';
 
