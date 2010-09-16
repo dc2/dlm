@@ -254,7 +254,7 @@ class DLM extends CMSModule {
 		}
 	}
 
-	function AjaxResponse($success = '', $error = false, $display_errors = true){
+	function AjaxResponse($success = '', $error = false, $display_errors = true, $return = ';|', $tab = 'general'){
 		global $params;
 
 		$error = $error == false ? $this->DisplayErrors(true) : $error;
@@ -268,7 +268,14 @@ class DLM extends CMSModule {
 				echo $error;
 			}
 			exit;
-		} elseif($display_errors === true)
+		} else {
+			if($return != ';|') {
+				global $id;
+				$this->Redirect($id, $return === false ? 'defaultadmin' : $return[0], '', array('active_tab' => $tab));
+			}
+		}
+
+		if($display_errors === true)
 			echo $this->DisplayErrors();
 	}
 

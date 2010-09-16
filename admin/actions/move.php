@@ -38,15 +38,5 @@
 		break;
 	}
 
-	if(!isset($params['ajax']) || $params['ajax'] != "true") {
-		if($return === false) {
-			$params = array('tab_message' => 'item_moved', 'active_tab' => 'general');
-			$this->Redirect($id, 'defaultadmin', '', $params);
-		} else {
-			$params = array('tab_message' => 'item_moved', 'item_id' => $return[1]);
-			$this->Redirect($id, $return[0], 0, $params);
-		}
-	}
-
-	$this->AjaxResponse($this->Lang('item_moved'));
+	$this->AjaxResponse($this->Lang('item_moved'), false, true, $return);
 ?>

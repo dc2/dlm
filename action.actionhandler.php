@@ -2,7 +2,7 @@
 	if (!isset($gCms)) exit;
 	if (!$this->CheckPermission('Use DLM')) exit;
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
+	if(isset($params['ajax']) && $params['ajax'] == "true") {
 		@ob_end_clean();@ob_end_clean();ob_start();
 	}
 

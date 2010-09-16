@@ -23,9 +23,7 @@
 
 	$dbitem = $this->tree->GetItem($item_id);
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		ob_start();
-	}
+	if(isset($params['ajax']) && $params['ajax'] == "true") ob_start();
 
 	if($dbitem['type'] == 1) {
 		$download = $this->GetDownload($item_id);

@@ -15,18 +15,7 @@
 		$this->db->Execute($query, array($active, $item_id, $dbitem['dl_left'], $dbitem['dl_right']));
 
 		$this->SendEvent('ItemActivated', array('dl_item' => array('id' => $key, 'name' => $dbitem['name'])));
-
-		if(!isset($params['ajax']) || $params['ajax'] != "true") {
-			if($return === false) {
-				$params = array();
-				$this->Redirect($id, 'defaultadmin', '', $params);
-			} else {
-				$params = array('item_id' => $return[1]);
-				$this->Redirect($id, $return[0], 0, $params);
-			}
-		} elseif($active == 0) $this->errors[] = ' ';
-
 	} else $this->errors[] = $this->Lang('error_noitem');
 
-	$this->AjaxResponse($this->Lang('items_activated'));
+	$this->AjaxResponse($this->Lang('items_activated'), false, true, $return);
 ?>

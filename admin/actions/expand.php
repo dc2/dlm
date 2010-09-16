@@ -15,24 +15,13 @@
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET expand=? WHERE dl_id = ?';
 		$this->db->Execute($query, array($expand, $item_id));
 
-		if(!isset($params['ajax']) || $params['ajax'] != "true") {
-			if($return === false) {
-				$params = array();
-				$this->Redirect($id, 'defaultadmin', '', $params);
-			} else {
-				$params = array('item_id' => $return[1]);
-				$this->Redirect($id, $return[0], 0, $params);
-			}
+		if($expand == 1) {
+			$this->smarty->assign('showrows', true);
+			$this->smarty->assign('items', $this->GetTreeAdmin($item_id, $id, (int)$params['indent']));
 		} else {
-			if($expand == 1) {
-				$items = $this->GetTreeAdmin($item_id, $id, (int)$params['indent']);
-				$this->smarty->assign('showrows', true);
-				$this->smarty->assign_by_ref('items', $items);
-			} else {
-				$this->errors[] = ' ';
-			}
+			$this->errors[] = ' ';
 		}
 	} else $this->errors[] = $this->Lang('no_children');
 
-	$this->AjaxResponse(count($items).';'.$this->ProcessTemplate('admin/rows.tpl'));
+	$this->AjaxResponse(count($items).';'.$this->ProcessTemplate('admin/rows.tpl'), false, true, $return);
 ?>

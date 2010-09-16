@@ -25,8 +25,7 @@
 	$dbtree = $this->tree->GetItemsDB($item_id);
 	$dbitem = reset($dbtree);
 
-
-	if(isset($params['ajax']) && $params['ajax'] === "true") {ob_start();}
+	if(isset($params['ajax']) && $params['ajax'] == "true") ob_start();
 
 	if($dbitem != false) {
 		if($dbitem['type'] == 0) {

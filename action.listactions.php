@@ -4,7 +4,7 @@
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
+	if(isset($params['ajax']) && $params['ajax'] == "true") {
 		@ob_end_clean();@ob_end_clean();ob_start();
 	}
 
@@ -51,23 +51,5 @@
 		}
 	}
 
-	if(!isset($params['ajax']) || $params['ajax'] != "true") {
-		if($return === false) {
-			if(count($this->errors > 0)) {
-				$params = array('tab_message' => $tab_message, 'active_tab' => 'general');
-			} else {
-				$params = array('tab_message' => 'error', 'active_tab' => 'general');
-			}
-			$this->Redirect($id, 'defaultadmin', '', $params);
-		} else {
-			if(!$error) {
-				$params = array('tab_message' => $tab_message, 'item_id' => $return[1]);
-			} else {
-				$params = array('tab_message' => 'error', 'item_id' => $return[1]);
-			}
-			$this->Redirect($id, $return[0], '', $params);
-		}
-	}
-
-	$this->AjaxResponse($this->Lang($tab_message), false, 0);
+	$this->AjaxResponse($this->Lang($tab_message), false, 0, $return);
 ?>

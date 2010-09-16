@@ -19,23 +19,5 @@
 		}
 	} else $this->errors[] = $this->Lang('error_noitem');
 
-	if(!isset($params['ajax']) || $params['ajax'] != "true") {
-		if($return === false) {
-			if(count($this->errors > 0)) {
-				$params = array('tab_message' => $tab_message, 'active_tab' => 'general');
-			} else {
-				$params = array('tab_message' => 'error_delete', 'active_tab' => 'general');
-			}
-			$this->Redirect($id, 'defaultadmin', '', $params);
-		} else {
-			if(count($this->errors) == 0) {
-				$params = array('tab_message' => $tab_message, 'item_id' => $return[1]);
-			} else {
-				$params = array('tab_message' => 'error_delete', 'item_id' => $return[1]);
-			}
-			$this->Redirect($id, $return[0], '', $params);
-		}
-	}
-
-	$this->AjaxResponse($this->Lang($tab_message), false, 0);
+	$this->AjaxResponse($this->Lang($tab_message), false, 0, $return);
 ?>

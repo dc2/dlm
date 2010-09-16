@@ -13,28 +13,4 @@
 		$result = $this->db->Execute($query, array($tpl_name, 0));
 	} else
 		$this->errors[] = $this->Lang('error_notplcontent');
-
-	/*
-	if(!isset($params['ajax']) || $params['ajax'] != "true") {
-		if(count($this->errors > 0)) {
-			$params = array('active_tab' => 'templates');
-		} else {
-			$params = array('tab_message' => 'error_notplcontent', 'active_tab' => 'templates');
-		}
-		$this->Redirect($id, 'defaultadmin', '', $params);
-	}
-
-
-	if(isset($params['ajax']) && $params['ajax'] === "true") {
-		ob_end_clean();
-		if(count($this->errors) == 0) {
-			echo "1,";
-		} else {
-			echo "0,";
-			echo $this->DisplayErrors(true);
-		}
-		exit;
-	}
-	*/
-
 ?>

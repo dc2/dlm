@@ -14,7 +14,7 @@
 		}
 	}
 
-	if(isset($params['ajax']) && $params['ajax'] === "true") {ob_start();}
+	if(isset($params['ajax']) && $params['ajax'] == "true") ob_start();
 
 	$tpl_name = isset($params['tpl_name']) ? urldecode($params['tpl_name']) : '';
 	$old_name = isset($params['oldname']) ? $params['oldname'] : $tpl_name;
