@@ -1,9 +1,6 @@
 <?php
 define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
 
-error_reporting(E_ALL|E_STRICT|E_NOTICE);
-error_reporting(E_ALL);
-
 class DLM extends CMSModule {
 	var $db;
 	var $tree;

@@ -6,7 +6,7 @@
 	$tmp_path = cms_join_path(dirname(__FILE__), '..', '..', 'tmp', 'downloads', '');
 	clearstatcache();
 
-	if(((is_dir($dl_path) && (is_writable($dl_path) || chmod($dl_path, 0777))) || (!is_dir($dl_path) && mkdir($dl_path))) && ((is_dir($tmp_dir) && (is_writable($tmp_dir) || chmod($tmp_dir, 0777))) || (!is_dir($tmp_path) && mkdir($tmp_path)))) {
+	if(((is_dir($dl_path) && (is_writable($dl_path) || chmod($dl_path, 0777))) || (!is_dir($dl_path) && mkdir($dl_path))) && ((is_dir($tmp_path) && (is_writable($tmp_path) || chmod($tmp_path, 0777))) || (!is_dir($tmp_path) && mkdir($tmp_path)))) {
 		$db =& $gCms->GetDb();
 
 		$taboptarray = array('mysql' => 'TYPE=MyISAM');
