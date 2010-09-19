@@ -116,8 +116,13 @@
 
 		if(substr($location, 0, 2) == '$$') {
 			$location = substr($location, 2);
-			$info['identifier'] = substr($location, strrpos($location, '_')+1, strrpos($location, '.') - strrpos($location, '_')-1);
-			$info['filename'] = substr($location, 0, strrpos($location, '_'));
+			if(strpos($location, ID_SEPARATOR) === false) {
+				$info['filename'] = substr($location, 0, strrpos($location, '.'));
+				$info['identifier'] = '';
+			} else {
+				$info['identifier'] = substr($location, strrpos($location, ID_SEPARATOR)+1, strrpos($location, '.') - strrpos($location, ID_SEPARATOR)-1);
+				$info['filename'] = substr($location, 0, strrpos($location, ID_SEPARATOR));
+			}
 		} else {
 			$info['filename'] = substr($location, strrpos($location, '/')+1, strrpos($location, '.') - strrpos($location, '/')-1);
 		}

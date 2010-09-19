@@ -15,7 +15,7 @@
 
 	echo $this->SetTabHeader('general', $this->Lang('title_general'), ('general' == $active_tab) ? true : false);
 
-	if ($this->CheckPermission('Edit DLM Prefs'))
+	if ($this->CheckPermission('Set DLM Prefs'))
 		echo $this->SetTabHeader('prefs', $this->Lang('title_prefs'), ('prefs' == $active_tab) ? true : false);
 
 	echo $this->SetTabHeader('statistics', $this->Lang('title_statistics'), ('statistics' == $active_tab) ? true : false);

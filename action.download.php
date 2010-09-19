@@ -84,7 +84,10 @@
 							header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 							header('Pragma: public');
 							header('Content-Length: ' . filesize($srcfile));
+
+							ob_end_clean();
 							readfile_chunked($srcfile);exit;
+							#readfile($srcfile);exit;
 						break;
 					}
 				} else {
