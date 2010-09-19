@@ -1,11 +1,11 @@
 <?php
 	// functions for file download handling //
 	function ScanTempDownloads($maxage = 43200 /* = 12h */, $currentdir = false, $level = 0) {
-		$tmpdir = cms_join_path(dirname(__FILE__), '..', 'tmp', 'downloads');
+		$tmpdir = cms_join_path(dirname(dirname(dirname(__FILE__))), 'tmp', 'downloads');
 		$currentdir = ($currentdir === false) ? $tmpdir : $currentdir;
 		$delete = array();
-
 		$dir = opendir($currentdir);
+
 		while (false !== ($filename = readdir($dir))) {
 			if($filename != '..' && $filename != '.') {
 				$file = cms_join_path($currentdir, $filename);
@@ -15,7 +15,7 @@
 					ScanTempDownloads($maxage, $file, $level);
 				} else {
 					if(time() - filemtime($file) > $maxage) {
-						unlink($file);
+						@unlink($file);
 						if($level > 0) {
 							$dirname = substr($file, 0, strrpos($file, DIRECTORY_SEPARATOR));
 							$delete[] = $dirname;
