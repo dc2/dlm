@@ -1,11 +1,11 @@
 <?php
 	// functions for file download handling //
 	function ScanTempDownloads($maxage = 43200 /* = 12h */, $currentdir = false, $level = 0) {
-		$tmpdir = cms_join_path(dirname(__FILE__), '..', 'tmp', 'downloads');
+		$tmpdir = cms_join_path(dirname(dirname(dirname(__FILE__))), 'tmp', 'downloads');
 		$currentdir = ($currentdir === false) ? $tmpdir : $currentdir;
 		$delete = array();
-
 		$dir = opendir($currentdir);
+
 		while (false !== ($filename = readdir($dir))) {
 			if($filename != '..' && $filename != '.') {
 				$file = cms_join_path($currentdir, $filename);
@@ -15,7 +15,7 @@
 					ScanTempDownloads($maxage, $file, $level);
 				} else {
 					if(time() - filemtime($file) > $maxage) {
-						unlink($file);
+						@unlink($file);
 						if($level > 0) {
 							$dirname = substr($file, 0, strrpos($file, DIRECTORY_SEPARATOR));
 							$delete[] = $dirname;
@@ -116,8 +116,13 @@
 
 		if(substr($location, 0, 2) == '$$') {
 			$location = substr($location, 2);
-			$info['identifier'] = substr($location, strrpos($location, '_')+1, strrpos($location, '.') - strrpos($location, '_')-1);
-			$info['filename'] = substr($location, 0, strrpos($location, '_'));
+			if(strpos($location, ID_SEPARATOR) === false) {
+				$info['filename'] = substr($location, 0, strrpos($location, '.'));
+				$info['identifier'] = '';
+			} else {
+				$info['identifier'] = substr($location, strrpos($location, ID_SEPARATOR)+1, strrpos($location, '.') - strrpos($location, ID_SEPARATOR)-1);
+				$info['filename'] = substr($location, 0, strrpos($location, ID_SEPARATOR));
+			}
 		} else {
 			$info['filename'] = substr($location, strrpos($location, '/')+1, strrpos($location, '.') - strrpos($location, '/')-1);
 		}

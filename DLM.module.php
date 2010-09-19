@@ -1,5 +1,9 @@
 <?php
 define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
+define('ID_SEPARATOR', '_.$$._');
+
+error_reporting(E_ALL|E_STRICT|E_NOTICE);
+error_reporting(E_ALL);
 
 class DLM extends CMSModule {
 	var $db;
@@ -34,7 +38,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetVersion() {
-		return '0.7.6';
+		return '0.7.7';
 	}
 
 	function GetHelp() {
@@ -543,7 +547,7 @@ class DLM extends CMSModule {
 				$fileext = substr(strrchr($filename, '.'), 1);
 
 				$md5 = md5_file($tmp_name);
-				$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . '_' . md5($filename . $md5) . '.' . $fileext;
+				$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . ID_SEPARATOR . md5($filename . $md5) . '.' . $fileext;
 				$item_filesize = $_FILES[$id.'item_upload']['size'];
 
 				if(ValidateExtension($this, $filename)) {

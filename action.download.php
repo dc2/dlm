@@ -50,12 +50,16 @@
 							$srcfile = cms_join_path('downloads', $location);
 							$tmpfile = cms_join_path($tmpdir, $identifier, $filename.$fileext);
 
-							$dsturl = $config['root_url'] . '/tmp/downloads/' . $identifier . '/' . $filename.$fileext;
+							$dsturl = $config['root_url'] . '/tmp/downloads/' . (trim($identifier) != '' ? $identifier.'/' :'') . $filename.$fileext;
 
 							if(!file_exists($tmpfile)) {
 								ScanTempDownloads();
-								@mkdir(cms_join_path($tmpdir, $identifier));
-								@chmod(cms_join_path($tmpdir, $identifier), 0777);
+
+								if(trim($identifier) != '') {
+									@mkdir(cms_join_path($tmpdir, $identifier));
+									@chmod(cms_join_path($tmpdir, $identifier), 0777);
+								}
+
 								if (copy($srcfile, $tmpfile)) {
 									@chmod($tmpfile, 0777);
 
@@ -84,7 +88,10 @@
 							header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 							header('Pragma: public');
 							header('Content-Length: ' . filesize($srcfile));
+
+							ob_end_clean();ob_end_clean();ob_end_clean();
 							readfile_chunked($srcfile);exit;
+							#readfile($srcfile);exit;
 						break;
 					}
 				} else {
