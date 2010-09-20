@@ -34,7 +34,7 @@
 			$item_location = $params['item_location'];
 			if (!ValidateURL($item_location)) {
 				$this->errors[] = $this->Lang('error_malformedurl');
-			} elseif(ValidateExtension($this, $item_location)) {
+			} elseif($this->ValidateExtension($item_location)) {
 				$item_location = str_replace($config['root_url'] . '/downloads/', '$$', $item_location);
 			} else {
 				$this->errors[] = $this->Lang('error_fileext');

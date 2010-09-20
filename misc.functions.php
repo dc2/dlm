@@ -1,5 +1,7 @@
 <?php
 	// functions for file download handling //
+
+	// scan the tmp-downloads folder and delete files that are too old
 	function ScanTempDownloads($maxage = 43200 /* = 12h */, $currentdir = false, $level = 0) {
 		$tmpdir = cms_join_path(dirname(dirname(dirname(__FILE__))), 'tmp', 'downloads');
 		$currentdir = ($currentdir === false) ? $tmpdir : $currentdir;
@@ -29,6 +31,7 @@
 		foreach($delete as $dir) {rmdir($dir);}
 	}
 
+	// acts similar to readfile but chunks the file into parts of 1MB and sends it directly to the client - good for bigger files
 	function readfile_chunked($filename,$retbytes=true) {
 		$chunksize = 1*(1024*1024); // how many bytes per chunk
 		$buffer = '';
@@ -54,6 +57,7 @@
 	}
 
 	// validations functions //
+	// validate the url based on a Regular Expression
 	function ValidateURL($url) {
 		$pattern = "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i";
 		if (preg_match($pattern, $url))
@@ -62,22 +66,8 @@
 			return false;
 	}
 
-	function ValidateExtension(&$dlm, $location) {
-		$fileext = substr(strrchr($location, '.'), 1);
-
-		$dlm->LoadBwList();
-		$blacklist = $dlm->blacklist;
-		$whitelist = $dlm->whitelist;
-
-		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
-		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
-
-		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
-			return true;
-		} else return false;
-	}
-
 	// misc //
+	// format the given filesize (in bytes)
 	function FormatFilesize($size, $prefix = true, $short = true){
 		if($prefix === true) {
 			if($short === true) {
@@ -111,6 +101,7 @@
 		return $size;
 	}
 
+	// filename, -extension and -identifier
 	function FileInfo($location) {
 		$info = array();
 
@@ -132,15 +123,18 @@
 		return $info;
 	}
 
+	// split the template using TPL_SEPARATOR
 	function SplitTemplate($tpl_content, $separator = TPL_SEPARATOR){
 		return explode($separator, $tpl_content);
 	}
 
+	// returns all files  within the specified folder, optionally filtered by file extension
 	function ListDir($d,$x=''){
 		foreach(array_diff(scandir($d),array('.','..')) as $f)if(is_file($d.'/'.$f)&&(($x)?preg_match('/'.$x.'$/',$f):1))$l[]=$f;
 		return $l;
 	}
 
+	// display an image from /modules/DLM/images/
 	function DisplayImage($imageName, $alt='', $title='', $valign = 'middle', $class='', $style='') {
 		global $gCms;
 		$config =& $gCms->config;
@@ -151,12 +145,14 @@
 		return '<img src="'.$img.'" alt="'.$alt.'" style="'.$valign.$style.'" '.($title=='' ? '' : 'title="'.$title.'" ').($class=='' ? '' : 'class="'.$class.'" ').'/>';
 	}
 
+	// returns the pretty-url for the given data
 	function MakePretty($item, $returnid = false, $junk = false) {
 		$returnid = false;
 		$url = 'dlm/'.$item.(($returnid !== false) ? '/'.$returnid : '').(($junk !== false) ? '/'.munge_string_to_url($junk) : '');
 		return $url;
 	}
 
+	// some extra CSS for the admin-panel
 	function GetAdminStyle() {
 		return str_replace('	', '', str_replace("\r\n", '', '
 		body.wait * {cursor: wait !important}

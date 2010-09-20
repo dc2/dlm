@@ -38,7 +38,7 @@ class DLM extends CMSModule {
 	}
 
 	function GetVersion() {
-		return '0.7.7';
+		return '0.8';
 	}
 
 	function GetHelp() {
@@ -148,6 +148,7 @@ class DLM extends CMSModule {
 	}
 
 	# overloaded
+	// original function doesn't return the needed data
 	function ListTemplates($id = false, $returnid = false, $return = false) {
 		$tpls = array();
 		$default_tpl = $this->GetDefaultTemplate();
@@ -177,6 +178,7 @@ class DLM extends CMSModule {
 		return $tpls;
 	}
 
+	// returns the selected default-template. this information is save as description of the root element which has no other function
 	function GetDefaultTemplate(){
 		$query = 'SELECT description FROM '.cms_db_prefix().'module_dlm_items WHERE dl_id = ?';
 
@@ -187,6 +189,7 @@ class DLM extends CMSModule {
 	}
 
 	# overloaded
+	// returns a template either from the database or the filesystem (differenced by .tpl-extension)
 	function GetTemplate($tpl){
 		if(substr($tpl, -4) != '.tpl')
 			$content = parent::GetTemplate($tpl);
@@ -197,6 +200,7 @@ class DLM extends CMSModule {
 		return $content;
 	}
 
+	// returns an array containing overview and detail-template
 	function LoadTemplate($tpl, $separator = TPL_SEPARATOR){
 		$content = trim($this->GetTemplate($tpl));
 
@@ -221,7 +225,7 @@ class DLM extends CMSModule {
 		return $text . '</select>' . "\n";
 	}
 
-	/* Methods for search-support */
+	// Methods for search-module-support
 	function SearchResult($returnid, $node, $attr = '') {
 		$result = array();
 
@@ -255,6 +259,7 @@ class DLM extends CMSModule {
 		}
 	}
 
+	// standard-ajax-response - used for certain admin-side-actions (like move, expand etc.)
 	function AjaxResponse($success = '', $error = false, $display_errors = true, $return = ';|', $tab = 'general'){
 		global $params;
 
@@ -280,6 +285,7 @@ class DLM extends CMSModule {
 			echo $this->DisplayErrors();
 	}
 
+	// create a link that has 'action.actionhandler.php' as action - the actionhandler is used for certain small admin-actions
 	function CreateHandlerLink($id, $action, $returnid='', $contents='', $params=array(), $warn_message='', $onlyhref=false, $inline=false, $addttext='', $targetcontentonly=false, $prettyurl='') {
 		$params['_action'] = $action;
 		$action = 'actionhandler';
@@ -303,11 +309,13 @@ class DLM extends CMSModule {
 		return $result;
 	}
 
+	// load black & white list for (dis)allowed file-extensions
 	function LoadBwList() {
 		$this->blacklist = trim(($this->blacklist !== false) ? $this->blacklist : $this->GetPreference('blacklist', false));
 		$this->whitelist = trim(($this->whitelist !== false) ? $this->whitelist : $this->GetPreference('whitelist', false));
 	}
 
+	// move the specified node within the tree
 	function MoveNode($node, $newparent, $oldparent, $condition = ''){
 		$this->tree->MoveAll($node, $newparent, $condition);
 		$this->tree->RecalcDownloadsAll(array($newparent, $oldparent));
@@ -315,6 +323,7 @@ class DLM extends CMSModule {
 		$this->SendEvent('ItemMoved', array('dl_item' => array('id' => $node)));
 	}
 
+	// delete a whole branch of the tree including categories, downloads (with files) and mirrors
 	function DeleteBranch($node) {
 		$this->tree->DeleteDownloads($node);
 		$this->tree->DeleteAll($node);
@@ -324,6 +333,7 @@ class DLM extends CMSModule {
 		return true;
 	}
 
+	// returns the tree for admin
 	function GetTreeAdmin($node, $id, $indent = 0, &$dbtree = NULL, $return = false) {
 		#$this->tree->RebuildTree(0, 1, true);
 		$items = array();
@@ -414,6 +424,34 @@ class DLM extends CMSModule {
 		return $items;
 	}
 
+	// returns the tree for an input on the admin-panel
+	function GetTreeInput($node, $ignore = false) {
+		$fields = array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'parent', 'name');
+		$condition = array('and' => array('type = 0'));
+		$nodeinfo = $this->tree->GetNodeInfo($ignore);
+		if($ignore !== false) {
+			$nodeinfo = $this->tree->GetNodeInfo($ignore);
+			$dbtree = $this->tree->GetItemsDB($node, $fields, array_merge(array('id' => $ignore), $nodeinfo), $condition);
+		} else {
+			$dbtree = $this->tree->GetItemsDB($node, $fields, false, $condition);
+		}
+
+		$output = array();
+		$count = count($dbtree);
+
+		$output[0] = $this->Lang('no_default');
+		if($count > 0) {
+			foreach ($dbtree as $key => $row) {
+				if($key > 0) {
+					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', (int) $row['dl_level']). '&#8680;&nbsp;';
+					$output[$key] = $prefix.$row['name'];
+				}
+			}
+		}
+		return $output;
+	}
+
+	// returns the tree for frontend
 	function GetTree($node, $id = false, $returnid = false, &$dbtree = NULL){
 		$items = array();
 		$skipuntil = false;
@@ -462,32 +500,7 @@ class DLM extends CMSModule {
 		} else return false;
 	}
 
-	function GetTreeInput($node, $ignore = false) {
-		$fields = array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'parent', 'name');
-		$condition = array('and' => array('type = 0'));
-		$nodeinfo = $this->tree->GetNodeInfo($ignore);
-		if($ignore !== false) {
-			$nodeinfo = $this->tree->GetNodeInfo($ignore);
-			$dbtree = $this->tree->GetItemsDB($node, $fields, array_merge(array('id' => $ignore), $nodeinfo), $condition);
-		} else {
-			$dbtree = $this->tree->GetItemsDB($node, $fields, false, $condition);
-		}
-
-		$output = array();
-		$count = count($dbtree);
-
-		$output[0] = $this->Lang('no_default');
-		if($count > 0) {
-			foreach ($dbtree as $key => $row) {
-				if($key > 0) {
-					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', (int) $row['dl_level']). '&#8680;&nbsp;';
-					$output[$key] = $prefix.$row['name'];
-				}
-			}
-		}
-		return $output;
-	}
-
+	// returns the path (breadcrumbs) for the specified item. used for admin and frontend
 	function GetPath($item_id, $id, $returnid, $root_info = false, $addtext = false, $return = false) {
 		$this->tree->Parents($item_id, array('dl_id', 'name', 'type'), array('and' => array('dl_left >= '.(int)$root_info[0])));
 		$path	= '';
@@ -533,10 +546,12 @@ class DLM extends CMSModule {
 		return array($path, ' - '.$title);
 	}
 
+	// this is an alias function for $this->tree->GetDownload
 	function GetDownload($item_id) {
 		return $this->tree->GetDownload($item_id); // sourced out into dltree because it's needed there, too
 	}
 
+	// move the uploaded file to /downloads/, rename it to have a proper identifier and return the new filename
 	function UploadFile($id){
 		if(!empty($_FILES[$id.'item_upload']['tmp_name']) && $_FILES[$id.'item_upload']['error'] == 0 && $_FILES[$id.'item_upload']['size'] > 0) {
 			$dldir = cms_join_path(dirname(__FILE__), '..', '..', 'downloads', '');
@@ -550,7 +565,7 @@ class DLM extends CMSModule {
 				$new_filename = str_replace('.'.$fileext, '', $_FILES[$id.'item_upload']['name']) . ID_SEPARATOR . md5($filename . $md5) . '.' . $fileext;
 				$item_filesize = $_FILES[$id.'item_upload']['size'];
 
-				if(ValidateExtension($this, $filename)) {
+				if($this->ValidateExtension($filename)) {
 					if(!file_exists($dldir . $new_filename)) {
 						if(!@move_uploaded_file($tmp_name, $dldir . $new_filename)) {
 							$this->errors[] = $this->Lang('error_upload');
@@ -571,7 +586,7 @@ class DLM extends CMSModule {
 		} else return false;
 	}
 
-	/* Download-Counter (Frontend) */
+	// Download-Counter (frontend)
 	function DownloadCounter($item_id, $mirror_id = false) {
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_downloads SET downloads = downloads + 1 WHERE dl_parent_id = ?';
 		$result = $this->db->Execute($query, array((int) $item_id));
@@ -582,9 +597,10 @@ class DLM extends CMSModule {
 		}
 	}
 
-	function GetMirror($item_id) {
+	// returns the specified mirror
+	function GetMirror($mirror) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_mirror_id = ?';
-		$result = $this->db->Execute($query, array((int)$item_id));
+		$result = $this->db->Execute($query, array((int)$mirror));
 
 		if($result->NumRows() > 0)
 			return $result->FetchRow();
@@ -592,6 +608,7 @@ class DLM extends CMSModule {
 			return false;
 	}
 
+	// returns all mirrors as an array of the specified download
 	function GetMirrors($node, $id = false, $returnid = false, $admin = false, $size = 0) {
 		$query = 'SELECT dl_mirror_id as ID, position, name, location, downloads FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_parent_id = ? ORDER BY position ASC';
 		$result = $this->db->Execute($query, array($node));
@@ -610,6 +627,7 @@ class DLM extends CMSModule {
 		return $rows;
 	}
 
+	// update all mirrors of the specified download - used in edit_download and add_download
 	function UpdateMirrors($node, $mirror_names, $mirror_urls, $mirror_ids){
 		$i = 0;
 		foreach($mirror_names as $mirror_name) {
@@ -635,14 +653,20 @@ class DLM extends CMSModule {
 		}
 	}
 
-	/*function GetTemplate($tpl_name) {
-		$query = 'SELECT * FROM '.cms_db_prefix().'module_templates WHERE t = ?';
-		$result = $this->db->Execute($query, array((int)$item_id));
+	// validate the file extension based on black / whitelist
+	function ValidateExtension($location) {
+		$fileext = substr(strrchr($location, '.'), 1);
 
-		if($result->NumRows() > 0)
-			return $result->FetchRow();
-		else
-			return false;
-	}*/
+		$this->LoadBwList();
+		$blacklist = $this->blacklist;
+		$whitelist = $this->whitelist;
+
+		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
+		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
+
+		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
+			return true;
+		} else return false;
+	}
 }
 ?>

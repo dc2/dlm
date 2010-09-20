@@ -7,6 +7,7 @@ class dltree extends dbtree {
 		parent::dbtree($table, $prefix, $db);
 	}
 
+	// retrieves the tree from the database, optionally ignoring a special node and all of it's children
 	function GetItemsDB($node, $fields = '*', $ignore = false, $condition = '') {
 		$this->Branch($node, $fields, $condition);
 
@@ -42,6 +43,7 @@ class dltree extends dbtree {
 		return $rows;
 	}
 
+	// get a single item
 	function GetItem($item_id, $fields = '*') {
 		$items = $this->GetItemsDB((int)$item_id, $fields, false, array('and' => array('dl_id = '.(int)$item_id)));
 		return reset($items);
@@ -85,6 +87,7 @@ class dltree extends dbtree {
 		return $right + 1;
 	}*/
 
+	// calculates and sets the correct number of contained downloads for the specified node and all children
 	function RecalcDownloadsAll($nodes, $info = NULL) {
 		$count = count($nodes);
 		for($i = 0; $i < $count; ++$i) {
@@ -102,7 +105,7 @@ class dltree extends dbtree {
 		}
 	}
 
-	/* Update download-count of specific node */
+	// Update download-count of specific node
 	function RecalcDownloadsNode($node, $info = NULL) {
 		if($info === NULL) $info = $this->GetNodeInfo($node);
 
@@ -130,6 +133,7 @@ class dltree extends dbtree {
 		return $this->Insert($node, $condition, $data);
 	}
 
+	// returns information like the location for a specific download. alias function for this can be found in DLM.module.php
 	function GetDownload($item_id) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_downloads WHERE dl_parent_id = ?';
 		$result = $this->db->Execute($query, array((int)$item_id));
@@ -140,6 +144,7 @@ class dltree extends dbtree {
 			return false;
 	}
 
+	// delete the file for a specific download
 	function DeleteDownload($item_id) {
 		$dl = $this->GetDownload($item_id);
 		if($dl !== false) {
@@ -152,6 +157,7 @@ class dltree extends dbtree {
 		} else return false;
 	}
 
+	// delete all downloads that are children of the specified node, containing files and mirrors
 	function DeleteDownloads($node) {
 		$condition = '';
 		$info = $this->GetNodeInfo($node);
@@ -180,6 +186,7 @@ class dltree extends dbtree {
 		} else return false;
 	}
 
+	// returns all direct children (only one level!) of a node.
 	function GetChildren($node) {
 		$query = 'SELECT * FROM '.cms_db_prefix().'module_dlm_items WHERE parent = ? ORDER BY dl_left ASC';
 		$result = $this->db->Execute($query, array($node));
