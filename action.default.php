@@ -44,7 +44,7 @@
 		$location	= $this->CreateLink($id, 'download', $returnid, $dbitem['name'], array('item'=>$item_id, 'dlmode' => 'd'), '', true, true, '', false, MakePretty($item_id.'d', false, $dbitem['name']));
 
 		if(!isset($params['showmirror']) || $params['showmirror'] === true) {
-			$mirrors = $this->GetMirrors($item_id, false, false, false, $download['size']);
+			$mirrors = $this->GetMirrors($item_id, false, $download['size']);
 			$mirrorurl	= $this->CreateLink($id, 'download', $returnid, $dbitem['name'], array('item'=>$item_id, 'dlmode' => 'm[%mirrorid%]'), '', true, true, '', false, MakePretty($item_id.'m[%mirrorid%]', false, $dbitem['name']));
 		} else $mirrors = false;
 

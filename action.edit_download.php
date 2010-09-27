@@ -78,7 +78,16 @@
 			}
 
 			if(isset($params['mirror_names']) && is_array($params['mirror_names'])) {
-				$this->UpdateMirrors($item_id, $params['mirror_names'], $params['mirror_urls'], $params['mirror_ids']);
+				$mirrors = $this->UpdateMirrors($item_id, $params['mirror_names'], $params['mirror_urls'], $params['mirror_ids']);
+				if($mirrors === false) {
+					$mirrors = '';
+				} else {
+					$this->smarty->assign('showmirrors', $this->Lang('true'));
+					$this->smarty->assign('mirror_name', $this->Lang('name'));
+					$this->smarty->assign('mirror_url', $this->Lang('url'));
+					$this->smarty->assign('mirrors', $mirrors);
+					$mirrors = '|||'.$this->ProcessTemplate('admin/mirrorlist.tpl');
+				}
 			}
 
 			if(isset($params['submit']) && count($this->errors) == 0) {
@@ -118,7 +127,7 @@
 			}
 		}
 
-		$this->AjaxResponse($this->Lang('download_updated'), false, 0);
+		$this->AjaxResponse($this->Lang('download_updated').(isset($mirrors) ? $mirrors : ''), false, 0);
 
 		$this->smarty->assign('headline', $this->Lang('edit_download'));
 		$this->smarty->assign('th_path', $this->Lang('th_path'));
@@ -156,7 +165,7 @@
 		$this->smarty->assign('areyousure_mirror', $this->Lang('areyousure_mirror'));
 		$this->smarty->assign('toggle', $this->Lang('toggle'));
 
-		$this->smarty->assign('mirrors', $this->GetMirrors($item_id, $id, $returnid, true));
+		$this->smarty->assign('mirrors', $this->GetMirrors($item_id, true));
 
 		$this->smarty->assign('th_parent', $this->Lang('parent_category'));
 		$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));

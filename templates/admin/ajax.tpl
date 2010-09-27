@@ -90,6 +90,11 @@
 					},
 					success: function(response) {
 						var responseCode = response.substr(0,1);
+						var separatorpos = response.indexOf('|||');
+						if(separatorpos != -1) {
+							jQuery('#mirrors').html(response.substr(separatorpos+3));
+							response = response.substr(0, separatorpos);
+						}
 
 						if(responseCode == '1') {
 							jQuery('#readroot .pagemcontainer').clone().appendTo('#writeroot');

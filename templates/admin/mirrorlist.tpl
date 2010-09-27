@@ -9,3 +9,7 @@
 	</li>
 	{/foreach}
 {/capture}
+
+{if $showmirrors == true}
+	{$mirrorlist}
+{/if}

@@ -2,10 +2,12 @@
 define('TPL_SEPARATOR', '<!-- // :::TPL-SEPARATOR::: // -->');
 define('ID_SEPARATOR', '_.$$._');
 
-error_reporting(E_ALL|E_STRICT|E_NOTICE);
-error_reporting(E_ALL);
+require_once(cms_join_path(dirname(__FILE__), 'libs', 'DlmModuleWrapper.class.php'));
 
-class DLM extends CMSModule {
+#error_reporting(E_ALL|E_STRICT|E_NOTICE);
+#error_reporting(E_ALL);
+
+class DLM extends DlmModuleWrapper {
 	var $db;
 	var $tree;
 	var $theme;
@@ -27,66 +29,6 @@ class DLM extends CMSModule {
 		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));
 
 		$this->tree = new dltree(cms_db_prefix().$this->table, $this->prefix, $this->db);
-	}
-
-	function GetName() {
-		return 'DLM';
-	}
-
-	function GetFriendlyName() {
-		return $this->Lang('friendlyname');
-	}
-
-	function GetVersion() {
-		return '0.8';
-	}
-
-	function GetHelp() {
-		return $this->Lang('help');
-	}
-
-	function GetAuthor() {
-		return 'dc2';
-	}
-
-	function GetAuthorEmail() {
-		return 'dc2@worldofanno.de';
-	}
-
-	function GetChangeLog() {
-		return $this->Lang('changelog');
-	}
-
-	function AdminStyle() {
-		return GetAdminStyle();
-	}
-
-	function IsPluginModule() {
-		return true;
-	}
-
-	function HasAdmin() {
-		return true;
-	}
-
-	function GetAdminSection() {
-		return 'content';
-	}
-
-	function GetAdminDescription() {
-		return $this->Lang('moddescription');
-	}
-
-	function VisibleToAdminUser() {
-		return $this->CheckPermission('Use DLM');
-	}
-
-	function GetDependencies() {
-		return array();
-	}
-
-	function MinimumCMSVersion() {
-		return "1.6.7";
 	}
 
 	function SetParameters() {
@@ -123,28 +65,6 @@ class DLM extends CMSModule {
 		$this->SetParameterType('showdesc', CLEAN_NONE);
 
 		$this->SetParameterType('junk', CLEAN_STRING);
-	}
-
-	function GetEventDescription($eventname)
-	{
-		return $this->lang('evd-' . $eventname);
-	}
-
-	function GetEventHelp($eventname)
-	{
-		return $this->lang('evd-' . $eventname);
-	}
-
-	function InstallPostMessage() {
-		return $this->Lang('postinstall');
-	}
-
-	function UninstallPostMessage() {
-		return $this->Lang('postuninstall');
-	}
-
-	function UninstallPreMessage() {
-		return $this->Lang('really_uninstall');
 	}
 
 	# overloaded
@@ -309,10 +229,26 @@ class DLM extends CMSModule {
 		return $result;
 	}
 
-	// load black & white list for (dis)allowed file-extensions
+	// load black & white lists for (dis)allowed file-extensions
 	function LoadBwList() {
 		$this->blacklist = trim(($this->blacklist !== false) ? $this->blacklist : $this->GetPreference('blacklist', false));
 		$this->whitelist = trim(($this->whitelist !== false) ? $this->whitelist : $this->GetPreference('whitelist', false));
+	}
+
+	// validate the file extension based on black / whitelist
+	function ValidateExtension($location) {
+		$fileext = substr(strrchr($location, '.'), 1);
+
+		$this->LoadBwList();
+		$blacklist = $this->blacklist;
+		$whitelist = $this->whitelist;
+
+		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
+		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
+
+		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
+			return true;
+		} else return false;
 	}
 
 	// move the specified node within the tree
@@ -609,7 +545,7 @@ class DLM extends CMSModule {
 	}
 
 	// returns all mirrors as an array of the specified download
-	function GetMirrors($node, $id = false, $returnid = false, $admin = false, $size = 0) {
+	function GetMirrors($node, $admin = false, $size = 0) {
 		$query = 'SELECT dl_mirror_id as ID, position, name, location, downloads FROM '.cms_db_prefix().'module_dlm_mirrors WHERE dl_parent_id = ? ORDER BY position ASC';
 		$result = $this->db->Execute($query, array($node));
 
@@ -651,21 +587,10 @@ class DLM extends CMSModule {
 
 			next($mirror_names);next($mirror_urls);next($mirror_ids);
 		}
-	}
 
-	// validate the file extension based on black / whitelist
-	function ValidateExtension($location) {
-		$fileext = substr(strrchr($location, '.'), 1);
-
-		$this->LoadBwList();
-		$blacklist = $this->blacklist;
-		$whitelist = $this->whitelist;
-
-		$blacklist = ($blacklist !== false && strlen(trim($blacklist)) > 0) ? explode(';', $blacklist) : false;
-		$whitelist = ($whitelist !== false && strlen(trim($whitelist)) > 0) ? explode(';', $whitelist) : false;
-
-		if(($blacklist === false && $whitelist === false) || (($whitelist !== false && in_array($fileext, $whitelist)) || ($whitelist === false && is_array($blacklist) && !in_array($fileext, $blacklist)))) {
-			return true;
+		global $params;
+		if(isset($params['ajax']) && $params['ajax'] == "true") {
+			return $this->GetMirrors($node, true);
 		} else return false;
 	}
 }
