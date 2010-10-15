@@ -15,10 +15,14 @@
 
 	$lang['overview']	= 'Übersicht';
 	$lang['default']	= 'Standard';
-
-	$lang['accessdenied'] = 'Zugang verwehrt, bitte überprüfen Sie Ihre Berechtigungen.';
-	$lang['error']		= 'Fehler!';
 	$lang['misc']		= 'Sonstiges';
+
+	$lang['and']	= 'und';
+	$lang['or']		= 'oder';
+
+	$lang['up']		= 'Hoch';
+	$lang['down']	= 'Runter';
+
 	$lang['submit']		= 'Absenden';
 	$lang['cancel']		= 'Abbrechen';
 	$lang['savetemp']	= 'Zwischenspeichern';
@@ -29,7 +33,43 @@
 	$lang['filesize'] = 'Dateigröße';
 	$lang['available_sources'] = 'Verfügbare Downloadquellen';
 
+	$lang['name']		= 'Name';
+	$lang['desc'] 		= 'Beschreibung';
+	$lang['location']	= 'Adresse';
+
+	$lang['parent_category'] = 'Übergeordnete Kategorie';
+	$lang['th_path'] = 'Pfad';
+
+	$lang['node_children'] = 'Untergeordnete Kategorien und Downloads';
+
+	$lang['download']	= 'Download';
+	$lang['downloads']	= 'Downloads';
+	$lang['category']	= 'Kategorie';
+	$lang['content']	= 'Inhalt';
+	$lang['url'] 		= 'Adresse (URL)';
+	$lang['toggle'] 	= 'Aus- / Einblenden';
+
+	$lang['unselect_children']	= 'Untergeornete Knoten abwählen';
+	$lang['all']				= 'Alle';
+	$lang['selected']			= 'Ausgewählte';
+	$lang['reverse_selection']	= 'Auswahl umkehren';
+
+	$lang['delete']		= 'Löschen';
+	$lang['activate']	= 'Aktivieren';
+	$lang['deactivate']	= 'Deaktivieren';
+	$lang['move']		= 'Verschieben';
+	$lang['suborder']	= 'Unterordnen';
+
+	$lang['areyousure']			= 'Sind Sie sich sicher?';
+	$lang['areyousure_item']	= "Sind Sie sich sicher, dass Sie diesen Eintrag löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
+	$lang['areyousure_items']	= "Sind Sie sich sicher, dass Sie diese %num Einträge löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
+	$lang['areyousure_mirror']	= 'Möchten Sie diesen Mirror wirklich löschen?';
+	$lang['areyousure_tpl']		= 'Möchten Sie dieses Template wirklich löschen?';
+
+	$lang['template']	= 'Template';
+
 	// errors
+	$lang['accessdenied']			= 'Zugang verwehrt, bitte überprüfen Sie Ihre Berechtigungen.';
 	$lang['error']					= 'Bei der Operation ist ein Fehler aufgetreten. (Fehlercode 00)';
 	$lang['error_nocategoryname']	= 'Es wurde kein Name für die Kategorie angegeben! (Fehlercode 01)';
 	$lang['error_nodownloadname']	= 'Es wurde kein Name für den Download angegeben! (Fehlercode 02)';
@@ -48,72 +88,38 @@
 	$lang['error_delete']			= 'Beim Löschen der Datei ist ein Fehler aufgetreten. (Fehlercode 14)';
 	$lang['error_noname']			= 'Es wurde kein Name angegeben (Fehlercode 15)';
 	$lang['error_dbinsert']			= 'Beim Eintragen in die Datenbank ist ein Fehler aufgetreten. (Fehlercode 16)';
-	$lang['error_dublicatename']	= 'Dieser Name ist bereits vergeben, bitte wählen Sie einen anderen Namen aus. (Errorcode 17)';
-	$lang['error_notplcontent']		= 'Dieses Template existiert nicht oder hat keinen Inhalt. (Errorcode 18)';
+	$lang['error_dublicatename']	= 'Dieser Name ist bereits vergeben, bitte wählen Sie einen anderen Namen aus. (Fehlercode 17)';
+	$lang['error_notplcontent']		= 'Dieses Template existiert nicht oder hat keinen Inhalt. (Fehlercode 18)';
 
 	$lang['error_notfound']			= 'Die angegebene Datei wurde nicht gefunden. (Fehlercode 404)';
 	$lang['error_forbidden']		= 'Ihr Browser hat einen unzulässiger Referer übertragen.<br />Direktlinks sind nicht gestattet. (Fehlercode 403)';
 
-	// misc
-	$lang['node_children'] = 'Untergeordnete Kategorien und Downloads';
-
-	$lang['download']	= 'Download';
-	$lang['downloads']	= 'Downloads';
-	$lang['category']	= 'Kategorie';
-	$lang['name']		= 'Name';
-	$lang['desc'] 		= 'Beschreibung';
-	$lang['content']	= 'Inhalt';
-	$lang['url'] 		= 'Adresse (URL)';
-	$lang['toggle'] 	= 'Aus- / Einblenden';
-
-	$lang['and']	= 'und';
-	$lang['or']		= 'oder';
-
-	$lang['up']		= 'Hoch';
-	$lang['down']	= 'Runter';
-
-	$lang['unselect_children'] = 'Untergeornete Knoten abwählen';
-	$lang['all'] = 'Alle';
-	$lang['selected'] = 'Ausgewählte';
-	$lang['reverse_selection'] = 'Auswahl umkehren';
-
-	$lang['delete']		= 'Löschen';
-	$lang['activate']	= 'Aktivieren';
-	$lang['deactivate']	= 'Deaktivieren';
-	$lang['move']		= 'Verschieben';
-	$lang['suborder']	= 'Unterordnen';
-
-	$lang['areyousure']	= 'Sind Sie sich sicher?';
-	$lang['areyousure_item'] = "Sind Sie sich sicher, dass Sie diesen Eintrag löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
-	$lang['areyousure_items'] = "Sind Sie sich sicher, dass Sie diese %num Einträge löschen möchten? Alle untergeordneten Einträge werden ebenfalls gelöscht.";
-	$lang['areyousure_mirror']	= 'Möchten Sie diesen Mirror wirklich löschen?';
-	$lang['areyousure_tpl']	= 'Möchten Sie dieses Template wirklich löschen?';
-
-	$lang['template']	= 'Template';
-
 	// -- Adminpanel -- //
 
 	// - Tabs - //
-	$lang['title_general']	= 'Übersicht';
-	$lang['title_prefs']	= 'Optionen';
-	$lang['title_statistics'] = 'Statistiken';
+	$lang['title_general']		= 'Übersicht';
+	$lang['title_prefs']		= 'Optionen';
+	$lang['title_statistics']	= 'Statistiken';
 
 	// - General tab - //
 	$lang['no_children'] = 'Es sind keine Einträge vorhanden.';
 
-	$lang['th_name'] = 'Name';
-	$lang['th_type'] = 'Typ';
-	$lang['th_id'] 	= 'ID';
-	$lang['th_active'] = 'Aktiv';
-	$lang['th_reorder'] = 'Ordnen';
-	$lang['th_actions'] = 'Aktionen';
+	$lang['th_name']	= 'Name';
+	$lang['th_type']	= 'Typ';
+	$lang['th_id']		= 'ID';
+	$lang['th_active']	= 'Aktiv';
+	$lang['th_reorder']	= 'Ordnen';
+	$lang['th_actions']	= 'Aktionen';
 
 	// - Preferences tab - //
 	$lang['blacklist_desc'] = '<strong>Blacklist</strong> (verbotene Dateiendungen)';
 	$lang['whitelist_desc'] = '<strong>Whitelist</strong> (erlaubte Dateiendungen, falls gesetzt sind <em><b>nur</b></em> die angegebenen Dateitypen erlaubt)';
 
-	$lang['extensions']	= 'Dateiendungen';
-	$lang['extensions_desc'] = 'Dateiendungen getrennt durch Semikolon <b>;</b> und <b>ohne</b> führenden Punkt (z.B. jpg;png;gif;zip)';
+	$lang['extensions']			= 'Dateiendungen';
+	$lang['extensions_desc']	= 'Dateiendungen getrennt durch Semikolon <b>;</b> und <b>ohne</b> führenden Punkt (z.B. jpg;png;gif;zip)';
+
+	$lang['allowed_extensions'] = 'Erlaubte '.$lang['extensions'];
+	$lang['forbidden_extensions'] = 'Verbotene '.$lang['extensions'];
 
 	$lang['returnid_desc']	= '<strong>returnid</strong> (ID der Seite, in der DLM eingebunden werden soll (nur für die Nutzung mit Pretty-URLs - jeder andere Content auf der entsprechenden Seite wird überschrieben))';
 	$lang['obfuscate_desc']	= '<strong>Verschleierung</strong> (Wie soll der Dateiname im /downloads/-Verzeichnis verschleiert werden, um Hotlinking zu unterbinden?)';
@@ -124,61 +130,51 @@
 	$lang['js_effects_text'] = '<strong>JavaScript Effekte</strong> (<b style="color: #ff0000">Achtung:</b> Bei der Einstellung <em>Alle</em> kann es bei vielen Einträgen zu Performance-Problemen kommen)';
 	$lang['js_effetcs_list'] = 'Keine;Einfach;Alle';
 
-	// - Statistics zab - //
-	$lang['th_date'] = 'Datum';
-	$lang['th_traffic'] = 'Traffic';
+	// - Statistics tab - //
+	$lang['th_date']	= 'Datum';
+	$lang['th_traffic']	= 'Traffic';
 
 	// - Templates tab - //
-	$lang['add_template']	= 'Template hinzufügen';
-	$lang['import_template']= 'Template importieren';
-	$lang['edit_template']	= 'Template bearbeiten';
-	$lang['delete_template']= 'Template löschen';
-	$lang['template_updated']= 'Template gespeichert.';
-	$lang['detail_tpl'] = 'Download-Details';
-	$lang['overview_tpl']= 'Downloads-Übersicht';
+	$lang['add_template']		= 'Template hinzufügen';
+	$lang['import_template']	= 'Template importieren';
+	$lang['edit_template']		= 'Template bearbeiten';
+	$lang['delete_template']	= 'Template löschen';
+	$lang['template_updated']	= 'Template gespeichert.';
+	$lang['detail_tpl']			= 'Download-Details';
+	$lang['overview_tpl']		= 'Downloads-Übersicht';
 
-	// add / edit / delete items //
-	$lang['name'] 		= 'Name';
-	$lang['desc'] 		= 'Beschreibung';
-	$lang['location']	= 'Adresse';
-	$lang['upload'] 	= 'Datei hochladen';
-	$lang['filesize_bytes'] = 'Dateigröße (in Bytes)';
+	// add / edit / import / delete items //
+	$lang['upload']			= 'Datei hochladen';
+	$lang['filesize_bytes']	= 'Dateigröße (in Bytes)';
 
-	$lang['allowed_extensions'] = 'Erlaubte '.$lang['extensions'];
-	$lang['forbidden_extensions'] = 'Verbotene '.$lang['extensions'];
-
-	$lang['mirror'] 		= 'Mirror';
-	$lang['mirror_desc']	= 'Hier können zusätzliche Downloadquellen hinzugefügt werden.';
-
-	$lang['add_mirror']		= 'Mirror hinzufügen';
-
-	$lang['parent_category'] = 'Übergeordnete Kategorie';
-	$lang['th_path'] = 'Pfad';
-
-	$lang['edit_location'] = 'Diese Datei löschen und ersetzen';
-
-	$lang['expandall'] = 'Alle Kategorien ausklappen';
-	$lang['contractall'] = 'Alle Kategorien einklappen';
-
+	// headlines
 	$lang['add_category']	= 'Kategorie hinzufügen';
 	$lang['edit_category']	= 'Kategorie bearbeiten';
+	$lang['add_download']	= 'Download hinzufügen';
+	$lang['edit_download']	= 'Download bearbeiten';
+
+	$lang['import_folder']	= 'Verzeichnis importieren';
+	$lang['import_text']	= 'Hier können Sie komplette Verzeichnisse oder Archive mitsamt der Ordnerstruktur importieren.';
+
+
+	$lang['mirror'] 		= 'Mirror';
+	$lang['add_mirror']		= 'Mirror hinzufügen';
+	$lang['mirror_updated']	= 'Mirror erfolgreich bearbeitet.';
+
+	$lang['edit_location']	= 'Diese Datei löschen und ersetzen';
+
+	$lang['expandall']		= 'Alle Kategorien ausklappen';
+	$lang['contractall']	= 'Alle Kategorien einklappen';
 
 	$lang['category_moved'] 	= 'Kategorie wurde verschoben.';
 	$lang['category_deleted']	= 'Kategorie wurde erfolgreich gelöscht.';
 	$lang['category_updated']	= 'Änderungen an der Kategorie erfolgreich gespeichert.';
 	$lang['category_added'] 	= 'Kategorie erfolgreich hinzugefügt';
 
-
-	$lang['add_download']	= 'Download hinzufügen';
-	$lang['edit_download']	= 'Download bearbeiten';
-
 	$lang['download_moved']		= 'Download wurde verschoben.';
 	$lang['download_deleted']	= 'Download wurde erfolgreich gelöscht.';
 	$lang['download_updated']	= 'Änderungen an dem Download erfolgreich gespeichert.';
 	$lang['download_added']		= 'Download erfolgreich hinzugefügt';
-
-	$lang['edit_mirror']	= 'Mirror bearbeiten';
-	$lang['mirror_updated']	= 'Mirror erfolgreich bearbeitet.';
 
 	$lang['delete_item']	= 'Eintrag löschen';
 	$lang['item_moved']		= 'Eintrag wurde verschoben.';
@@ -190,26 +186,22 @@
 	// -- Events - evd: event description -- //
 	$lang['evd-DownloadAdded']  = 'Ausführen, nachdem ein Download hinzugefügt wurde.';
 	$lang['evd-DownloadEdited']	= 'Ausführen, nachdem ein Download bearbeitet wurde.';
-	#$lang['evd-DownloadMoved']	= 'Ausführen, nachdem ein Download verschoben wurde.';
-	#$lang['evd-DownloadDeleted']= 'Ausführen, nachdem ein Download gelöscht wurde.';
 
 	$lang['evd-CategoryAdded']	= 'Ausführen, nachdem eine Kategorie hinzugefügt wurde.';
 	$lang['evd-CategoryEdited']	= 'Ausführen, nachdem eine Kategorie bearbeitet wurde.';
-	#$lang['evd-CategoryMoved']	= 'Ausführen, nachdem eine Kategorie verschoben wurde.';
-	#$lang['evd-CategoryDeleted']= 'Ausführen, nachdem eine Kategorie gelöscht wurde.';
 
 	$lang['evd-ItemMoved']		= 'Ausführen, nachdem ein Knoten verschoben wurde.';
 	$lang['evd-ItemDeleted']	= 'Ausführen, nachdem ein Knoten gelöscht wurde.';
 
 	// -- Help -- //
-	$lang['help-item'] = 'ID des Knotens, der angezeigt werden soll. Ist der Eintrag eine Typ Kategorie, so wird eine Übersicht angezeigt. Handelt es sich um einen Download, so wird die Detail-Seite angezeigt.';
-	$lang['help-root'] = 'ID des Ursprungsknotens. Ist dieser Parameter angegeben, wird der Pfad ausgehend von <em>root</em> angezeigt. (Knoten, die nicht unterhalb <em>root</em> liegen, können zwar auch angesehen werden, dort ist die Pfad-Anzeige allerdings fehlerhaft).';
+	$lang['help-item']	= 'ID des Knotens, der angezeigt werden soll. Ist der Eintrag eine Typ Kategorie, so wird eine Übersicht angezeigt. Handelt es sich um einen Download, so wird die Detail-Seite angezeigt.';
+	$lang['help-root']	= 'ID des Ursprungsknotens. Ist dieser Parameter angegeben, wird der Pfad ausgehend von <em>root</em> angezeigt. (Knoten, die nicht unterhalb <em>root</em> liegen, können zwar auch angesehen werden, dort ist die Pfad-Anzeige allerdings fehlerhaft).';
 	$lang['help-template']	= 'Template, dass genutzt werden soll. Wenn das angegebene Template nicht vorhanden ist, wird das Standard-Template genutzt. Bitte beachten Sie, dass dieser Parameter nur dann Wirkung zeigt, wenn Pretty-URLs <b>nicht</b> genutzt werden.';
 	$lang['help-returnid']	= 'ID der Seite, auf der DLM eingebettet werden soll - der Standard-Wert kann im Einstellungen-Tab gesetzt werden. Dieser Parameter ist nur bei der Nutzung von Pretty-URLs nötig.';
-	$lang['help-dlmode'] = 'Interner Parameter. (Steuert, ob ein Download vom Mirror oder von der primären Quelle geladen wird).';
-	$lang['help-showpath'] = 'Soll der Pfad zum aktuellen Knoten angezeigt werden?';
-	$lang['help-showdesc'] = 'Soll die Beschreibung angezeigt werden?';
-	$lang['help-showmirror'] = 'Soll eine Mirror-Übersicht bei Downloads eingeblendet werden?';
+	$lang['help-dlmode']	= 'Interner Parameter. (Steuert, ob ein Download vom Mirror oder von der primären Quelle geladen wird).';
+	$lang['help-showpath']	= 'Soll der Pfad zum aktuellen Knoten angezeigt werden?';
+	$lang['help-showdesc']	= 'Soll die Beschreibung angezeigt werden?';
+	$lang['help-showmirror']= 'Soll eine Mirror-Übersicht bei Downloads eingeblendet werden?';
 
 	$lang['changelog'] = '
 	<dl>
@@ -233,8 +225,8 @@
 		<dt>0.5b</dt>
 		<dd>erste Veröffentlichung von DLM</dd>
 	</dl>';
-	$lang['help'] = '
 
+	$lang['help'] = '
 	<h3>Was macht dieses Modul?</h3><p>Dieses Modul stellt einen umfangreichen und komfortabel zu bedienenden Download-Manager zur Verfügung.</p>
 	<h3>Wie wird dieses Modul eingesetzt?</h3>DLM lässt sich per <pre style="display: inline">{cms_module module="DLM" <em>parameter</em>}</pre> einbinden. <strong>Wichtig:</strong> Bei der Nutzung von Pretty-URLs wird der sonstige Content auf der Seite überschrieben.
 	<h3 style="color: #ff0000">Wichtig</h3>

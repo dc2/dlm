@@ -173,8 +173,6 @@
 		$this->smarty->assign('th_desc', $this->Lang('desc'));
 		$this->smarty->assign('desc_value', htmlspecialchars($item_desc));
 
-		//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
-
 		$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));
 		$this->smarty->assign('cancel', $this->CreateInputSubmit($id, 'cancel', $this->Lang('cancel')));
 		$this->smarty->assign('temp', $this->CreateInputSubmit($id, 'temp', $this->Lang('savetemp')));

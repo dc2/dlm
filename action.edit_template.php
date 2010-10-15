@@ -79,7 +79,6 @@
 
 	$this->smarty->assign('headline', $this->Lang('edit_template'));
 
-	//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
 	$this->smarty->assign('hidden', $this->CreateInputHidden($id, 'oldname', $tpl_name) . ($return !== false ? $this->CreateInputHidden($id, 'return', implode(',', $return)) : ''));
 
 	$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));

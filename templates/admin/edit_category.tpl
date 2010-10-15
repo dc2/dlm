@@ -2,9 +2,7 @@
 {$startform}
 <div id="dlmpage" style="margin-left:2%">
 {$hidden}
-	{if isset($headline)}
-		<h3>{$headline}</h3>
-	{/if}
+	{if isset($headline)}<h3>{$headline}</h3>{/if}
 	{if strlen($path[0]) > 0}
 		<p>
 			<strong>&nbsp;&nbsp;&nbsp;&nbsp;{$th_path}</strong>:&nbsp;{$path[0]}

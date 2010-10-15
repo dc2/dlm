@@ -93,7 +93,7 @@
 
 	$this->smarty->assign('headline', $this->Lang('add_download'));
 	$this->smarty->assign('th_path', $this->Lang('th_path'));
-	$this->smarty->assign('path', $this->GetPath($item_parent, $id, $returnid, 1, $this->Lang('add_download'), isset($params['return']) ? $params['return'] : false));
+	$this->smarty->assign('path', $this->GetPath($item_parent, $id, $returnid, 1, $this->Lang('add_download'), isset($params['return']) ? $params['return'] : ''));
 
 	$this->smarty->assign('th_name', $this->Lang('name'));
 	$this->smarty->assign('name_value', $item_name);

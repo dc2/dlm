@@ -67,7 +67,6 @@
 
 			$this->AjaxResponse($this->Lang('category_updated'), false, 0);
 
-			// form
 			$this->smarty->assign('headline', $this->Lang('edit_category'));
 			$this->smarty->assign('th_path', $this->Lang('th_path'));
 			$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, 1, false, "edit_category,$item_id"));
@@ -80,8 +79,6 @@
 
 			$this->smarty->assign('th_desc', $this->Lang('desc'));
 			$this->smarty->assign('desc_value', $item_desc);
-
-			//$this->smarty->assign('ajax', $this->CreateInputHidden($id, 'ajax', 'false'));
 
 			$this->smarty->assign('submit', $this->CreateInputSubmit($id, 'submit', $this->Lang('submit')));
 			$this->smarty->assign('temp', $this->CreateInputSubmit($id, 'temp', 	$this->Lang('savetemp')));
