@@ -22,8 +22,6 @@
 		<p>{$submit}{$cancel}{$temp}</p>
 	</div>
 
-	<div id="writeroot">
-
-	</div>
+	<div id="writeroot"></div>
 </div>
 {$endform}

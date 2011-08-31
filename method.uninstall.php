@@ -28,7 +28,7 @@
 		return;
 	}
 
-	$db =& $gCms->GetDb();
+	$db = &$gCms->GetDb();
 
 	// remove database tables
 	$dict = NewDataDictionary($db);

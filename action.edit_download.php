@@ -3,7 +3,7 @@
 	if (!$this->CheckPermission('Use DLM')) exit;
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
-	$this->theme =& $gCms->variables['admintheme'];
+	$this->theme = &$gCms->variables['admintheme'];
 
 	if (isset($params['cancel'])) {
 		if($return === false) {
@@ -21,11 +21,11 @@
 		$this->Redirect($id, 'defaultadmin', $returnid);
 	}
 
-	$dbitem = $this->tree->GetItem($item_id);
+	$item = $this->tree->GetItem($item_id);
 
 	if(isset($params['ajax']) && $params['ajax'] == "true") ob_start();
 
-	if($dbitem['type'] == 1) {
+	if($item['type'] == 1) {
 		$download = $this->GetDownload($item_id);
 
 		$item_name		= (isset($params['item_name'])		? $params['item_name']		: false);
@@ -59,8 +59,8 @@
 			$item_location = count($this->errors) == 0 ? $item_location : false;
 
 			if ($item_name !== false && $item_parent !== false && strlen(trim($item_name)) > 0) {
-				if($dbitem['parent'] != $item_parent) {
-					$this->MoveNode($item_id, $item_parent, $dbitem['parent']);
+				if($item['parent'] != $item_parent) {
+					$this->MoveNode($item_id, $item_parent, $item['parent']);
 				}
 
 				if($item_location != false) {
@@ -103,9 +103,9 @@
 			}
 		}
 
-		$item_name 		= ($item_name		== false) ? $dbitem['name']			: $item_name;
-		$item_desc 		= ($item_desc		== false) ? $dbitem['description']	: $item_desc;
-		$item_parent 	= ($item_parent		== false) ? $dbitem['parent']		: $item_parent;
+		$item_name 		= ($item_name		== false) ? $item['name']			: $item_name;
+		$item_desc 		= ($item_desc		== false) ? $item['description']	: $item_desc;
+		$item_parent 	= ($item_parent		== false) ? $item['parent']		: $item_parent;
 		$item_filesize	= ($item_filesize	== false) ? $download['size']		: $item_filesize;
 		$item_location 	= ($item_location	== false) ? $download['location']	: $item_location;
 
@@ -168,7 +168,7 @@
 		$this->smarty->assign('mirrors', $this->GetMirrors($item_id, true));
 
 		$this->smarty->assign('th_parent', $this->Lang('parent_category'));
-		$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
+		$this->smarty->assign('parent_input', $this->_CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
 
 		$this->smarty->assign('th_desc', $this->Lang('desc'));
 		$this->smarty->assign('desc_value', htmlspecialchars($item_desc));

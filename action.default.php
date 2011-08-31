@@ -7,18 +7,18 @@
 	$root_info = ($root !== false) ? array_merge($this->tree->GetNodeInfo($root), array($root)) : false;
 
 	$item_id = isset($params['item']) ? (int) $params['item'] : $root;
-	$dbitem = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
+	$item = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
 
 	if(!isset($params['showpath']) || $params['showpath'] === true) {
 		$this->smarty->assign('th_path', $this->Lang('th_path'));
 		$this->smarty->assign('path', $this->GetPath($item_id, $id, $returnid, $root_info));
 	}
 
-	if(($dbitem === false || $dbitem['type'] == 0) && $dbitem['active'] == 1) {
+	if(($item === false || $item['type'] == 0) && $item['active'] == 1) {
 		$items = $this->GetTree($item_id , $id, $returnid);
 
 		if($items !== false) {
-			$this->smarty->assign('headline', (($dbitem != false) && ($dbitem['name'] != 'root')) ? $dbitem['name'] : 'Download-Übersicht');
+			$this->smarty->assign('headline', (($item != false) && ($item['name'] != 'root')) ? $item['name'] : '');
 
 			$this->smarty->assign_by_ref('items', $items);
 			$this->smarty->assign('itemcount', count($items));
@@ -30,7 +30,7 @@
 
 
 			if($item_id != 0 && (!isset($params['showdesc']) || $params['showdesc'] === true)) {
-				$this->smarty->assign('description', $dbitem['description']);
+				$this->smarty->assign('description', $item['description']);
 				$this->smarty->assign('th_description',  $this->Lang('desc'));
 			}
 		} else {
@@ -39,13 +39,13 @@
 
 		$this->smarty->assign('no_children', $this->Lang('no_children'));
 		echo $this->ProcessTemplateFromData($template[0]);
-	} elseif($dbitem['active'] == 1){
+	} elseif($item['active'] == 1){
 		$download = $this->GetDownload($item_id);
-		$location	= $this->CreateLink($id, 'download', $returnid, $dbitem['name'], array('item'=>$item_id, 'dlmode' => 'd'), '', true, true, '', false, MakePretty($item_id.'d', false, $dbitem['name']));
+		$location = $this->CreateLink($id, 'download', $returnid, $item['name'], array('item'=>$item_id, 'dlmode' => 'd'), '', true, true, '', false, MakePretty($item_id.'d', false, $item['name']));
 
 		if(!isset($params['showmirror']) || $params['showmirror'] === true) {
 			$mirrors = $this->GetMirrors($item_id, false, $download['size']);
-			$mirrorurl	= $this->CreateLink($id, 'download', $returnid, $dbitem['name'], array('item'=>$item_id, 'dlmode' => 'm[%mirrorid%]'), '', true, true, '', false, MakePretty($item_id.'m[%mirrorid%]', false, $dbitem['name']));
+			$mirrorurl	= $this->CreateLink($id, 'download', $returnid, $item['name'], array('item'=>$item_id, 'dlmode' => 'm[%mirrorid%]'), '', true, true, '', false, MakePretty($item_id.'m[%mirrorid%]', false, $item['name']));
 		} else $mirrors = false;
 
 		$info = FileInfo($download['location']);
@@ -61,7 +61,7 @@
 		$this->smarty->assign('th_available_sources', $this->Lang('available_sources'));
 
 		$this->smarty->assign('dl_id', $item_id);
-		$this->smarty->assign('dl_name', $dbitem['name']);
+		$this->smarty->assign('dl_name', $item['name']);
 		$this->smarty->assign('dl_date', strftime('%d.%m.%Y', strtotime($download['created_date'])));
 		$this->smarty->assign('dl_link', $location);
 
@@ -69,7 +69,7 @@
 		$this->smarty->assign('dl_fileext', $fileext);
 
 		if(!isset($params['showdesc']) || $params['showdesc'] === true) {
-			$this->smarty->assign('dl_description', $dbitem['description']);
+			$this->smarty->assign('dl_description', $item['description']);
 			$this->smarty->assign('th_dl_description',  $this->Lang('desc'));
 		}
 

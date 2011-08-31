@@ -8,12 +8,12 @@
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 
-	$dbitem = $this->tree->GetItem($item_id);
+	$item = $this->tree->GetItem($item_id);
 
-	if(isset($dbitem)) {
+	if(isset($item)) {
 		if($this->DeleteBranch($item_id)) {
 			$tab_message = 'item_deleted';
-			$this->Audit($item_id, $dbitem['name'], 'DLM: ' . ($dbitem['type'] == 0 ? 'Category' : 'Download').' deleted');
+			$this->Audit($item_id, $item['name'], 'DLM: ' . ($item['type'] == 0 ? 'Category' : 'Download').' deleted');
 		} else {
 			$this->errors[] = $this->Lang('error_item_delete');
 		}

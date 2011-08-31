@@ -1,7 +1,9 @@
 {capture assign="ajax_head"}
+
+{cms_jquery exclude='jquery.ui.nestedSortable-1.3.4.js,jquery.json-2.2.js'}
+{*<script src="../modules/DLM/libs/js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>*}
+
 {literal}
-<script src="../modules/DLM/libs/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script src="../modules/DLM/libs/js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
 <script src="../modules/DLM/libs/js/jquery.form.min.js" type="text/javascript"></script>
 <script src="../modules/DLM/libs/js/shortcut.min.js" type="text/javascript"></script>
 

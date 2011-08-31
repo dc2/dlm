@@ -4,9 +4,9 @@
 
 	if($params['dlmode'] == 'd' || !isset($params['dlmode'])) {
 		$item_id = isset($params['item']) ? (int) $params['item'] : false;
-		$dbitem = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
+		$item = ($item_id !== false) ? $this->tree->GetItem($item_id) : false;
 
-		if($dbitem !== false && $dbitem['type'] == 1 && $dbitem['active'] == 1) {
+		if($item !== false && $item['type'] == 1 && $item['active'] == 1) {
 			$download = $this->GetDownload($item_id);
 
 			if(substr($download['location'], 0, 2) == '$$') {

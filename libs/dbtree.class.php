@@ -133,7 +133,8 @@ class dbtree {
 		unset($prefix, $table);
 
 		//define('DB_CACHE', true);
-		define('DB_CACHE', false);
+		if(!defined('DB_CACHE'))
+			define('DB_CACHE', false);
 	}
 
     /**

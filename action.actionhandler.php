@@ -16,7 +16,7 @@
 		break;
 
 		case 'expand':
-			$this->theme =& $gCms->variables['admintheme'];
+			$this->theme = &$gCms->variables['admintheme'];
 			include('admin/actions/expand.php');
 		break;
 
@@ -45,7 +45,7 @@
 			if(!$params['ajax']) {
 				$this->Redirect($id, 'defaultadmin', '');
 			} else {
-				$this->theme =& $gCms->variables['admintheme'];
+				$this->theme = &$gCms->variables['admintheme'];
 				$this->smarty->assign('showrows', true);
 				$this->smarty->assign('items', $this->GetTreeAdmin((int)$item, $id, $level));
 				echo $this->ProcessTemplate('admin/rows.tpl');

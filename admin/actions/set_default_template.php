@@ -6,7 +6,7 @@
 	$tpl_name = !empty($tpl_name) ? $tpl_name : false;
 	if($tpl_name === false) $this->Redirect($id, 'defaultadmin', $returnid);
 
-	$tpl = $this->GetTemplate($tpl_name);
+	$tpl = $this->_GetTemplate($tpl_name);
 
 	if(trim($tpl)!='') {
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET description = ? WHERE dl_id = ?';

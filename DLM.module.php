@@ -23,7 +23,7 @@ class DLM extends DlmModuleWrapper {
 	function DLM() {
 		parent::CMSModule();
 
-		$this->db =& $this->GetDb();
+		$this->db = &$this->GetDb();
 
 		require_once(cms_join_path(dirname(__FILE__), 'misc.functions.php'));
 		require_once(cms_join_path(dirname(__FILE__), 'libs', 'dltree.class.php'));
@@ -110,7 +110,7 @@ class DLM extends DlmModuleWrapper {
 
 	# overloaded
 	// returns a template either from the database or the filesystem (differenced by .tpl-extension)
-	function GetTemplate($tpl){
+	function _GetTemplate($tpl){
 		if(substr($tpl, -4) != '.tpl')
 			$content = parent::GetTemplate($tpl);
 		else {
@@ -122,18 +122,18 @@ class DLM extends DlmModuleWrapper {
 
 	// returns an array containing overview and detail-template
 	function LoadTemplate($tpl, $separator = TPL_SEPARATOR){
-		$content = trim($this->GetTemplate($tpl));
+		$content = trim($this->_GetTemplate($tpl));
 
 		if(strrpos($tpl, '.tpl') === 0 || $content === '') {
 			$file = ($content == '') ? $this->GetDefaultTemplate() : $tpl;
-			$content = trim($this->GetTemplate($file));
+			$content = trim($this->_GetTemplate($file));
 		}
 
 		return SplitTemplate($content, $separator);
 	}
 
 	# overloaded
-	function CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {
+	function _CreateInputDropdown($id, $name, $items, $selected = false, $addtext = '') {
 		$text = '<select class="cms_dropdown" id="' . $id . $name . '" name="' . $id . $name . '"'. ($addtext != '' ? ' ' . $addtext : '') . '>';
 
 		if (is_array($items) && count($items) > 0) {
@@ -183,11 +183,11 @@ class DLM extends DlmModuleWrapper {
 	function AjaxResponse($success = '', $error = false, $display_errors = true, $return = ';|', $tab = 'general'){
 		global $params;
 
-		$error = $error == false ? $this->DisplayErrors(true) : $error;
+		//$error = $error == false ? $this->DisplayErrors(true) : $error;
 
-		if(isset($params['ajax']) && $params['ajax'] == "true") {
+		if(isset($params['ajax']) && $params['ajax']) {
 			ob_end_clean();
-			if(count($this->errors) == 0) {
+			if($error === false) {
 				echo '1,'.$success;
 			} else {
 				echo '0,';
@@ -295,7 +295,7 @@ class DLM extends DlmModuleWrapper {
 						$skipuntil = ($row['expand'] == 0) ? $row['dl_right'] : false;
 
 						$onerow = new stdClass();
-						$parent_info =& $dbtree[$row['parent']];
+						$parent_info = &$dbtree[$row['parent']];
 
 						$value 	= $row['name'];
 						$level 	= $row['dl_level'];
@@ -379,7 +379,7 @@ class DLM extends DlmModuleWrapper {
 		if($count > 0) {
 			foreach ($dbtree as $key => $row) {
 				if($key > 0) {
-					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', (int) $row['dl_level']). '&#8680;&nbsp;';
+					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', (int)$row['dl_level']). '&#8680;&nbsp;';
 					$output[$key] = $prefix.$row['name'];
 				}
 			}
@@ -388,11 +388,11 @@ class DLM extends DlmModuleWrapper {
 	}
 
 	// returns the tree for frontend
-	function GetTree($node, $id = false, $returnid = false, &$dbtree = NULL){
+	function GetTree($node, $id = false, $returnid = false, &$dbtree = null){
 		$items = array();
 		$skipuntil = false;
 
-		$dbtree = $dbtree === NULL ? $this->tree->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'active', 'name', 'type', 'downloads')) : $dbtree;
+		$dbtree = $dbtree === null ? $this->tree->GetItemsDB($node, array('dl_id', 'dl_left', 'dl_right', 'dl_level', 'active', 'name', 'type', 'downloads', 'description')) : $dbtree;
 		$count = count($dbtree);
 
 		if($count > 1) {
@@ -405,29 +405,23 @@ class DLM extends DlmModuleWrapper {
 					if($skipuntil === false || $row['dl_left'] > $skipuntil) {
 						$skipuntil = ($row['active'] == 0 || ($row['type'] == 0 && $row['downloads'] == 0)) ? $row['dl_right'] : false;
 
-						if(($row['type'] == 1 && $row['dl_level'] == $root_level + 1) || ($row['type'] == 0 && $row['downloads'] > 0) && $skipuntil === false) {
-							$onerow = new stdClass();
+						if(($row['type'] == 1 && $row['dl_level'] == $root_level + 1) || ($row['type'] == 0 && $row['downloads'] > 0) && $skipuntil === false) {							
+							$name = &$row['name'];
+							$type = $row['type'];
 
-							$name 	= $row['name'];
-							$level 	= $row['dl_level'];
-							$type 	= $row['type'];
-
-							$prettyurl = MakePretty($key, $returnid, $name);
-
-
-							$prefix = ($type == 0) ? '&#8680;' : '&#9658;';
-							$typetext = ($type == 0) ? 'category' : 'download';
-
-							$typeimg = DisplayImage($typetext . '.png', $prefix);
+							$typeimg = DisplayImage(($type == 0 ? 'category' : 'download') . '.png', ($type == 0 ? '&#8680;' : '&#9658;'));
 
 							$depthmarking = (($row['dl_level'] > ($root_level + 1)) ? str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $row['dl_level']-($root_level+1)) : '') . $typeimg . '&nbsp;';
 
-							$onerow->id = $key;
-							$onerow->name = $depthmarking . $this->CreateLink($id, 'default', $returnid, $name, array('item'=>$key), '', false, true, '', false, $prettyurl);
-							$onerow->downloads = ($type == 0) ? $row['downloads'] : '';
-							$onerow->downloadurl = ($type != 0) ? $this->CreateLink($id, 'download', $returnid, $name, array('item'=>$key), '', true, true, '', false, MakePretty($key.'d', false, $name)) : false;
-
-							$items[$key] = $onerow;
+							$items[$key] = array(
+								'id' => $key,
+								'name' => $name,
+								'href' => $this->CreateLink($id, 'default', $returnid, $name, array('item'=>$key), '', true, true, '', false, MakePretty($key, $returnid, $name)),
+								'type' => $type,
+								'files' => ($type == 0) ? $row['downloads'] : '',
+								'description' => $row['description'],
+								'downloadurl' => ($type != 0) ? $this->CreateLink($id, 'download', $returnid, $name, array('item'=>$key), '', true, true, '', false, MakePretty($key.'d', false, $name)) : false								
+							);
 						}
 					}
 				}

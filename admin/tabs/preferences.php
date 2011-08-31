@@ -53,15 +53,15 @@
 	$this->smarty->assign('_returnid', $this->CreateInputTextWithLabel($id, '_returnid', $_returnid, 20, false, '', $this->Lang('returnid_desc').'<br />'));
 
 	$this->smarty->assign('obfuscate', $this->CreateLabelForInput($id, 'obfuscate', $this->Lang('obfuscate_desc').'<br />') .
-									   $this->CreateInputDropdown($id, 'obfuscate', explode(';', $this->Lang('obfuscate_list')), $obfuscate));
+									   $this->_CreateInputDropdown($id, 'obfuscate', explode(';', $this->Lang('obfuscate_list')), $obfuscate));
 
 	$this->smarty->assign('referer', $this->CreateLabelForInput($id, 'referer', $this->Lang('referer_desc').'<br />') .
-									 $this->CreateInputDropdown($id, 'referer', explode(';', $this->Lang('referer_list')), $referer));
+									 $this->_CreateInputDropdown($id, 'referer', explode(';', $this->Lang('referer_list')), $referer));
 
 	$this->smarty->assign('allowed_referer', $this->CreateInputTextWithLabel($id, 'allowed_referer', $allowed_referer, 100, false, '', $this->Lang('allowed_referer').'<br />'));
 
 	$this->smarty->assign('js_effects', $this->CreateLabelForInput($id, 'js_effects', $this->Lang('js_effects_text').'<br />') .
-										$this->CreateInputDropdown($id, 'js_effects', explode(';', $this->Lang('js_effetcs_list')), $js_effects));
+										$this->_CreateInputDropdown($id, 'js_effects', explode(';', $this->Lang('js_effetcs_list')), $js_effects));
 
 	$this->smarty->assign('startform', $this->CreateFormStart($id, 'defaultadmin', $returnid, 'post', '', false, '', array('active_tab' => 'prefs')));
 	$this->smarty->assign('endform', $this->CreateFormEnd());

@@ -3,7 +3,7 @@
 
 	echo '<div id="dlmpage">';
 
-	$this->theme =& $gCms->variables['admintheme'];
+	$this->theme = &$gCms->variables['admintheme'];
 
 	if (!$this->CheckPermission('Use DLM')) {
 		return $this->DisplayErrorPage($id, $params, $returnid,$this->Lang('accessdenied'));

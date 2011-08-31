@@ -7,11 +7,11 @@
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 
-	$dbitem = $this->tree->GetItem($item_id);
-	$children = ($dbitem['dl_right'] - $dbitem['dl_left'] - 1) / 2;
+	$item = $this->tree->GetItem($item_id);
+	$children = ($item['dl_right'] - $item['dl_left'] - 1) / 2;
 
 	if($children > 0) {
-		$expand = abs($dbitem['expand'] - 1);
+		$expand = abs($item['expand'] - 1);
 		$query = 'UPDATE '.cms_db_prefix().'module_dlm_items SET expand=? WHERE dl_id = ?';
 		$this->db->Execute($query, array($expand, $item_id));
 

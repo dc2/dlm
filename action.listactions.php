@@ -38,8 +38,8 @@
 					$in .= (int)$key. ',';
 					$dbtree = $this->tree->GetItemsDB((int)$key, array('dl_id', 'dl_left', 'dl_right'));
 
-					foreach($dbtree as $dbitem) {
-						$or .= ' OR (dl_left > '.$dbitem['dl_left'].' AND dl_right < '.$dbitem['dl_right'].') ';
+					foreach($dbtree as $item) {
+						$or .= ' OR (dl_left > '.$item['dl_left'].' AND dl_right < '.$item['dl_right'].') ';
 					}
 				}
 

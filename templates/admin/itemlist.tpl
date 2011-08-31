@@ -175,7 +175,7 @@
 
 						if(responseCode == 1) {
 							$alink.children().eq(0).add(getRowChildren($alink.parent().parent()).find('a.activate img')).attr('src', str_replace('false', 'true', $alink.children().eq(0).attr('src')));
-						} else if(responseCode == 0) {
+						} else {
 							$alink.children().eq(0).add(getRowChildren($alink.parent().parent()).find('a.activate img')).attr('src', str_replace('true', 'false', $alink.children().eq(0).attr('src')));
 						}
 					}

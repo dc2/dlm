@@ -58,10 +58,10 @@ class dltree extends dbtree {
 				$d['children'] = array();
 				if(isset($ref[$d['parent']])) { // we have a reference on its parent
 						$ref[$d['parent']]['children'][$d['dl_id']] = $d;
-						$ref[$d['dl_id']] =& $ref[$d['parent']]['children'][$d['dl_id']];
+						$ref[$d['dl_id']] = &$ref[$d['parent']]['children'][$d['dl_id']];
 				} else { // we don't have a reference on its parent => put it a root level
 						$menu[$d['dl_id']] = $d;
-						$ref[$d['dl_id']] =& $menu[$d['dl_id']];
+						$ref[$d['dl_id']] = &$menu[$d['dl_id']];
 				}
 		}
 		return $menu;

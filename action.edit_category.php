@@ -2,7 +2,7 @@
 	if (!isset($gCms)) exit;
 	if (!$this->CheckPermission('Use DLM')) exit;
 
-	$this->theme =& $gCms->variables['admintheme'];
+	$this->theme = &$gCms->variables['admintheme'];
 
 	$return = !empty($params['return']) ? explode(',', $params['return']) : false;
 
@@ -23,15 +23,15 @@
 	}
 
 	$dbtree = $this->tree->GetItemsDB($item_id);
-	$dbitem = reset($dbtree);
+	$item = reset($dbtree);
 
 	if(isset($params['ajax']) && $params['ajax'] == "true") ob_start();
 
-	if($dbitem != false) {
-		if($dbitem['type'] == 0) {
-			$item_name = $dbitem['name'];
-			$item_desc = $dbitem['description'];
-			$item_parent = $dbitem['parent'];
+	if($item != false) {
+		if($item['type'] == 0) {
+			$item_name = $item['name'];
+			$item_desc = $item['description'];
+			$item_parent = $item['parent'];
 
 			$item_name = (isset($params['item_name']) ? $params['item_name'] : $item_name);
 			$item_desc = (isset($params['item_desc']) ? $params['item_desc'] : $item_desc);
@@ -39,7 +39,7 @@
 
 			if (isset($params['submit']) || isset($params['temp'])) {
 				if ($item_name != '') {
-					if(($oldparent = $dbitem['parent']) != $item_parent) {
+					if(($oldparent = $item['parent']) != $item_parent) {
 						$this->MoveNode($item_id, $item_parent, $oldparent);
 					}
 
@@ -75,7 +75,7 @@
 			$this->smarty->assign('name_value', htmlspecialchars($item_name));
 
 			$this->smarty->assign('th_parent', $this->Lang('parent_category'));
-			$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
+			$this->smarty->assign('parent_input', $this->_CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0, $item_id), $item_parent));
 
 			$this->smarty->assign('th_desc', $this->Lang('desc'));
 			$this->smarty->assign('desc_value', $item_desc);
@@ -87,9 +87,9 @@
 			//$this->smarty->assign('view', $this->CreateLink('m03794', 'default', 247, $this->theme->DisplayImage('icons/system/view.gif', $this->Lang('view'),'','','systemicon'), array('item' => $item_id), '', false, true, '', false));
 
 			// retrieve the tree of children
-			$items = $this->GetTreeAdmin($item_id, $id, $dbitem['dl_level'], $dbtree, "edit_category,$item_id");
+			$items = $this->GetTreeAdmin($item_id, $id, $item['dl_level'], $dbtree, "edit_category,$item_id");
 
-			$this->smarty->assign('rootlevel', $dbitem['dl_level']);
+			$this->smarty->assign('rootlevel', $item['dl_level']);
 
 			if(($itemcount = count($items)) > 0) {
 				$this->smarty->assign_by_ref('items', $items);

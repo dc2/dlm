@@ -127,7 +127,7 @@
 	$this->smarty->assign('areyousure_mirror', $this->Lang('areyousure_mirror'));
 
 	$this->smarty->assign('th_parent', $this->Lang('parent_category'));
-	$this->smarty->assign('parent_input', $this->CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0), $item_parent));
+	$this->smarty->assign('parent_input', $this->_CreateInputDropdown($id, 'item_parent', $this->GetTreeInput(0), $item_parent));
 
 	$this->smarty->assign('th_desc', $this->Lang('desc'));
 	$this->smarty->assign('desc_value', $item_desc);

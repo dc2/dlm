@@ -53,7 +53,7 @@
 
 		$this->AjaxResponse($this->Lang('template_updated'), false, 0);
 	} elseif(trim($tpl_name) != ''){
-		$tpl_content  = SplitTemplate($this->GetTemplate($tpl_name));
+		$tpl_content  = SplitTemplate($this->_GetTemplate($tpl_name));
 		$tpl_overview = $tpl_content[0];
 		$tpl_detail   = $tpl_content[1];
 	} else {
